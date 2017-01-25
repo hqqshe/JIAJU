@@ -1,0 +1,33 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNGongDuan> list = ViewBag.list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>创建日期</td>
+            <td>工段名称</td>
+            <td>备注</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count > 0) {
+            for (var i = 0; i < list.Count; i++) { 
+                <tr>
+                    <td>@list[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td _id="@list[i].id">@list[i].name</td>
+                    <td>@list[i].remarks</td>
+                    <td>
+                        @*<a href="javascript:;" class="dele" _id="@list[i].id">×</a>*@
+                    </td>
+                </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="4">抱歉，没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>

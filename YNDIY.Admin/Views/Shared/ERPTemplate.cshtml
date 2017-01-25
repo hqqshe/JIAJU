@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>@ViewBag.Title</title>
+    <link href="/Content/mincss/base.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="_body_panel">
+        <!-- 页眉块 -->
+        <div class="_erp_header">
+            <div class="header">
+                <a class="_left _logo" href="javascript:void(0);">
+                    <img src="/Content/imgs/template/logo1.png" />
+                </a>
+                <!-- 菜单块 -->
+                <div class="_side_menu_block">
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m1"></span>
+                                <span>产品</span>
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPBrand/BrandList" links="/ERPBrand/BrandList;">
+                                    <span class="_page_menu_text">产品品牌</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPBrand/ProductList" links="/ERPBrand/ProductList;/ERPBrand/NewProduct;/ERPBrand/EditBag;/ERPBrand/EditProcedure;/ERPBrand/EditProduct;/ERPBrand/ProductDetail">
+                                   
+                                    <span class="_page_menu_text">产品列表</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m2"></span>
+                                <span>客户</span>
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPCustomer/CustomerList" links="/ERPCustomer/CustomerList;/ERPCustomer/CustomerDetail;/ERPCustomer/NewCustomer;/ERPCustomer/EditCustomer;/ERPCustomer/EditProPrice">
+                                    <span class="_page_menu_text">客户列表</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m3"></span>
+                                <span>订单</span>
+
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPOrder/OrderList" links="/ERPOrder/OrderList;/ERPOrder/OrderDetail;/ERPOrder/EditOrder;/ERPOrder/NewOrder">
+                                    <span class="_page_menu_text">订单列表</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPOrder/DeliverPlan" links="/ERPOrder/DeliverPlan;">
+                                    <span class="_page_menu_text">出库计划</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m4"></span>
+                                <span>生产</span>
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPProduct/ProductForecast" links="/ERPProduct/ProductForecast;/ERPProduct/ForecastDetail;">
+                                    <span class="_page_menu_text">生产预测信息列表</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPProduct/ProductList" links="/ERPProduct/ProductList;/ERPProduct/ProductDetail;">
+                                    <span class="_page_menu_text">生产订单列表</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPProduct/PendingList" links="/ERPProduct/PendingList;">
+                                    <span class="_page_menu_text">待安排生产订单</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPProduct/ArrangedList" links="/ERPProduct/ArrangedList;">
+                                    <span class="_page_menu_text">已安排生产订单</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m5"></span>
+                                <span>仓储</span>
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPStore/ProductStoreIn" links="/ERPStore/ProductStoreIn;">
+                                    <span class="_page_menu_text">生产订单入库</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPStore/ProductStoreOut" links="/ERPStore/ProductStoreOut;">
+                                    <span class="_page_menu_text">客户订单出库</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPStore/ProductStore" links="/ERPStore/ProductStore;">
+                                    <span class="_page_menu_text">产品库存</span>
+                                </a>
+                            </div>
+                            @*<div class='child_menu'>
+                                <a href="/ERPStore/AllotOrderList" links="/ERPStore/AllotOrderList;/ERPStore/AllotOrderDetail">
+                                    <span class="_page_menu_text">调拨统计</span>
+                                </a>
+                            </div>*@
+                            <div class='child_menu'>
+                                <a href="/ERPStore/Inventory" links="/ERPStore/Inventory;/ERPStore/InventoryrDetail">
+                                    <span class="_page_menu_text">盘点调拨</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m6"></span>
+                                <span>财务</span>
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPFinance/CustomerAcount" links="/ERPFinance/CustomerAcount;/ERPFinance/CustomerAcountDetail">
+                                    <span class="_page_menu_text">客户账户</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPFinance/StoreOutCheck" links="/ERPFinance/StoreOutCheck;">
+                                   
+                                    <span class="_page_menu_text">出库审核</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPFinance/SalayStatistics" links="/ERPFinance/SalayStatistics;/ERPFinance/SalayDetail;">
+                                    <span class="_page_menu_text">工资统计</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='menu_item'>
+                        <div class="_block_menu">
+                            <a href="javascript:void(0);">
+                                <span class="icon m7"></span>
+                                <span>系统</span>
+                            </a>
+                        </div>
+                        <div class="child_wrap">
+                            <div class='child_menu'>
+                                <a href="/ERPBrand/ProcedureList" links="/ERPBrand/ProcedureList;">
+                                    <span class="_page_menu_text">工段管理</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPPartment/PartmentList" links="/ERPPartment/PartmentList">
+                                   
+                                    <span class="_page_menu_text">生产线管理</span>
+                                </a>
+                            </div>
+                            <div class='child_menu'>
+                                <a href="/ERPemployer/EmployerList" links="/ERPemployer/EmployerList;/ERPemployer/employerInfo">
+                                    <span class="_page_menu_text">员工管理</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="_right _login_user_info">
+                    <a href="/login/logout" class="_right _login_out">
+                        <span>退出</span>
+                    </a>
+                    <span class="_right _login_split">|</span>
+                        <a href="/orderFactory/factoryCenter" class="_right _login_name">
+                            <span>@Session["Account"]</span>
+                        </a>
+                    <span class="_right _login_split">|</span>
+                    <a href="javascript:void(0);" class="_right _login_tec">
+                        <img src="/Content/imgs/template/head.png" />
+                        <span>@Session["Name"]</span>
+                    </a>
+                </div>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <!-- 页躯块 -->
+        <div class="_body_block">
+            <!-- 内容渲染块 -->
+            <div class="_content_render_panel">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!--载入图标gif覆盖层 -->
+    <div class="_loading">
+        <div class="_loading_opacity_bg"></div>
+        <div class="_loading_img">
+            <img src="/Content/imgs/template/ajax-loader.gif" />
+        </div>
+    </div>
+    <script>
+        var require = {
+            urlArgs: 'v=2017-1-18'
+        }
+    </script>
+</body>
+@RenderSection("require_js", false)
+</html>

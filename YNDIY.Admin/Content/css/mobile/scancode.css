@@ -1,0 +1,69 @@
+﻿._factory_name{height:30px;line-height:20px;font-size:16px;color:#2b2b2b;border-bottom:1px solid #e5e5e5;}
+._info_items{margin:5px 0;}
+._info_item{height:30px;line-height:30px;font-size:14px;}
+._info_title{width:80px;color:#929292;}
+._info_content{margin-left:80px;color:#2b2b2b;}
+._btn{height:36px;line-height:32px;width:100px;border:1px solid #4c87ff;background-color:#81aafd;border-radius:6px;display:block;color:#fff;}
+._btn_long{width:134px;}
+._btn img{width:20px;vertical-align:middle;}
+._btn span{font-size:16px;vertical-align:middle;}
+._btn_min{width:80px;height:30px;line-height:30px;border-radius:5px;}
+._search_menber_btn,._get_member_info_btn{height:36px;line-height:32px;width:134px;border:1px solid #4c87ff;background-color:#81aafd;border-radius:6px;display:block;}
+._search_menber_btn span,._get_member_info_btn span{color:#FFF;font-size:16px;vertical-align:middle;}
+
+._scan_info{display:none;}
+._scan_tip{height:30px;line-height:30px;color:#1ad287;font-size:15px;}
+._scan_tip img{height:30px;width:auto;margin-right:10px;vertical-align:middle;}
+._scan_tip span{vertical-align:middle;}
+
+._opt_btn_panel{margin-top:30px;}
+._opt_btn_wrap{width:50%;}
+._opt_type_btn{display:block;height:36px;border-radius:6px;background-color:#1ad287;border:1px solid #19b877;line-height:36px;}
+._opt_type_btn span{color:#FFF;font-size:14px;}
+._type_1{margin-right:5px;}
+._type_2{margin-left:5px;}
+
+/**** 查询员工 ****/
+._pop_search_member{position:fixed;top:50px;right:0;bottom:0;left:0;background-color:#FFF;display:none;}
+._close_search_panel{position:absolute;top:0;right:0;display:block;background-color:#fa0303;color:#FFF;height:30px;line-height:30px;width:50px;}
+._member_num_panel{width:80%;margin:50px auto;}
+._member_num_panel ._info_title{text-align:right;}
+._member_num_panel ._info_content{border:1px solid #ccc;height:28px;}
+._member_num_panel ._info_content input{float:left;border:none;height:28px;width:100%;display:block;padding:0;margin:0;text-indent:10px;}
+._get_member_info_btn{width:80%;margin:0 auto;}
+
+/*** 手机端订单工序完成量统计 ***/
+._block_title{font-size:12px;color:#767676;line-height:12px;height:30px;}
+._search_today{height:30px;line-height:30px;color:#4c87ff;border-bottom:1px solid #4c87ff;font-size:18px;}
+._today_str{height:30px;line-height:30px;margin-left:15px;}
+
+._select_year_panel{height:30px;line-height:30px;}
+._selected_year{margin:0 30%;text-align:center;}
+._select_year{width:30%;height:30px;background:url(/Content/imgs/plan/my_prev.png) right center no-repeat;}
+._next_year{height:30px;background:url(/Content/imgs/plan/my_next.png) left center no-repeat;}
+._month_wrap{margin:20px;}
+._month_item{width:25%;height:40px;line-height:40px;color:#4c87ff;}
+
+._ajax_data_panel{position:fixed;top:40px;right:0;bottom:0;left:0;background-color:#FFF;display:none;}
+._search_time{height:20px;line-height:14px;}
+._search_head{background-color:#6d7d9e;padding:15px;color:#FFF;font-size:14px;}
+._head_table{width:100%;text-align:center;border-collapse:collapse;}
+._head_table td{border-collapse:collapse;border:1px solid #dcdfe4;height:30px;line-height:30px;}
+._head_table thead{color:#000;background-color:#ebebeb;}
+._head_table thead td{border-color:#ebebeb;}
+._head_table tbody{color:#636363;background-color:#FFF;}
+
+._list_table_render{overflow-x:hidden;overflow-y:auto;position:absolute;top:148px;right:0;bottom:0;left:0;}
+._list_table{width:96%;text-align:center;border-collapse:collapse;font-size:14px;margin:2%;}
+._list_table td{border-collapse:collapse;border:1px solid #e5e5e5;height:30px;line-height:30px;}
+._list_table thead{background-color:#3e485e;color:#FFF;}
+._list_table thead td{border-color:#6d7d9e;}
+
+._back_panel{height:30px;line-height:30px;background-color:#6d7d9e;border-bottom:1px solid #FFF;}
+._back_to_search{background:url(/Content/imgs/plan/my_prev.png) left center no-repeat;margin-left:10px;color:#FFF;text-indent:20px;}
+
+._red_font{color:red;}
+._mask{width:100%;height:100%;position:fixed;z-index:999998;top:0;left:0;display:none;}
+.pop_window{position:fixed;top:0;right:0;bottom:0;left:0;width:200px;height:200px;margin: auto; background:#fff;border-radius:5px;padding:20px;box-shadow:0 0 10px 2px #666;display:none;z-index:999999;}
+._title{border-bottom:1px solid #ccc;font-size:15px;line-height:20px;padding-bottom:8px;}
+.pop_btn{margin-top:20px;}

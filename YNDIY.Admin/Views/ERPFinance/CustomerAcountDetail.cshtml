@@ -1,0 +1,334 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "客户账户明细";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNShopInfo shop = ViewBag.shop;
+    decimal AllWaitPay = ViewBag.AllWaitPay;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/finance/CustomerAcountDetail"></script>
+}
+<div class="_clear_panel _search_banner">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">@shop.shop_name</p>
+    </div>
+    <div class="_btns _right">
+        <a href="javascript:;" class="_btn green _left"><img src="/Content/imgs/btn_icon/rmb.png">收款</a>
+    </div>
+</div>
+<div class="_order_info_panel _clear_panel">
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系人:</div>
+        <div class="_info_content _over_text" title="@shop.link_man">@shop.link_man</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系电话：</div>
+        <div class="_info_content _over_text" title="@shop.phone">@shop.phone</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系地址：</div>
+        <div class="_info_content _over_text" title="@shop.address_detail">@shop.address_detail</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">返点金额：</div>
+        <div class="_info_content _over_text" title="@shop.fandian">@shop.fandian</div>
+    </div>
+    @*<div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">特殊价格：</div>
+        <div class="_info_content _over_text" title="@shop.special_price">@shop.special_price</div>
+    </div>*@
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">标志：</div>
+        <div class="_info_content _over_text" title="@shop.tags">@shop.tags</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">结算方式：</div>
+        <div class="_info_content _over_text" title="@shop.jiesuan">@shop.jiesuan</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">下单要求：</div>
+        <div class="_info_content _over_text" title="@shop.order_requires">@shop.order_requires</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">货运地址：</div>
+        <div class="_info_content _over_text" title="@shop.huoyun">@shop.huoyun</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">货运电话：</div>
+        <div class="_info_content _over_text" title="@shop.huoyun_phone">@shop.huoyun_phone</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">发货方式：</div>
+        <div class="_info_content _over_text" title="@shop.fahuo">@shop.fahuo</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">备注：</div>
+        <div class="_info_content _over_text" title="@shop.remarks">@shop.remarks</div>
+    </div>
+    @*<div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">信用额度：</div>
+        <div class="_info_content _over_text" title="@shop.credit_limit">@shop.credit_limit</div>
+    </div>*@
+    <div class="_clear"></div>
+    <div class="pop_con">
+        <table class="_list_table head_info">
+            <thead>
+                <tr>
+                    <td>账户余额</td>
+                    <td>锁定余额</td>
+                    <td>已使用信用额度</td>
+                    <td>剩余信用额度</td>
+                    <td>累计出库欠款总额</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@shop.balance_money</td>
+                    <td>@shop.lock_money</td>
+                    <td>@shop.credit_lock</td>
+                    <td>@(shop.credit_limit - shop.credit_lock)</td>
+                    <td>@AllWaitPay</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="_wraper">
+    <div class=" detail_btn _clear_panel">
+        <a href="javascript:void(0);" class="_btn  _left right blue cur"><span class="icon i4"></span><span>客户订单</span></a>
+        <a href="javascript:void(0);" class="_btn _left right"><span class="icon i3"></span><span>待审核出库单</span></a>
+        <a href="javascript:void(0);" class="_btn _left "><span class="icon i2"></span><span>收款记录</span></a>
+    </div>
+    <div class="_clear_panel _search_banner pop_con order_seach" style="min-width:1058px;*width:1058px;">
+        <div class="form_group" style="position:relative;width:100px;height:30px;">
+            <div class="_search_filter" style="left:0;">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">下单日期</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select select_load" id="data_type">
+                    <option value="0">下单日期</option>
+                    <option value="1">出库日期</option>
+                </select>
+            </div>
+        </div>
+        <div class=" form_group">
+            <label>
+                <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date">
+            </label>
+        </div>
+        <div class="form_group">
+            <label>
+                至：
+                <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date">
+            </label>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group" style="position:relative;width:175px;">
+            <label>订单状态：</label>
+            <div class="_search_filter ">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">全部</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select select_load" id="order_status">
+                    <option value="100">全部</option>
+                    <option value="0">未付款</option>
+                    <option value="1">部分付款</option>
+                    <option value="2">已结清</option>
+                </select>
+            </div>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group">
+            <input type="text" placeholder="订单号/销售单号/型号" class="search_input">
+            <a href="javascript:void(0);" class="search_btn">
+                <div id="cross" class="cross"></div>
+               
+            </a>
+        </div>
+        <a href="javascript:void(0);" class="_btn _right blue all_pay">批量冲抵订单</a>
+    </div>
+    <div class="_clear_panel _search_banner pop_con order_seach" style="display:none;">
+        <div class=" form_group">
+            <label>
+                出库日期：
+                <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date1">
+            </label>
+        </div>
+        <div class="form_group">
+            <label>
+                至：
+                <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date1">
+            </label>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group">
+            <input type="text" placeholder="订单号/销售单号/型号" class="search_input">
+            <a href="javascript:void(0);" class="search_btn">
+                <div id="cross" class="cross"></div>
+               
+            </a>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group">
+            <span class="infos" id="total_money">欠款为:112</span>
+        </div>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 收款或者优惠面板-->
+<div class="_pop_window invent_con ">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height: 316px; margin-left: -250px; margin-top: -158px;">
+        <div class="_pop_title _none_list_data">
+            <span><span class="inven_title">收款</span></span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body _clear_panel">
+            <div class="pop_con _clear_panel">
+                <div class="form_item">
+                    <span class="tip"><span class="inven_title">收款</span>金额：</span>
+                    <input type="text" placeholder="请输入金额" class="sub_num" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')">
+                </div>
+                    <div class="form_item center">
+                        <label>
+                            帐户余额
+                            <input type="radio" name="chargeType" value="0" checked>
+                        </label>
+                        <label>
+                            锁定余额
+                            <input type="radio" name="chargeType" value="1">
+                        </label>
+                    </div>
+                <div class="form_item">
+                    <span class="tip">备注：</span>
+                    <textarea class="tip_txt"></textarea>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_money">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 定金/冲抵订单面板-->
+<div class="_pop_window pay_con ">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height: 200px; margin-left: -250px; margin-top: -100px;">
+        <div class="_pop_title _none_list_data">
+            <span><span class="inven_title">订单<span class="panl_name">冲抵</span></span></span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body _clear_panel">
+            <div class="pop_con _clear_panel">
+                <div class="form_item pop_con">
+                    <span class="tip">本次<span class="panl_name">冲抵</span>金额：</span>
+                    <input type="text" placeholder="请填写冲抵金额" class="sub_num" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')">
+                </div>
+                <div class="_clear_panel">
+                    <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                    <a href="javascript:void(0);" class="_btn blue _right right submit">提交</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 批量冲抵订单提示-->
+<div class="_pop_window all_pay_con ">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height: 260px; margin-left: -250px; margin-top: -130px;">
+        <div class="_pop_title _none_list_data">
+            <span><span class="inven_title">批量冲抵订单</span></span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body _clear_panel">
+            <div class="pop_con _clear_panel">
+                <div class="form_item">
+                    <span class="tip">冲抵订单数量：</span>
+                    <span></span>
+                </div>
+                <div class="form_item">
+                    <span class="tip">冲抵金额：</span>
+                    <span></span>
+                </div>
+                <div class="form_item">
+                    <span class="tip">实际冲抵金额：</span>
+                    <input type="text" class="sub_num" placeholder="请填写冲抵金额" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')">
+                </div>
+                @*<div class="form_item center">
+                    <p class="warning">确认冲抵该批订单吗？</p>
+                </div>*@
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right submit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 出库审核面板-->
+<div class="_pop_window plan_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height:250px; margin-left: -250px; margin-top: -125px;">
+        <div class="_pop_title">
+            <span>出库审核</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>客户名称</td>
+                            <td>结算方式</td>
+                            <td>账户余额</td>
+                            <td>剩余信用额度</td>
+                            <td>出库价值</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@shop.shop_name</td>
+                            <td>@shop.jiesuan</td>
+                            <td>@shop.balance_money</td>
+                            <td>@(shop.credit_limit - shop.credit_lock)</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pop_con">
+                <div class="form_item center">
+                    <label>
+                        通过审核
+                        <input type="radio" name="check" value="1" checked="">
+                    </label>
+                    <label>
+                        不通过审核
+                        <input type="radio" name="check" value="2">
+                    </label>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "生产订单入库";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/store/ProductStoreIn"></script>
+}
+<div class="_clear_panel _search_banner " >
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>入库状态：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load store_status">
+                <option value="100">全部</option>
+                <option value="0">未入库</option>
+                <option value="1">部分入库</option>
+                <option value="2">入库完成</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>品    牌：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load brandId">
+                <option value="100">全部</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="批次号/客户名称/型号" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 入库面板-->
+<div class="_pop_window plan_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 600px; height:500px; margin-left: -300px; margin-top: -250px;">
+        <div class="_pop_title">
+            <span>入库</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <div class="form_item">
+                    <span class="tip">本次入库数量：</span>
+                    <input type="text" class="_input_area" placeholder="本次入库数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g, '')">
+                </div>
+            </div>
+            <div class="" style="height:200px;overflow-x:hidden;overflow-y:auto">
+                <table class="_list_table click_tb">
+                    <thead>
+                        <tr>
+                            <td class="_td_15 _over_text" ><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+                            <td class="_td_15 _over_text">包号</td>
+                            <td class="_td_15 _over_text">已入库</td>
+                            <td class="_td_20 _over_text">本次入库</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pop_con">
+                <div class="form_item">
+                    <span class="tip">备注：</span>
+                    <textarea class="tip_txt"></textarea>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>    
+</div>

@@ -1,0 +1,86 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "产品列表";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    List<YNBanShiBrand> list = ViewBag.list;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/brand/ProductList.js"></script>
+}
+    <div class="_clear_panel _search_banner">
+        <div class="form_group" style="position:relative;width:175px;">
+            <label>品牌名称：</label>
+            <div class="_search_filter ">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">全部</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select select_load" id="brandId">
+                    <option value="-1">全部</option>
+                    @for (var i = 0; i < list.Count; i++)
+                    {
+                        <option value="@list[i].id">@list[i].name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group">
+            <input type="text" placeholder="产品名称" class="search_input">
+            <a href="javascript:void(0);" class="search_btn">
+                <div id="cross" class="cross"></div>
+               
+            </a>
+        </div>
+        <div class="_btns _right">
+            <a href="/ERPBrand/NewProduct" class="_btn green right _left"><img src="/Content/imgs/btn_icon/new.png">新建产品</a>
+            <a href="javascript:;" class="_btn blue right _left"><img src="/Content/imgs/btn_icon/download.png">导入产品数据</a>
+            <a href="javascript:;" class="_btn red _left"><img src="/Content/imgs/btn_icon/import.png">下载产品模板</a>
+        </div>
+    </div>
+<div class="_ajax_container"></div>
+<!-- 编辑部件面板-->
+<div class="_pop_window parts_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 550px; height: 450px; margin-left: -300px; margin-top: -225px;">
+        <div class="_pop_title">
+            <span>编辑部件</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con _clear_panel">
+                <a href=" javascript:;" class="_btn green _left add_part">
+                    <img src="/Content/imgs/btn_icon/new.png">添加部件
+                </a>
+            </div>
+            <div class="" style="height:286px;overflow-y:auto;overflow-x:hidden;">
+                <table class="_list_table">
+                    <thead>
+                        <tr>
+                            <td>部件名称</td>
+                            <td>规格</td>
+                            <td>数量</td>
+                            <td>材料</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr>
+                            <td><input type="text" placeholder="部件名称" class="_input_area"></td>
+                            <td><input type="text" placeholder="规格" class="_input_area"></td>
+                            <td><input type="text" placeholder="数量" class="_input_area" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')"></td>
+                            <td><input type="text" placeholder="材料" class="_input_area"></td>
+                            <td><a href="javascript:;" class="dele">×</a></td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

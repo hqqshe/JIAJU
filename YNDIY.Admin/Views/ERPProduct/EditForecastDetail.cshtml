@@ -1,0 +1,105 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "关联客户订单";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    暂时无用
+}
+<div class="_clear_panel _search_banner " style="min-width:1315px">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            关联客户订单 
+        </span>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class=" form_group">
+        <label>
+            统计日期：
+            <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <label>
+            至：
+            <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="客户名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<div class="pop_con _clear_panel">
+    <a href="javascript:void(0);" class="_btn blue _left  make_plan">制定生产计划</a>
+</div>
+<!-- 制定生产计划面板-->
+<div class="_pop_window plan_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 600px; height:420px; margin-left: -300px; margin-top: -210px;">
+        <div class="_pop_title">
+            <span>制定生产计划</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>品牌</td>
+                            <td>产品名称</td>
+                            <td>产品型号</td>
+                            <td>产品规格</td>
+                            <td>产品颜色</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>品牌</td>
+                            <td>产品名称</td>
+                            <td>产品型号</td>
+                            <td>产品规格</td>
+                            <td>产品颜色</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pop_con">
+                    <div class="form_item">
+                        <span class="tip">下单日期：</span>
+                        <input type="text" placeholder="生产下单日期" id="out_date">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">客户名称：</span>
+                        <input type="text" placeholder="客户名称">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">交货日期：</span>
+                        <input type="text" placeholder="生产交货日期" id="out_date1">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">数量：</span>
+                        <input type="text" placeholder="请填写生产数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">计划说明：</span>
+                        <input type="text" placeholder="生产计划说明">
+                    </div>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

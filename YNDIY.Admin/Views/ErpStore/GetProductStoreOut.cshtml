@@ -1,0 +1,77 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNStorageOut> out_list = ViewBag.out_list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+            <td>销售单号</td>
+            <td>订单号</td>
+            <td>客户名称</td>
+            @*<td>收货人</td>
+            <td>联系方式</td>
+            <td>收货地址</td>*@
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>数量</td>
+            @*<td>已出库</td>*@
+            <td>本次出库</td>
+            <td>交货日期</td>
+            <td>审核备注</td>
+            <td>出库说明</td>
+            <td>订单状态</td>
+            <td>出库价值</td>
+            <td>出库待支付</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+@if (out_list.Count > 0) {
+    for (var i = 0; i < out_list.Count; i++) { 
+        <tr>
+            <td>
+                @if(out_list[i].examine_state == 3){
+                <input type="checkbox" _id="@out_list[i].id" />
+                }
+            </td>
+            <td _id="@out_list[i].id">@out_list[i].sale_num</td>
+            <td _id="@out_list[i].order_id">@out_list[i].order_num</td>
+            <td _id="@out_list[i].customer_id">@out_list[i].customer_name</td>
+            @*<td>收货人</td>
+            <td>联系方式</td>
+            <td>收货地址</td>*@
+            <td _id="@out_list[i].id">@out_list[i].brand_name</td>
+            <td _id="@out_list[i].product_id">@out_list[i].customer_name</td>
+            <td>@out_list[i].product_model</td>
+            <td>@out_list[i].product_format</td>
+            <td>@out_list[i].product_color</td>
+            <td>@out_list[i].product_number</td>
+            @*<td>已出库</td>*@
+            <td>@(out_list[i].out_num + out_list[i].out_lock_num)</td>
+            <td>@out_list[i].jiaohuo_date.ToString("yyyy-MM-dd")</td>
+            <td>@out_list[i].examin_remark</td>
+            <td>@out_list[i].out_remark</td>
+            <td>@(out_list[i].examine_state == 0 ? "未处理" :out_list[i].examine_state == 1 ? "可出库" :out_list[i].examine_state == 2 ?"不可出库":"已经出库")</td>
+            <td>@(out_list[i].out_plan_money)</td>
+            <td>@(out_list[i].out_plan_money - out_list[i].payed_money - (out_list[i].sale_payed + out_list[i].lock_payed + out_list[i].balance_payed))</td>
+            <td>
+                @if(out_list[i].examine_state == 1){
+                <a href="javascript:void(0);" class="store_out" _id="@out_list[i].id">出库</a>
+                }
+            </td>
+        </tr>
+    }
+}
+else { 
+    <tr>
+        <td colspan="18">抱歉，没有查询到相关数据!</td>
+    </tr>
+}
+    </tbody>
+</table>
+@*@Html.Partial("page")*@

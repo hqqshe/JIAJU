@@ -1,0 +1,91 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNBanShiProductionOrder> order_list = ViewBag.order_list;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+    JavaScriptSerializer js = new JavaScriptSerializer();
+    List<ProductPackage> package_list = new List<ProductPackage>();
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>批次号</td>
+            <td>下单日期</td>
+            <td>交货日期</td>
+            <td>客户名称</td>
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>数量</td>
+            <td>已入库</td>
+            <td>待入库</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (order_list.Count > 0)
+        {
+            for (var i = 0; i < order_list.Count; i++)
+            {
+                package_list.Clear();
+                int wait_in = 0;
+                if (!String.IsNullOrEmpty(order_list[i].package_info))
+                {
+                    package_list = js.Deserialize<List<ProductPackage>>(order_list[i].package_info);
+                }
+                <tr>
+                    <td>@order_list[i].batch_num</td>
+                    <td>@order_list[i].create_date.ToString("yyyy-MM-dd")</td>
+                    <td>@order_list[i].delivery_date.ToString("yyyy-MM-dd")</td>
+                    <td>@order_list[i].customer_name</td>
+                    <td>@order_list[i].brand_name</td>
+                    <td>@order_list[i].product_name</td>
+                    <td>@order_list[i].product_model</td>
+                    <td>@order_list[i].product_format</td>
+                    <td>@order_list[i].product_color</td>
+                    <td>@order_list[i].product_number</td>
+                    @if (package_list.Count > 0)
+                    {
+                        int minIn = package_list[0].number;
+                        string title = "";
+                        for (var j = 0; j < package_list.Count; j++)
+                        {
+                            title += "【";
+                            title += package_list[j].packageNumber;
+                            title += "：";
+                            title += package_list[j].number;
+                            title += "】";
+                            if (minIn > package_list[j].number)
+                            {
+                                minIn = package_list[j].number;
+                            }
+                        }
+                        wait_in = order_list[i].product_number - minIn;
+                        <td title="@title">@minIn</td>
+                        <td>@(wait_in < 0 ? 0 : wait_in)</td>
+                    }
+                    else
+                    {
+                        <td>无数据</td>
+                        <td>无数据</td>
+                    }
+                    <td>
+                    @if (wait_in > 0)
+                    { 
+                        <a href="javascript:void(0);" class="store_in" _id="@order_list[i].id">入库</a>
+                    }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="13">抱歉，没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

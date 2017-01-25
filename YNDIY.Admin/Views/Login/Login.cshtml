@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "登录";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>@ViewBag.Title</title>
+    <link href="/Content/css/login.css" rel="stylesheet" />
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/employer/Login.js"></script>
+</head>
+<body>
+    <div class="_body_panel">
+        <div class="header">
+            <a class="_logo" href="javascript:void(0);">
+                <img src="/Content/imgs/template/logo.png">
+            </a>
+            <span class="welcome">欢迎登录</span>
+        </div>
+        <div class="container">
+            <div class="_wraper">
+                <div class="_login_panel">
+                    <div class="_login_data">
+                        <form name="_login" method="post" action="/">
+                            <div class="_data_item">
+                                <input type="text" placeholder="请输入账号" class="_item_input" name="account" />
+                            </div>
+                            <div class="_data_item pwd">
+                                <input type="password" placeholder="请输入密码" class="_item_input " name="password" />
+                            </div>
+                            <div class="_data_item vali _clear_panel">
+                                <div class="_left _width_percent_80">
+                                    <input type="text" placeholder="请输入验证码" class="_item_input _left" maxlength="4" name="_mvcCaptchaText" id="_mvcCaptchaText" />
+                                </div>
+                                <div class="_validate _left _width_percent_20">
+                                    <div class="_code_pic" style="width:100%;"></div>
+                                </div>
+                            </div>
+                            <div class="_clear_panel">
+                                <label class="remember">
+                                    <input type="checkbox" name="remember" value="1"/>
+                                    <span>记住密码</span>
+                                </label>
+                                <div class="_message"></div>
+                            </div>
+                            <a href="javascript:void(0);" class="_login_btn">登 录</a>
+                        </form>
+                    </div>
+                    @*<a href="javascript:;" class="forget">忘记密码</a>*@
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <ul class="foot_menu _clear_panel">
+                <li><a href="javascript:;">成都由你网络科技有限公司</a></li>
+                <li><a href="javascript:;">关于由你</a></li>
+                <li><a href="javascript:;">联系我们</a></li>
+                <li class="no_right_b"><a href="javascript:;">客服热线：40088888888</a></li>
+            </ul>
+            <p class="copy_right">Copyright &copy; 2014 - 2017 www.younidz.com All Rights Reserved</p>
+        </div>
+    </div>
+    <!-- 加载覆盖层 -->
+    <div class="_loading">
+        <div class="_loading_opacity_bg"></div>
+        <div class="_loading_img">
+            <img src="/Content/imgs/template/ajax-loader.gif" />
+        </div>
+    </div>
+</body>
+</html>

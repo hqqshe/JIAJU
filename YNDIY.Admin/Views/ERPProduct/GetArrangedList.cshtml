@@ -1,0 +1,62 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNBanShiProductionOrder> orderList = ViewBag.orderList;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+            <td>批次号</td>
+            <td>下单日期</td>
+            <td>交货日期</td>
+            <td>客户名称</td>
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>数量</td>
+            <td>关联订单</td>
+            <td>计划说明</td>
+            <td>生产日期</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < orderList.Count; i++)
+        {
+            <tr>
+            <td><input type="checkbox" _id="@orderList[i].id"></td>
+            <td><a href="/ERPProduct/ProductDetail?id=@orderList[i].id">@orderList[i].batch_num</a></td>
+            <td>@orderList[i].create_date.ToString("yyyy-MM-dd")</td>
+                @if (orderList[i].delivery_date < DateTime.Now.Date)
+                {
+                    <td><span class="_red_font">@orderList[i].delivery_date.ToString("yyyy-MM-dd")</span></td>
+                }
+                else
+                {
+                    <td>@orderList[i].delivery_date.ToString("yyyy-MM-dd")</td>
+                }
+            <td>@orderList[i].customer_name</td>
+            <td>@orderList[i].brand_name</td>
+            <td>@orderList[i].product_name</td>
+            <td>@orderList[i].product_model</td>
+                <td class="_td_10 _over_text" title="@orderList[i].product_format">@orderList[i].product_format</td>
+            <td>@orderList[i].product_color</td>
+            <td>@orderList[i].product_number</td>
+            <td></td>
+                <td class="_td_10 _over_text" title="@orderList[i].plan_remarks">@orderList[i].plan_remarks</td>
+            <td class="">
+                <a href="javascript:void(0);" class="_choose_date" _id="@orderList[i].id">@(Convert.ToDateTime(orderList[i].plan_start_date).ToString("yyyy-MM-dd"))</a>
+            </td>
+            <td>
+                <a href="/ERPProduct/PrintTransferList?id=@orderList[i].id" target="_blank"><span>打印交接单</span></a>
+                <a href="javascript:void(0);" class="cancle_pro" _id="@orderList[i].id"><span>取消生产</span></a>
+            </td>
+        </tr>
+        }
+        
+    </tbody>
+</table>
+@*@Html.Partial("page")*@

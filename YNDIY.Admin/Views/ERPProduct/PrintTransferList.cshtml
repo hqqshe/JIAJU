@@ -1,0 +1,85 @@
+﻿@{
+    YNDIY.API.Models.YNBanShiProductionOrder order = ViewBag.order;
+    YNDIY.API.Models.YNBanShiProduct product = ViewBag.product;
+    List<YNDIY.API.Models.OrderProductProcess> process_list = ViewBag.process_list;
+    List<int> gongduan_list = process_list.GroupBy(g => g.stage_id).Select(s => s.Key).ToList();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>交接单</title>
+    <link href="/Content/mincss/print.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="_paper_render">
+        <div class="_more_a4">
+            @for (var j = 0; j < gongduan_list.Count; j++) { 
+            <table class="_info_table _page_break">
+                <tbody>
+                    <tr>
+                        @for (var i = 0; i < process_list.Count; i++) {
+                            if (process_list[i].stage_id == gongduan_list[j]) { 
+                                <td colspan="7"><h3>@(process_list[i].stage)交接单</h3></td>
+                                break;
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <td>批次号</td>
+                        <td>@order.batch_num</td>
+                        <td>生产数量</td>
+                        <td>@order.product_number @(product.unit == 0 ? "套" : product.unit == 1 ? "件" : product.unit == 2 ? "把" : product.unit == 3 ? "个" : "张")</td>
+                        <td>开工日期</td>
+                        <td class="_start_time">@order.plan_start_date.ToString()</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>产品名称</td>
+                        <td>@product.produce_name</td>
+                        <td>产品型号</td>
+                        <td>@product.model_name</td>
+                        <td>产品规格</td>
+                        <td>@product.format</td>
+                        <td></td>
+                    </tr>
+                    @for (var i = 0; i < process_list.Count; i++) {
+                        if (process_list[i].stage_id == gongduan_list[j]) { 
+                            <tr>
+                                <td rowspan="2">
+                                    @if (i % 2 == 0) { 
+                                    <div class="_bar_code_container">@(order.id)_@(process_list[i].id)</div>
+                                    }
+                                </td>
+                                <td rowspan="2">@process_list[i].name</td>
+                                <td>一次交接数量</td>
+                                <td></td>
+                                <td>交货人签字</td>
+                                <td></td>
+                                <td rowspan="2">
+                                    @if (i % 2 == 1)
+                                    {
+                                        <div class="_bar_code_container">@(order.id)_@(process_list[i].id)</div>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>二次交接数量</td>
+                                <td></td>
+                                <td>接货人签字</td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                    <tr>
+                        <td colspan="7" style="text-align:left">主管签字：<span style="float:right">日期：<span class="year_date"></span>年___月___日</span></td>
+                    </tr>
+                </tbody>
+            </table>
+                <div class="pageNext"></div>
+            }
+        </div>
+    </div>
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/product/PrintTransferList.js?1"></script>
+</body>
+</html>

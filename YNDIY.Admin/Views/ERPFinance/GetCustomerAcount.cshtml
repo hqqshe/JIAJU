@@ -1,0 +1,49 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNShopInfo> shopInfoList = ViewBag.shopInfoList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>客户名称</td>
+            <td>联系人</td>
+            <td>联系方式</td>
+            <td>公司地址</td>
+            <td>结算方式</td>
+            <td>可用金额</td>
+            <td>剩余信用额度</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (shopInfoList.Count > 0)
+        {
+            for (int i = 0; i < shopInfoList.Count; i++)
+            {
+                <tr>
+
+                    <td class="_td_10 _over_text" title="@shopInfoList[i].shop_name">
+                        <a href="/ERPFinance/CustomerAcountDetail?id=@shopInfoList[i].id">
+                            <span>@shopInfoList[i].shop_name</span>
+                        </a>
+                    </td>
+                    <td  title="@shopInfoList[i].link_man">@shopInfoList[i].link_man</td>
+                    <td  title="@shopInfoList[i].phone">@shopInfoList[i].phone</td>
+                    <td class="_td_20 _over_text" title="@shopInfoList[i].address_detail">@shopInfoList[i].address_detail</td>
+                    <td class="_td_5 _over_text" title="@shopInfoList[i].jiesuan">@shopInfoList[i].jiesuan</td>
+                    <td>@(shopInfoList[i].balance_money + shopInfoList[i].lock_money)</td>
+                    <td>@(shopInfoList[i].credit_limit - shopInfoList[i].credit_lock)</td>
+                </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="9" class="_none_list_data">抱歉！目前没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")
+<script>
+    $("._from").text($("._select_text").text());
+</script>

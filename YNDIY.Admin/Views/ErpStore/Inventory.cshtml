@@ -1,0 +1,159 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "盘点调拨";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/store/Inventory"></script>
+}
+<div class="_clear_panel _search_banner ">
+    <div class="form_group">
+        <label>产品型号：</label>
+        <input type="text" placeholder="产品型号" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 出库计划面板-->
+<div class="_pop_window join_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 550px; height: 600px; margin-left: -300px; margin-top: -300px;">
+        <div class="_pop_title">
+            <span>出库计划</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>订单数量</td>
+                            <td>预备出库</td>
+                            <td>已出库</td>
+                            <td>可用数量</td>
+                            <td>可出库</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>订单数量</td>
+                            <td>预备出库</td>
+                            <td>已出库</td>
+                            <td>可用数量</td>
+                            <td>待出库</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pop_con">
+                    <div class="form_item">
+                        <span class="tip">本次出库数量：</span>
+                        <input type="text" placeholder="请填写数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">计划出库时间：</span>
+                        <input type="text" placeholder="计划出库时间" id="out_date">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">出库说明：</span>
+                        <input type="text" placeholder="出库说明">
+                    </div>
+                </div>
+                <div class="pop_con" style="height:251px;overflow-y:auto;overflow-x:hidden;">
+                    <table class="_list_table out_history">
+                        <thead>
+                            <tr>
+                                <td>计划出库日期</td>
+                                <td>出库数量</td>
+                                <td>状态</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>计划出库日期</td>
+                                <td>出库数量</td>
+                                <td>状态</td>
+                            </tr>
+                            <tr>
+                                <td>计划出库日期</td>
+                                <td>出库数量</td>
+                                <td>状态</td>
+                            </tr>
+                            <tr>
+                                <td>计划出库日期</td>
+                                <td>出库数量</td>
+                                <td>状态</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 调拨库存面板-->
+<div class="_pop_window get_store_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:90%;min-width:900px; height: 450px; margin-left: -45%; margin-top: -225px;">
+        <div class="_pop_title">
+            <span>调拨库存</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con ">
+                <table class="_list_table store_tab">
+                    <thead>
+                        <tr>
+                            <td><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+                            <td>销售单号</td>
+                            <td>订单号</td>
+                            <td>下单日期</td>
+                            <td>客户名称</td>
+                            <td>品牌</td>
+                            <td>产品名称</td>
+                            <td>型号</td>
+                            <td>规格</td>
+                            <td>颜色</td>
+                            <td>数量</td>
+                            <td>出库状态</td>
+                            <td>出库数量</td>
+                            <td>锁库数量</td>
+                            <td>可调拨数量</td>
+                            <td>本次调拨数量</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td class="_td_5 _over_text">销售单号</td>
+                            <td class="_td_5 _over_text">订单号</td>
+                            <td>下单日期</td>
+                            <td class="_td_5 _over_text">客户名称</td>
+                            <td>品牌</td>
+                            <td class="_td_5 _over_text">产品名称</td>
+                            <td class="_td_5 _over_text">型号</td>
+                            <td class="_td_5 _over_text">规格</td>
+                            <td>颜色</td>
+                            <td>数量</td>
+                            <td>出库状态</td>
+                            <td>出库数量</td>
+                            <td>锁库数量</td>
+                            <td>可调拨数量</td>
+                            <td class="_td_5 _over_text"><input type="text" placeholder="本次调拨数量" class="_input_area" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g,'')"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right  cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right  sub_mit">确定</a>
+            </div>
+        </div>
+    </div>
+</div>

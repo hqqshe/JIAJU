@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "客户账户";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/finance/CustomerAcount"></script>
+}
+<div class="_search_banner _clear_panel">
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>客户来源：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select">
+                <option value="0">自建</option>
+                <option value="1">系统</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="客户名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>

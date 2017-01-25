@@ -1,0 +1,55 @@
+﻿@using YNDIY.API.Models;
+@{
+    ViewBag.Title = "员工管理";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    List<YNFactoryDepartMent> departMentList = ViewBag.departMentList;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/employer/EmployerList.js"></script>
+}
+<div class="_clear_panel _search_banner">
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>员工管理：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                @if (departMentList.Count > 0)
+                {
+                    <span class="_select_text" style="line-height:32px;">@departMentList[0].department_name</span>
+                }
+                else
+                {
+                    <span class="_select_text" style="line-height:32px;"></span>
+                }
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load">
+                @if (departMentList.Count > 0)
+                {
+                    for (int i = 0; i < departMentList.Count; i++)
+                    {
+                        <option value="@departMentList[i].id">@departMentList[i].department_name</option>
+                    }
+                }
+                else
+                {
+                    <option value="-1"></option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="姓名/工号" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+    <div class="_btns _right">
+        <a href="/ERPemployer/employerInfo" class="_btn green right _left"><img src="/Content/imgs/btn_icon/new.png">新建员工</a>
+        <a href="javascript:;" class="_btn blue right _left"><img src="/Content/imgs/btn_icon/download.png">打印员工条码</a>
+    </div>
+</div>
+<div class="_ajax_container"></div>

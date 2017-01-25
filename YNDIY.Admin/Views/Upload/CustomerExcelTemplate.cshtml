@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="@Path.getJsPath()/jquery-1.7.2.js"></script>
+    <title>上传客户EXCEL模板</title>
+</head>
+<body>
+    <div>
+        <form enctype="multipart/form-data" action="/ERPCustomer/uploadTemplate" method="post" id="_upload_file_form">
+            <div style="width:140px;height:40px;position:relative;margin:0 auto;overflow:hidden;">
+                <div style="position:absolute;height:38px;width:140px;background-color:#3d9717;color:#FFF;font-size:14px;text-align:center;left:50%;margin-left:-70px;line-height:38px;border-radius:6px;border:1px solid #CCC;">选择Excel文件</div>
+                <input type="file" name="image" accept=".xls" style="display: block; position: absolute; width: 2000px; height: 100px; top: 0; right: 0; font-size: 100px; outline: none; cursor: pointer; opacity: .0; filter: alpha(opacity=0);" />
+            </div>
+        </form>
+        <div style="text-align:center;font-size:12px;color:#808080;margin-top:15px;">仅支持EXCEL文件</div>
+    </div>
+    <script>
+        $("#_upload_file_form input[type='file']").bind("change", function () {
+            window.parent._show_loading();
+            $("#_upload_file_form").submit();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+﻿@using YNDIY.API.Models
+@using System.Web.Script.Serialization;
+@{
+    ViewBag.Title = "盘点调拨详情";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+
+    YNBanShiBrand brand = ViewBag.brand;
+    YNBanShiProduct product = ViewBag.product;
+    YNInventory inventory = ViewBag.inventory;
+    int not_out_count = ViewBag.not_out_count;
+    int wait_handle = not_out_count;
+    List<YNStorageOut> not_out_list = ViewBag.not_out_list;
+    List<YNFactoryOrder> sale_order_list = ViewBag.sale_order_list;
+    JavaScriptSerializer js = new JavaScriptSerializer();
+
+    List<ProductPackage> package_list = js.Deserialize<List<ProductPackage>>(product.package_info);
+    List<ProductPackage> inventory_package = js.Deserialize<List<ProductPackage>>(inventory.package_info);
+    YNDIY.Admin.Controllers.ERPStoreController page_ctrl = ViewBag.myPage;
+    int after_inventory_count = page_ctrl.computeAfterInventoryStoreCount(package_list, inventory_package, wait_handle);
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/store/InventoryDetail"></script>
+}
+<div class="_clear_panel _search_banner nobtn">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class=" form_group">
+        <p class="infos">
+            盘点产品关联的销售单/计划出库单
+        </p>
+    </div>
+</div>
+<div class="_wraper">
+    <div class="pop_con">
+        <table class="_list_table head_info">
+            <thead>
+                <tr>
+                    <td>型号</td>
+                    <td>品牌</td>
+                    <td>产品名称</td>
+                    <td>规格</td>
+                    <td>颜色</td>
+                    <td>盘点前库存数量</td>
+                    <td>盘点后库存数量</td>
+                    <td>盘点后减少数量</td>
+                    <td>可用库存</td>
+                    <td>待处理数量</td>
+                    <td>锁定库存</td>
+                    <td>预备出库</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@product.model_name</td>
+                    <td>@brand.name</td>
+                    <td>@product.produce_name</td>
+                    <td>@product.format</td>
+                    <td>@product.color</td>
+                    <td>@(product.total_avaible_num + product.toal_lock_num + not_out_count)</td>
+                    <td>@after_inventory_count</td>
+                    <td>@(product.total_avaible_num + product.toal_lock_num + not_out_count - after_inventory_count)</td>
+                    <td>@product.total_avaible_num</td>
+                    <td>@(product.toal_lock_num + not_out_count - after_inventory_count)</td>
+                    <td>@product.toal_lock_num</td>
+                    <td>@not_out_count</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @if (sale_order_list.Count > 0) { 
+    <p class="tip">销售单</p>
+    <div class="pop_con">
+        <table class="_list_table head_info tb1">
+            <thead>
+                <tr>
+                    <td>销售单号</td>
+                    <td>订单号</td>
+                    <td>下单日期</td>
+                    <td>交货日期</td>
+                    <td>客户名称</td>
+                    <td>数量</td>
+                    <td>已出库</td>
+                    <td>锁库数量</td>
+                    <td>减少锁定数量</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < sale_order_list.Count; i++) { 
+                <tr _id="@sale_order_list[i].id">
+                    <td>@sale_order_list[i].sale_id</td>
+                    <td>@sale_order_list[i].order_id</td>
+                    <td>@sale_order_list[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td>@sale_order_list[i].factory_delivery_day.ToString("yyyy-MM-dd")</td>
+                    <td>@sale_order_list[i].shop_name</td>
+                    <td>@sale_order_list[i].product_number</td>
+                    <td>@sale_order_list[i].product_out_number</td>
+                    <td>@sale_order_list[i].product_lock_number</td>
+                    <td><input type="text" class="_input_area" placeholder="请填写数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')"></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+    @if(not_out_list.Count > 0)
+    { 
+    <p class="tip">计划出库单</p>
+            <div class="pop_con">
+                <table class="_list_table head_info tb2">
+                    <thead>
+                        <tr>
+                            <td>销售单号</td>
+                            <td>订单号</td>
+                            <td>计划出库日期</td>
+                            <td>客户名称</td>
+                            <td>数量</td>
+                            <td>减少出库数量</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < not_out_list.Count; i++)
+                        {
+                            <tr _id="@not_out_list[i].id">
+                                <td>@not_out_list[i].sale_num</td>
+                                <td>@not_out_list[i].order_num</td>
+                                <td>@not_out_list[i].plan_out_date.ToString("yyyy-MM-dd")</td>
+                                <td>@not_out_list[i].customer_name</td>
+                                <td>@(not_out_list[i].out_num + not_out_list[i].out_lock_num)</td>
+                                <td><input type="text" class="_input_area" placeholder="请填写数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')"></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+    }
+    <div class="pop_con _clear_panel">
+        <a href="javascript:void(0);" class="_btn blue _left sub_mit" _id="@product.id">保存</a>
+    </div>
+</div>

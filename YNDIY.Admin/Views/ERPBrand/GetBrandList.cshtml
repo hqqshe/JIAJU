@@ -1,0 +1,37 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNBanShiBrand> list = ViewBag.list;
+    List<YNBanShiProduct> product_list = ViewBag.product_list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>创建时间</td>
+            <td>品牌名称</td>
+            <td>产品数量</td>
+            <td>备注</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count > 0) {
+            for (var i = 0; i < list.Count; i++) { 
+                <tr>
+                    <td>@list[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td _id="@list[i].id">@list[i].name</td>
+                    <td>@product_list.Where(w =>w.brand_id == list[i].id).Count()</td>
+                    <td class="_td_20 _over_text" title="@list[i].remarks">@list[i].remarks</td>
+                    <td>
+                        <a href="javascript:;" class="dele" _id="@list[i].id">×</a>
+                    </td>
+                </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="4">抱歉，没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

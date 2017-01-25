@@ -1,0 +1,172 @@
+@using YNDIY.API.Models;
+@{
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+<!--分页-->
+<div class="_pagerBox">
+    <ul>
+    @{
+        int frontLength = 2;
+        int behindLength = 2;
+        int pageCount = 5;
+        int pageCenter = page._pageCount - frontLength;
+        <li>
+        <span class="_left">共<span class="_all_pages">@page._pageCount</span>页，第<span>@page._pageIndex</span>/<span>@page._pageCount</span>页</span>
+        </li>
+        if (page._pageIndex == 1)
+        {
+            <li>
+            <a class="_pager _left _not_page" href="javascript:void(0);">首页</a>
+            </li>
+        }
+        else
+        {
+            <li class="_left">
+            <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(1);">首页</a>
+            </li>
+        }
+        if (page._pageIndex == 1)
+        {
+            <li>
+                <a class="_pager _left _not_page" href="javascript:void(0);">上一页</a>
+            </li>
+        }
+        else
+        {
+            <li>
+            <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@page._prevPage)">上一页</a>
+            </li>
+        }
+
+        if (page._pageCount <= pageCount)
+        {
+            for (int i = 1; i <= page._pageCount; i++)
+            {
+                if (i == page._pageIndex)
+                {
+                    <li>
+                        <a class="_pager _left _not_page _borderColor _fontColor" href="javascript:void(0);">@i</a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                    <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@i)">@i</a>
+                    </li>
+                }
+            }
+        }
+        else
+        {
+            if (page._pageIndex <= frontLength)
+            {
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    if (i == page._pageIndex)
+                    {
+                        <li>
+                            <a class="_pager _left _not_page _borderColor _fontColor" href="javascript:void(0);">@i</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                        <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@i)">@i</a>
+                        </li>
+                    }
+                }
+            }
+            else if (page._pageIndex < pageCenter)
+            {
+                int header = page._pageIndex - frontLength;
+                int ender = page._pageIndex + behindLength;
+                for (int i = header; i <= ender; i++)
+                {
+                    if (i == page._pageIndex)
+                    {
+                        <li>
+                            <a class="_pager _left _not_page _borderColor _fontColor" href="javascript:void(0);">@i</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                        <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@i)">@i</a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                int header = page._pageCount - frontLength - behindLength;
+                for (int i = header; i <= page._pageCount; i++)
+                {
+                    if (i == page._pageIndex)
+                    {
+                        <li>
+                            <a class="_pager _left _not_page _borderColor _fontColor" href="javascript:void(0);">@i</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                        <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@i)">@i</a>
+                        </li>
+                    }
+                }
+            }
+        }
+        if (page._pageIndex == page._pageCount)
+        {
+            <li>
+                <a class="_pager _left _not_page" href="javascript:void(0);">下一页</a>
+            </li>
+        }
+        else
+        {
+            <li>
+            <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@page._nextPage)">下一页</a>
+            </li>
+        }
+        if (page._pageIndex == page._pageCount)
+        {
+            <li>
+                <a class="_pager _left _not_page" href="javascript:void(0);">尾页</a>
+            </li>
+        }
+        else
+        {
+            <li>
+            <a class="_pager _left _hoverBorderColor _hoverColor" href="javascript:_load_items(@page._pageCount)">尾页</a>
+            </li>
+        }
+    }
+    <li>
+        <input type="text" class="_left _jump_input" />
+        <a href="javascript:void(0);" class="_left _jump_page _hoverBorderColor _hoverColor">跳转</a>
+    <div class="_clear"></div>
+    </li>
+    </ul>
+</div>
+<script>
+    $("._jump_input").bind("keyup", function () {
+        var _this = $(this);
+        var _val = _this.val();
+        if (!/^[1-9]\d*$/.test(_val)) {
+            _this.val("");
+        }
+    });
+    $("._jump_page").bind("click", function () {
+        var _val = $("._jump_input").val();
+        if (/^[1-9]\d*$/.test(_val)) {
+            var _max = parseInt($("._all_pages").text());
+            var _page = parseInt(_val);
+            if (_val > _max) {
+                _load_items(_max);
+            } else {
+                _load_items(_val);
+            }
+        }
+    });
+</script>
+<!--分页end-->

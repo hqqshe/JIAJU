@@ -1,0 +1,59 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<BrandProduct> brandProduct = ViewBag.list;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>产品名称</td>
+            <td>品牌</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>累计出库</td>
+            <td>累计入库</td>
+            <td>库存下限</td>
+            <td>订单数量</td>
+            <td>锁定数量</td>
+            <td>可出库数量</td>
+            <td>生产中数量</td>
+            <td>待生产总量</td>
+            @*<td>操作</td>*@
+        </tr>
+    </thead>
+    <tbody>
+        @if (brandProduct.Count > 0) { 
+        for (int i = 0; i < brandProduct.Count; i++)
+        {
+            <tr>
+                @*<td><a href="/ERPProduct/ForecastDetail?id=@brandProduct[i].product.id" _id="@brandProduct[i].product.id">@brandProduct[i].product.produce_name</td>*@
+                <td _id="@brandProduct[i].product.id"><a href="/ERPProduct/ForecastDetail?id=@brandProduct[i].product.id"> @brandProduct[i].product.produce_name</a></td>
+                <td _id="@brandProduct[i].product.brand_id">@brandProduct[i].brand</td>
+                <td>@brandProduct[i].product.model_name</td>
+                <td class="_td_10 _over_text" title="@brandProduct[i].product.format">@brandProduct[i].product.format</td>
+                <td>@brandProduct[i].product.color</td>
+                <td>@brandProduct[i].product.total_out</td>
+                <td>@brandProduct[i].product.total_in</td>
+                <td>@brandProduct[i].product.safe_num</td>
+                <td>@brandProduct[i].product.total_order_num</td>
+                <td>@brandProduct[i].product.toal_lock_num</td>
+                <td>@brandProduct[i].product.total_avaible_num</td>
+                <td>@brandProduct[i].product.total_producing_num</td>
+                @{
+                   int shengyu = brandProduct[i].product.total_order_num - brandProduct[i].product.total_producing_num - brandProduct[i].product.toal_lock_num - brandProduct[i].product.total_avaible_num;
+                }
+                <td>@(shengyu > 0 ? shengyu : 0)</td>
+                @*<td><a href="javascript:void(0);" class="make_plan" _id="@brandProduct[i].product.id"><span>制定生产计划</span></a></td>*@
+            </tr>
+        }
+        }
+        else { 
+            <tr>
+                <td colspan="13">抱歉，没有查询到相关数据</td>
+            </tr>
+        }        
+    </tbody>
+</table>
+@Html.Partial("page")

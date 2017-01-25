@@ -1,0 +1,102 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "订单详情";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNBanShiProductionOrder order = ViewBag.order;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/product/ProductDetail"></script>
+}
+<div class="_search_banner nobtn  _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            客户名称：@order.customer_name
+        </span>
+    </div>
+</div>
+<div class="_ajax_container">
+    <div class="pop_con">
+        <table class="_list_table head_info">
+            <thead>
+                <tr>
+                    <td>批次号</td>
+                    <td>下单日期</td>
+                    <td>交货日期</td>
+                    <td>品牌</td>
+                    <td>产品名称</td>
+                    <td>型号</td>
+                    <td>规格</td>
+                    <td>颜色</td>
+                    <td>数量</td>
+                    <td>状态</td>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@order.batch_num</td>
+                    <td>@order.create_date.ToString("yyyy-MM-dd")</td>
+                    <td>@order.delivery_date.ToString("yyyy-MM-dd")</td>
+                    <td>@order.brand_name</td>
+                    <td>@order.product_name</td>
+                    <td>@order.product_model</td>
+                    <td>@order.product_format</td>
+                    <td>@order.product_color</td>
+                    <td>@order.product_number</td>
+                    <td>@(order.state == 0 ? "未安排生产日期" : order.state == 1 ? "已安排，未生产" : order.state == 2 ? "生产中" : "生产完成")</td>
+                </tr>
+                <tr>
+                    <td>关联订单</td>
+                    <td colspan="9"></td>
+                </tr>
+                <tr>
+                    <td>计划说明</td>
+                    <td colspan="9">@order.plan_remarks</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pop_con _order_info_panel">
+        <div class=" _clear_panel">
+            <div class="form_group">
+                <span class="infos">
+                    订单生产计划情况：
+                </span>
+            </div>
+            <div class="form_group">
+                <label>完成</label>
+                <span class="_color_span _complete_color"></span>
+            </div>
+            <div class="form_group">
+                <span class="gen"></span>
+            </div>
+            <div class="form_group">
+                <label>有问题</label>
+                <span class="_color_span _error_color"></span>
+            </div>
+            <div class="form_group">
+                <span class="gen"></span>
+            </div>
+            <div class="form_group">
+                <label>未开始</label>
+                <span class="_color_span _null_color"> </span>
+            </div>
+            <div class="_btns _right _clear_panel">
+                @*<a href="javascript:void(0);" class="_btn  right _left blue">打印</a>*@
+                <a href="javascript:void(0);" class="_btn _left red">终止</a>
+            </div>
+        </div>
+        <div class="pop_con _clear_panel Procedures">
+            @*<a href="javascript:void(0);" class="_btn  right _left blue">前工段</a>
+                <a href="javascript:void(0);" class="_btn right _left ">后工段</a>*@
+        </div>
+        <div class="pop_con _clear_panel item_con _process_container">
+        </div>
+    </div>
+</div>

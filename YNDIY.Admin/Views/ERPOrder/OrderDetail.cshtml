@@ -1,0 +1,198 @@
+﻿@using YNDIY.API.Models
+@using System.Web.Script.Serialization;
+@{
+    ViewBag.Title = "订单详情";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNFactoryOrder order = ViewBag.sale_order;
+    YNShopInfo shop = ViewBag.shop;
+    decimal customer_price = ViewBag.customer_price;
+    YNBanShiProduct product = ViewBag.product;
+    JavaScriptSerializer js = new JavaScriptSerializer();
+    YNDIY.API.Controllers.FactoryOrderController sale_order_ctrl = new YNDIY.API.Controllers.FactoryOrderController();
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/order/OrderDetail"></script>
+}
+<div class="_search_banner nobtn  _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            客户名称：@order.shop_name
+        </span>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            订单号：@order.order_id
+        </span>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            销售单号：@order.sale_id
+        </span>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            下单日期：@order.create_time.ToString("yyyy-MM-dd")
+        </span>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            交货日期：@order.factory_delivery_day.ToString("yyyy-MM-dd")
+        </span>
+    </div>
+</div>
+<!-- 公司信息 -->
+<div class="_order_info_panel _clear_panel">
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系人:</div>
+        <div class="_info_content _over_text" title=".link_man">@shop.link_man</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系电话：</div>
+        <div class="_info_content _over_text" title=".land_line">@shop.phone</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系地址：</div>
+        <div class="_info_content _over_text" title=".address_detail">@shop.address_detail</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">邮编：</div>
+        <div class="_info_content _over_text" title=".post_code">@shop.post_code</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">返点金额：</div>
+        <div class="_info_content _over_text" title=".fandian">@shop.fandian</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">特殊价格：</div>
+        <div class="_info_content _over_text" title=".special_price">@shop.special_price</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">标志：</div>
+        <div class="_info_content _over_text" title=".tags">@shop.tags</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">结算方式：</div>
+        <div class="_info_content _over_text" title=".jiesuan">@shop.jiesuan</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">票据处理：</div>
+        <div class="_info_content _over_text" title=".piaoju">@shop.piaoju</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">下单要求：</div>
+        <div class="_info_content _over_text" title=".order_requires">@shop.order_requires</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">货运地址：</div>
+        <div class="_info_content _over_text" title=".huoyun">@shop.huoyun</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">货运电话：</div>
+        <div class="_info_content _over_text" title=".huoyun_phone">@shop.huoyun_phone</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">发货方式：</div>
+        <div class="_info_content _over_text" title=".fahuo">@shop.fahuo</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">备注：</div>
+        <div class="_info_content _over_text" title=".remarks">@shop.remarks</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title red_color">账户余额：</div>
+        <div class="_info_content _over_text">@shop.balance_money</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title red_color">信用额度：</div>
+        <div class="_info_content _over_text">@shop.credit_limit</div>
+    </div>
+</div>
+<div class="_ajax_container">
+    <div class="pop_con">
+        <table class="_list_table head_info">
+            <thead>
+                <tr>
+                    <td>品牌</td>
+                    <td>名称</td>
+                    <td>规格</td>
+                    <td>颜色</td>
+                    <td>数量</td>
+                    <td>标准单价</td>
+                    <td>客户单价</td>
+                    <td>已锁定库存数量</td>
+                    <td>可出库数量</td>
+                    @*<td>交货日期</td>*@
+                    <td>锁定库存</td>
+                    <td>财务审核</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@order.brand_name</td>
+                    <td>@order.product_name</td>
+                    <td>@order.product_format</td>
+                    <td>@order.product_color</td>
+                    <td>@order.product_number</td>
+                    <td>@order.product_price</td>
+                    <td>@customer_price</td>
+                    <td>@product.toal_lock_num</td>
+                    <td>@product.total_avaible_num</td>
+                    @*<td>交货日期</td>*@
+                    <td>@(order.lockStock == 0 ? "是" : "否")</td>
+                    <td>@(order.checkFiance == 0 ? "是" : "否")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pop_con">
+        <table class="_list_table head_info">
+            <thead>
+                <tr>
+                    <td>收货人姓名</td>
+                    <td>联系电话</td>
+                    <td>邮编</td>
+                    <td>收货地址</td>
+                    <td>关联的批次号</td>
+                    <td>备注</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@order.factory_consumer_linkman</td>
+                    <td>@order.factory_consumer_phone</td>
+                    <td>@order.factory_consumer_postcode</td>
+                    <td>@order.factory_consumer_address</td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(order.ralation_produce_orderid))
+                        {
+                            List<string> relation_list = js.Deserialize<List<string>>(order.ralation_produce_orderid);
+                            for (var i = 0; i < relation_list.Count; i++)
+                            { 
+                                <div style="line-height:20px;">@relation_list[i]</div>
+                            }
+                            List<YNFactoryOrder> sub_sale_order = sale_order_ctrl.GetRelationSaleOrderListBySaleOrderId(order.jiaju_factory_id, order.id);
+                            for (var i = 0; i < sub_sale_order.Count; i++)
+                            {
+                                if (!String.IsNullOrEmpty(sub_sale_order[i].ralation_produce_orderid))
+                                {
+                                    List<string> sub_relation_list = js.Deserialize<List<string>>(sub_sale_order[i].ralation_produce_orderid);
+                                    for (var j = 0; j < sub_relation_list.Count; j++)
+                                    { 
+                                    <div style="line-height:20px;">[关联]@sub_relation_list[j]</div>
+                                    }
+                                }
+                            }
+                        }
+                    </td>
+                    <td>@order.remarks</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

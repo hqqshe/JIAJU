@@ -1,0 +1,92 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "销货单";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>销货单</title>
+    <link href="/Content/css/print.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="_wraper">
+        <div class="_content center _clear">
+            <span class="name _left">太子家具</span>
+            <span class="cname">眉山董姐出货单</span>
+            <div class="_info_item _right _width_percent_30">
+                <span>销货单号：<span class="text"></span></span>
+            </div>
+        </div>
+        <div class="_content _clear">
+            <div class="_info_item _left _width_percent_50">
+                <span>收货人：<span class="text"></span></span>
+            </div>
+            <div class="_info_item _left _width_percent_50">
+                <span>联系方式：<span class="text"></span></span>
+            </div>
+            <div class="_info_item _left _width_percent_50">
+                <span>订单号：<span class="text"></span></span>
+            </div>
+            <div class="_info_item _left _width_percent_50">
+                <span>收货地址：<span class="text"></span></span>
+            </div>
+            <div class="_info_item _left _width_percent_50">
+                <span>出库日期：<span class="text"></span></span>
+            </div>
+        </div>
+        <div class="_tables">
+            <table class="_info_table ">
+                <thead>
+                    <tr>
+                        <td>序号</td>
+                        <td>产品名称</td>
+                        <td>型号</td>
+                        <td>规格</td>
+                        <td>颜色</td>
+                        <td>数量</td>
+                        <td>包件</td>
+                        <td>定制信息</td>
+                        <td>单价（元）</td>
+                        <td>金额（元）</td>
+                        <td>备注</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>序号</td>
+                        <td>产品名称</td>
+                        <td>型号</td>
+                        <td>规格</td>
+                        <td>颜色</td>
+                        <td>数量</td>
+                        <td>包件</td>
+                        <td>定制信息</td>
+                        <td>单价（元）</td>
+                        <td>金额（元）</td>
+                        <td>备注</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">合计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="_content _clear">
+            <div class="_info_item _left _width_percent_50">
+                <span>制单人：<span class="text"></span></span>
+            </div>
+            <div class="_info_item _left _width_percent_50">
+                <span>审核：<span class="text"></span></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

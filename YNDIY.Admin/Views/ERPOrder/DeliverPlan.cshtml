@@ -1,0 +1,115 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "出库计划";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/order/DeliverPlan"></script>
+}
+<div class="_clear_panel _search_banner " style="min-width: 1370px; *width: 1370px; ">
+    <div class=" form_group _clear_panel">
+        <label>出库日期：</label>
+        <div class="_left _filter_item">
+            <a href="javascript:void(0);" class="_date_page _my_prev ">前一天</a>
+        </div>
+        <div class="_left _filter_item">
+            <a href="javascript:void(0);" class="_search_date " id="_from_date"></a>
+        </div>
+        <div class="_left _filter_item">
+            <a href="javascript:void(0);" class="_date_page _my_next ">后一天</a>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>财务审核：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load finace_check">
+                <option value="100">全部</option>
+                <option value="0">需要</option>
+                <option value="1">不需要</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>审核状态：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load check_state">
+                <option value="100">全部</option>
+                <option value="0">待审核</option>
+                <option value="1">通过审核</option>
+                <option value="2">未通过审核</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="销售单号/客户名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+        </a>
+    </div>
+    <div class="_btns _right">
+        <a href="javascript:;" class="_btn blue right _left "><img src="/Content/imgs/btn_icon/download.png">批量打印拣货单</a>
+        <a href="javascript:;" class="_btn green  _left"><img src="/Content/imgs/btn_icon/import.png">批量打印销货单</a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 修改出库数量面板-->
+<div class="_pop_window modify_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 550px; height: 250px; margin-left: -300px; margin-top: -125px;">
+        <div class="_pop_title">
+            <span>修改出库数量</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>数量</td>
+                            <td>已出库数量</td>
+                            <td>待出库数量</td>
+                            <td>锁定库存数量</td>
+                            <td>可出库数量</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>数量</td>
+                            <td>已出库数量</td>
+                            <td>待出库数量</td>
+                            <td>锁定库存数量</td>
+                            <td>可出库数量</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pop_con">
+                    <div class="form_item">
+                        <span class="tip">出库数量：</span>
+                        <input type="text" placeholder="请填写数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')">
+                    </div>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

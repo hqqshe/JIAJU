@@ -1,0 +1,54 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNStorageOut> out_list = ViewBag.out_list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+            <td>销售单号</td>
+            <td>订单号</td>
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>客户单价</td>
+            <td>出库价值</td>
+            <td>出货欠款</td>
+            <td>出库数量</td>
+            <td>出库说明</td>
+            <td>计划出库日期</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (out_list.Count > 0)
+        {
+            for (var i = 0; i < out_list.Count; i++)
+            {
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>@out_list[i].sale_num</td>
+                    <td>@out_list[i].order_num</td>
+                    <td>@out_list[i].brand_name</td>
+                    <td>@out_list[i].product_name</td>
+                    <td>@out_list[i].product_model</td>
+                    <td>@out_list[i].product_format</td>
+                    <td>@out_list[i].product_color</td>
+                    <td>@out_list[i].product_price</td>
+                    <td>@out_list[i].out_plan_money</td>
+                    <td>@(out_list[i].out_plan_money - out_list[i].payed_money - (out_list[i].sale_payed + out_list[i].lock_payed + out_list[i].balance_payed))</td>
+                    <td>@(out_list[i].out_num + out_list[i].out_lock_num)</td>
+                    <td>@out_list[i].out_remark</td>
+                    <td>@out_list[i].plan_out_date.ToString("yyyy-MM-dd")</td>
+                    <td>待审核</td>
+                    <td><a href="javascript:void(0);" class="check" _id="@out_list[i].id">审核</a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

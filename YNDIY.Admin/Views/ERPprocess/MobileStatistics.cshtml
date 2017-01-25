@@ -1,0 +1,124 @@
+﻿@using YNDIY.API.Models;
+@{
+    ViewBag.Title = "订单工序完成量统计";
+    Layout = "~/Views/Shared/ProcessTemplate.cshtml";
+}
+<link href="/Content/css/ERPCSS/process/scancode.css?6" rel="stylesheet" />
+<div class="_page_body">
+    <div class="_block_title">查询当天</div>
+    <div class="_clear_panel">
+        <a href="javascript:void(0);" class="_left _search_today">
+            <span>今天</span>
+        </a>
+        <div class="_left _today_str">@DateTime.Now.ToString("yyyy-MM-dd")</div>
+    </div>
+</div>
+<div class="_page_body">
+    <div class="_block_title">按月份查询</div>
+    <div class="_clear_panel _select_year_panel">
+        <a href="javascript:void(0);" class="_left _select_year _prev_year"></a>
+        <a href="javascript:void(0);" class="_right _select_year _next_year"></a>
+        <div class="_selected_year"><span>@DateTime.Now.ToString("yyyy")</span>年</div>
+    </div>
+    <div class="_clear_panel _month_wrap">
+        @for (var i = 1; i < 13; i++) {
+        <a href="javascript:void(0);" class="_left _month_item">
+            <span>@(i)月</span>
+        </a>
+        }
+    </div>
+</div>
+<div class="_ajax_data_panel">
+    <div class="_clear_panel _back_panel">
+        <a href="javascript:void(0);" class="_left _back_to_search">返回</a>
+    </div>
+    <div class="_ajax_render"></div>
+</div>
+<script>
+    var _statistics_type = "@ViewBag.type";
+    var _search_date = "";
+    var _start_time, _end_time;
+
+    function _load_items() {
+        _show_loading();
+        $.ajax({
+            type: "get",
+            url: "/ERPprocess/GetMobileStatisticsItems",
+            data: { type: _statistics_type, startTime: _start_time, endTime: _end_time },
+            dataType: "html",
+            success: function (response) {
+                _hide_loading();
+                var _rspz_html = $(response);
+                $("._search_time span", _rspz_html).text(_search_date);
+                $("._ajax_data_panel ._ajax_render").empty().append(_rspz_html).parent().show();
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络异常，查询失败！");
+            }
+        });
+    }
+    //返回查询
+    $("._back_to_search").bind("click", function () {
+        $("._ajax_data_panel").hide();
+    });
+    //更换年份
+    $("._select_year").bind("click", function () {
+        var _me = $(this);
+        var _span=$("._selected_year span");
+        var _year = parseInt(_span.text());
+        if (_me.hasClass("_prev_year")) {
+            _year--;
+        } else {
+            _year++;
+        }
+        _span.text(_year);
+    });
+    //查询今天
+    $("._search_today").bind("click", function () {
+        _search_date = $("._today_str").text();
+        _start_time = _search_date;
+        _end_time = _search_date;
+        _load_items();
+    });
+    //获取某个月的最后一天
+    function GetMonthLastDate(_year, _month) {
+        var date = "";
+        switch (_month+"") {
+            case "1":
+            case "3":
+            case "5":
+            case "7":
+            case "8":
+            case "10":
+            case "12":
+                date = "31";
+                break;
+            case "4":
+            case "6":
+            case "9":
+            case "11":
+                date = "30";
+                break;
+            default:
+                date = (_year % 4 == 0) ? "29" : "28";
+        }
+        return date;
+    }
+    //查询某月
+    $("._month_item").bind("click", function () {
+        var _year = $("._selected_year").text().replace(/\s|[^\x00-\xff]/g, "");
+        var _month = $(this).text().replace(/\s|[^\x00-\xff]/g, "");
+        _start_time = _year + "-" + _month + "-01";
+        _end_time = _year + "-" + _month + "-" + GetMonthLastDate(_year, _month);
+        _search_date = _start_time +"　至　"+ _end_time;
+        _load_items();
+    })
+    $(document).ready(function () {
+        var _search = window.location.search;
+        if (/type=\d/.test(_search)) {
+            _arr = _search.match(/type=(\d)/);
+            _statistics_type = _arr[1];
+        }
+    });
+</script>

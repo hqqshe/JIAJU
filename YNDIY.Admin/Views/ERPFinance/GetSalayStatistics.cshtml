@@ -1,0 +1,63 @@
+﻿@using YNDIY.API.Models
+@*@{
+        var scanStartDate = ViewBag.ScanDateFrom;
+        var scanDateTo = ViewBag.ScanDateTo;
+        List<FactoryProcessDetail> processDetailList = ViewBag.processDetailList;
+    }*@
+<div class="pop_con">
+    <table class="_list_table head_info">
+        <tr>
+            <td>统计时间</td>
+            <td>实发工资统计</td>
+        </tr>
+        <tr>
+            @*<td><span class="report_blue scan_time">@scanStartDate 至 @scanDateTo</span></td>
+                <td><span class="report_blue">@ViewBag.totalPrice</span></td>*@
+            <td>统计时间</td>
+            <td>实发工资统计</td>
+        </tr>
+    </table>
+</div>
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>序号</td>
+            <td>生产部门</td>
+            <td>工号</td>
+            <td>员工姓名</td>
+            <td>计件工资（元）</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @*@if (processDetailList.IsNullOrEmpty())
+            {
+                <tr>
+                    <td colspan="6" class="_none_list_data">抱歉！没有查询到相关数据！</td>
+                </tr>
+            }
+            else
+            {
+                for (int i = 0; i < processDetailList.Count; i++)
+                {
+                    var item = processDetailList[i];
+                    <tr _id="@item.user_id">
+                        <td>@(i+1)</td>
+                        <td>@item.department_name</td>
+                        <td>@item.gonghao</td>
+                        <td>@item.user_name</td>
+                        <td>@item.price</td>
+                        <td><a href="javascript:;" class="view_detail">查看明细</a></td>
+                    </tr>
+                }
+            }*@
+        <tr>
+            <td>序号</td>
+            <td>生产部门</td>
+            <td>工号</td>
+            <td>员工姓名</td>
+            <td>计件工资（元）</td>
+            <td><a href="javascript:;" class="view_detail">查看明细</a></td>
+        </tr>
+    </tbody>
+</table>

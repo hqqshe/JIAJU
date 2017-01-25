@@ -1,0 +1,208 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNFactoryOrder> orderList = ViewBag.orderList;
+    List<YNBanShiProduct> productList = ViewBag.productList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+    YNBanShiProduct product = new YNBanShiProduct();
+    JavaScriptSerializer js = new JavaScriptSerializer();
+    YNDIY.API.Controllers.FactoryStorageOutController out_ctrl = new YNDIY.API.Controllers.FactoryStorageOutController();
+    YNDIY.API.Controllers.ProductController product_ctrl = ViewBag.product_ctrl;
+    YNDIY.API.Controllers.FactoryOrderController sale_order_ctrl = ViewBag.sale_order_ctrl;
+    int factory_id = ViewBag.factory_id;
+    YNDIY.API.Controllers.ProductionOrderController production_ctrl = new YNDIY.API.Controllers.ProductionOrderController();
+    List<string> count_render = new List<string>();
+    List<YNFactoryOrder> relation_sale_order = new List<YNFactoryOrder>();
+    List<YNBanShiProduct> relation_product = new List<YNBanShiProduct>();
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>销售单号</td>
+            <td>订单号</td>
+            <td>下单日期</td>
+            <td>客户名称</td>
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>出库状态</td>
+            <td>数量</td>
+            <td>预备出库</td>
+            <td>已出库</td>
+            <td>销售单锁定</td>
+            <td>库存可用</td>
+            <td>库存总量</td>
+            <td>交货日期</td>
+            <td>备注</td>
+            <td>批次号</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < orderList.Count; i++)
+        {
+            count_render.Clear();
+            relation_sale_order.Clear();
+            relation_product.Clear();
+            List<ProductPackage> packageList = new List<ProductPackage>();
+            List<YNStorageOut> not_out_list = out_ctrl.GetNotOutPlanListByProduct(factory_id, orderList[i].product_id);
+            int not_out_cout = 0;//该产品预备出库的数量
+            for (var m = 0; m < not_out_list.Count; m++)
+            {
+                not_out_cout += not_out_list[m].out_num;
+                not_out_cout += not_out_list[m].out_lock_num;
+            }
+            int kucun_all = 0;
+            int kucun_avaible = 0;
+            <tr>
+                <td><a href="/ERPOrder/OrderDetail?id=@orderList[i].id">@orderList[i].sale_id</a></td>
+                <td>@orderList[i].order_id</td>
+                <td>@orderList[i].order_time.ToString("yyyy-MM-dd")</td>
+                <td>@orderList[i].shop_name</td>
+                <td>@orderList[i].brand_name</td>
+                <td>@orderList[i].product_name</td>
+                <td>@orderList[i].product_model</td>
+                <td class="_td_10 _over_text" title="@orderList[i].product_format">@orderList[i].product_format</td>
+                <td>@orderList[i].product_color</td>
+                <td>@(orderList[i].product_out_number == 0 ? "未出库" : orderList[i].product_out_number == orderList[i].product_number ? "全部出库" : "部分出库")</td>
+                <td>@orderList[i].product_number</td>
+                <td>@orderList[i].out_lock_number</td>
+                <td>@orderList[i].product_out_number</td>
+
+                @for (var j = 0; j < productList.Count; j++)
+                {
+                    if (productList[j].id == orderList[i].product_id)
+                    {
+                        product = productList[j];                        
+                        kucun_all = product.toal_lock_num + product.total_avaible_num;
+                        kucun_avaible = product.total_avaible_num;
+                        if (!String.IsNullOrEmpty(product.package_info))
+                        {
+                            packageList = js.Deserialize<List<ProductPackage>>(product.package_info);
+                            if (packageList.Count > 0)
+                            {
+                                for (var k = 0; k < packageList.Count; k++)
+                                {
+                                    if (packageList[k].relation_id != 0)
+                                    {
+                                        YNBanShiProduct sub_product = product_ctrl.GetProductById(factory_id, packageList[k].relation_id);
+                                        YNFactoryOrder sub_sale_order = sale_order_ctrl.GetRelationSaleOrder(factory_id, orderList[i].id, sub_product.id);
+                                        if (sub_sale_order != null)
+                                        {
+                                            relation_sale_order.Add(sub_sale_order);
+                                            relation_product.Add(sub_product);
+                                            count_render.Add("(" + packageList[k].packageNumber + ")" + sub_sale_order.product_lock_number + "|" + sub_sale_order.id);
+                                            //if (sub_sale_order.lockStock == 0)
+                                            //{
+                                            //    count_render.Add(packageList[k].packageNumber + " ━ " + sub_sale_order.product_lock_number + "|" + sub_sale_order.id);
+                                            //}
+                                            //else
+                                            //{
+                                            //    count_render.Add(packageList[k].packageNumber + " ━ " + sub_sale_order.product_lock_number + sub_product.total_avaible_num + "|" + sub_sale_order.id);
+                                            //}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+                <td>
+                    <a href="javascript:void(0);" class="link_item get_store" _id="@orderList[i].id">
+                        @*@(product.total_avaible_num + orderList[i].product_lock_number)*@
+                        @orderList[i].product_lock_number
+                    </a>
+                    @for (var m = 0; m < count_render.Count; m++)
+                    {
+                        string[] temp_sale = count_render[m].Split('|');
+                        <a href="javascript:void(0);" class="link_item get_store" _id="@temp_sale[1]">@temp_sale[0]</a>
+                    }
+                </td>
+                <td>
+                    <div class="link_item">
+                        @kucun_avaible
+                    </div>
+                    @for (var r = 0; r < relation_product.Count; r++)
+                    {
+                        <div class="link_item">@relation_product[r].total_avaible_num</div>
+                    }
+                </td>
+                <td>
+                    <div class="link_item" _test="@kucun_all  @not_out_cout">@(kucun_all + not_out_cout)</div>
+                    @for (var r = 0; r < relation_product.Count; r++)
+                    {
+                        List<YNStorageOut> not_out_list_re = out_ctrl.GetNotOutPlanListByProduct(factory_id, orderList[i].product_id);
+                        int not_out_cout_re = 0;//该产品预备出库的数量
+                        for (var m = 0; m < not_out_list.Count; m++)
+                        {
+                            not_out_cout_re += not_out_list_re[m].out_num;
+                            not_out_cout_re += not_out_list_re[m].out_lock_num;
+                        }
+                        <div class="link_item">@(relation_product[r].total_avaible_num + relation_product[r].toal_lock_num + not_out_cout_re)</div>
+                    }
+                </td>
+                @if (orderList[i].factory_delivery_day < DateTime.Now.Date && orderList[i].product_out_number < orderList[i].product_number)
+                {
+                    <td><span class="_red_font">@orderList[i].factory_delivery_day.ToString("yyyy-MM-dd")</span></td>
+                }
+                else
+                {
+                    <td>@orderList[i].factory_delivery_day.ToString("yyyy-MM-dd")</td>
+                }
+                <td class="_td_10 _over_text" title="@orderList[i].remarks">@orderList[i].remarks</td>
+                <td>
+                    @if (!String.IsNullOrEmpty(orderList[i].ralation_produce_orderid))
+                    {
+                        List<string> relation_list = js.Deserialize<List<string>>(orderList[i].ralation_produce_orderid);
+                        for (var m = 0; m < relation_list.Count; m++)
+                        {
+                            YNDIY.API.Models.YNBanShiProductionOrder production = production_ctrl.GetProductionByBatch(factory_id, relation_list[m]);
+                            if (production != null)
+                            {
+                                <a class="link_item" href="/ERPProduct/ProductDetail?id=@production.id">@relation_list[m]</a>
+                            }
+                        }
+                        for (var m = 0; m < relation_sale_order.Count; m++)
+                        {
+                            if (!String.IsNullOrEmpty(relation_sale_order[m].ralation_produce_orderid))
+                            {
+                                List<string> relation_batch = js.Deserialize<List<string>>(relation_sale_order[m].ralation_produce_orderid);
+                                for (var n = 0; n < relation_batch.Count; n++)
+                                {
+                                    YNDIY.API.Models.YNBanShiProductionOrder production = production_ctrl.GetProductionByBatch(factory_id, relation_batch[n]);
+                                    if (production != null)
+                                    {
+                                        <a class="link_item" href="/ERPProduct/ProductDetail?id=@production.id">[关联]@relation_batch[n]</a>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </td>
+                <td class="_more_options">
+                    <div class="_more_btn _relative _relative_zindex_1">
+                        <a href="javascript:void(0);" class="_show_more"><img src="/Content/imgs/template/_select_dowm.png"></a>
+                        <div class="_more_btns" style="display: none;">
+                            <!-- 后续 满足可再次编辑的条件 才有编辑订单选项 -->
+                            @*<a href="/ERPOrder/EditOrder?orderId=@orderList[i].id&shopId=@orderList[i].shop_id"><span>编辑订单</span></a>*@
+                            @if (orderList[i].is_relation_order == 0)
+                            {
+                                if (orderList[i].product_number > orderList[i].product_out_number)
+                                {
+                                    <a href="javascript:void(0);" class="join" _id="@orderList[i].id"><span>加入出库</span></a>
+                                    @*<a href="javascript:void(0);" class="get_store" _id="@orderList[i].id" pid="@orderList[i].product_id"><span>调拨库存</span></a>*@
+                                }
+                                @*<a href="javascript:void(0);" class="dele" _id="@orderList[i].id"><span>删除</span></a>*@
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+@Html.Partial("page")

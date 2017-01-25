@@ -1,0 +1,144 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "新建订单";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNShopInfo yNShopInfo = ViewBag.yNShopInfo;
+    //List<YNBanShiBrand> brandList = ViewBag.brandList;
+    //List<YNBanShiProduct> productList = ViewBag.productList;
+    //List<YNShopPrice> shopPriceList = ViewBag.shopPriceList;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/order/NewOrder"></script>
+}
+<div class="_search_banner nobtn _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">新建订单</p>
+    </div>
+</div>
+<div class="_wraper" style="width:1300px;">
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>客户名称：</div>
+        <div class="_input_content">
+            <span class="info name">@yNShopInfo.shop_name</span>
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">剩余下单额度：</div>
+        <div class="_input_content">
+            <span class="info _green_font">@(yNShopInfo.credit_limit - yNShopInfo.credit_lock + yNShopInfo.balance_money)</span>
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>订单号：</div>
+        <div class="_input_content">
+            <input type="text" class="order_num" placeholder="请填写订单号">
+        </div>
+    </div>
+    <div class="_clear"></div>
+    <div class="pop_con _clear_panel">
+        <div class="_input_item _width_percent_40 _left">
+            <div class="_left _input_title"><span class="_red_font">*</span>编辑产品：</div>
+            <div class="_input_content">
+                <a href="javascript:;" class="_btn green _left add_brand"><img src="/Content/imgs/btn_icon/new.png">添加产品</a>
+            </div>
+        </div>
+    </div>
+    <div class="pop_con">
+        <div class="_width_percent_100" style="margin-top:10px">
+            <div class="_left _input_title"></div>
+            <div class="_input_content" style="margin-left:108px;height:auto;width:auto;float:none">
+                <table class="_list_table brand_tab">
+                    <thead>
+                        <tr>
+                            <td class="_td_10">选择品牌</td>
+                            <td class="_td_10">选择型号</td>
+                            <td>规格</td>
+                            <td>颜色</td>
+                            <td>标准单价</td>
+                            <td>客户单价</td>
+                            <td class="_td_5">数量</td>
+                            <td>锁定数量</td>
+                            <td>库存可用</td>
+                            <td class="_td_10 ">交货日期</td>
+                            <td class="_td_10 _over_text">锁定库存</td>
+                            <td class="_td_10 _over_text">财务审核</td>
+                            <td class="_td_10 _over_text">备注</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody class="select_diy"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pop_con adr_info  _clear_panel">
+        <div class="_left _input_title">收货信息：</div>
+        <div class="_clear"></div>
+        <div class="_input_item _width_percent_40 _left">
+            <div class="_left _input_title"><span class="_red_font">*</span>联系人：</div>
+            <div class="_input_content">
+                <input type="text" id="link_man" value="@yNShopInfo.link_man">
+            </div>
+            <div class="_clear"></div>
+        </div>
+        <div class="_input_item _width_percent_40 _left">
+            <div class="_left _input_title"><span class="_red_font">*</span>联系电话：</div>
+            <div class="_input_content">
+                <input type="text" id="phone" value="@yNShopInfo.phone">
+            </div>
+            <div class="_clear"></div>
+        </div>
+        <div class="_input_item _width_percent_40 _left">
+            <div class="_left _input_title">邮编：</div>
+            <div class="_input_content">
+                <input type="text" id="post_code" value="@yNShopInfo.post_code">
+            </div>
+            <div class="_clear"></div>
+        </div>
+        <div class="_input_item _width_percent_40 _left">
+            <div class="_left _input_title"><span class="_red_font">*</span>收货地址：</div>
+            <div class="_input_content">
+                <input type="text" id="address" value="@yNShopInfo.address_detail">
+            </div>
+            <div class="_clear"></div>
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"></div>
+        <div class="_input_content">
+            <a href="javascript:void(0);" class="_btn blue _left sub_mit">提交</a>
+        </div>
+    </div>
+    <div class="_clear"></div>
+</div>
+<!--所有品牌 预加载-->
+<div class="_search_filter" id="brand_select" style="display:none;">
+    <div class="_select_prev">
+        <span class="_select_text" style="line-height:32px;color:#000;">选择品牌</span>
+        <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+    </div>
+    <select class="_opacity_select">
+        <option value="-1">选择品牌</option>
+    </select>
+</div>
+<!--产品下拉框-->
+<div class="_search_filter" id="pro_select" style="display:none;">
+    <div class="_select_prev">
+        <span class="_select_text">选择产品</span>
+        <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+    </div>
+    <div class="_diy_select">
+        <div class="_clear_panel _select_input">
+            <input type="text" class="_left">
+        </div>
+        <div class="_selct_items">
+            <ul></ul>
+        </div>
+    </div>
+</div>

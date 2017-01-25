@@ -1,0 +1,163 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "编辑客户";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/customer/NewCustomer.js"></script>
+}
+<div class="_search_banner nobtn _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">编辑客户</p>
+    </div>
+</div>
+<div class="_input_panel _wraper">
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>客户名称：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写客户名称">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">返点情况：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写返点情况">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>联系人：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写联系人">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">结算方式：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写结算方式">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>联系电话：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写联系电话">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">票据处理：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写票据处理">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>联系地址：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写联系地址">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">下单要求：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写下单要求">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>锁定库存：</div>
+        <div class="_input_content">
+            <label><input type="radio" name="lock_store" value="0" checked>是</label>
+            <label><input type="radio" name="lock_store" value="1">否</label>
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">货运方式：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写货运方式">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>财务审核：</div>
+        <div class="_input_content">
+            <label><input type="radio" name="check" value="0" checked>需要审核</label>
+            <label><input type="radio" name="check" value="1">无需审核</label>
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">货运地址：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写货运地址">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"><span class="_red_font">*</span>信用额度：</div>
+        <div class="_input_content">
+            <input type="text" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')" placeholder="请填写信用额度">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">货运电话：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写货运电话">
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left"></div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title">标志：</div>
+        <div class="_input_content">
+            <input type="text" placeholder="请填写标志">
+        </div>
+    </div>
+    <div class="_clear"></div>
+    <div class="pop_con _clear_panel">
+        <div class="_input_item _width_percent_40 _left">
+            <div class="_left _input_title"><span class="_red_font">*</span>编辑品牌：</div>
+            <div class="_input_content">
+                <a href="javascript:;" class="_btn green _left add_brand"><img src="/Content/imgs/btn_icon/new.png">添加品牌</a>
+            </div>
+        </div>
+    </div>
+    <div class="pop_con _clear_panel">
+        <div class="_input_item _width_percent_80 _left">
+            <div class="_left _input_title"></div>
+            <div class="_input_content" style="height:auto;">
+                <table class="_list_table brand_tab">
+                    <thead>
+                        <tr>
+                            <td>品牌名称</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pop_con _clear_panel">
+        <div class="_input_item _width_percent_80 _left">
+            <div class="_left _input_title"><span class="_red_font">*</span>备      注：</div>
+            <div class="_input_content">
+                <input type="text" placeholder="请填写备注">
+            </div>
+        </div>
+    </div>
+    <div class="_input_item _width_percent_40 _left">
+        <div class="_left _input_title"></div>
+        <div class="_input_content">
+            <a href="javascript:void(0);" class="_btn blue _left sub_mit">提交</a>
+        </div>
+    </div>
+</div>
+<!--所有品牌 预加载-->
+<div class="_search_filter" id="brand_select" style="display:none;">
+    <div class="_select_prev">
+        <span class="_select_text" style="line-height:32px;"></span>
+        <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+    </div>
+    <select class="_opacity_select">
+    </select>
+</div>

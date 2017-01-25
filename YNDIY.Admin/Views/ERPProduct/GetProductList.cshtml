@@ -1,0 +1,88 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNBanShiProductionOrder> orderList = ViewBag.orderList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+    JavaScriptSerializer js = new JavaScriptSerializer();
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>批次号</td>
+            <td>下单日期</td>
+            <td>交货日期</td>
+            <td>客户名称</td>
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>数量</td>
+            <td>已入库</td>
+            <td>状态</td>
+            <td>关联订单</td>
+            <td>计划说明</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < orderList.Count; i++)
+        {
+        <tr>
+            <td><a href=" /ERPProduct/ProductDetail?id=@orderList[i].id">@orderList[i].batch_num</a></td>
+            <td>@orderList[i].create_date.ToString("yyyy-MM-dd")</td>
+            @if (orderList[i].delivery_date < DateTime.Now.Date && orderList[i].state != YNDIY.API.Controllers.ProductionOrderController.state_3)
+            {
+                <td><span class="_red_font">@orderList[i].delivery_date.ToString("yyyy-MM-dd")</span></td>
+            }
+            else
+            {
+                <td>@orderList[i].delivery_date.ToString("yyyy-MM-dd")</td>
+            }
+            <td>@orderList[i].customer_name</td>
+            <td>@orderList[i].brand_name</td>
+            <td>@orderList[i].product_name</td>
+            <td>@orderList[i].product_model</td>
+            <td class="_td_10 _over_text" title="@orderList[i].product_format">@orderList[i].product_format</td>
+            <td>@orderList[i].product_color</td>
+            <td>@orderList[i].product_number</td>
+            <td>
+                @if (!String.IsNullOrEmpty(orderList[i].package_info))
+                {
+                    List<ProductPackage> stock_package = js.Deserialize<List<ProductPackage>>(orderList[i].package_info);
+                    for (var m = 0; m < stock_package.Count; m++)
+                    { 
+                        <div style="line-height:20px;">(@stock_package[m].packageNumber)@stock_package[m].number</div>
+                    }
+                }
+            </td>
+            <td>@(orderList[i].state == 0 ? "未安排" : orderList[i].state == 1 ? "已安排，未开始" : orderList[i].state == 2 ?"生产中":"生产完成")</td>
+            <td>
+                @if (!String.IsNullOrEmpty(orderList[i].relation_sale_order))
+                { 
+                    List<RelationSaleOrder> relation_list = js.Deserialize<List<RelationSaleOrder>>(orderList[i].relation_sale_order);
+                    for(var m =0;m<relation_list.Count;m++)
+                    {
+                        <div style="line-height:20px;">@relation_list[m].sale_num</div>
+                    }
+                }
+            </td>
+            <td class="_td_10 _over_text" title="@orderList[i].plan_remarks">@orderList[i].plan_remarks</td>
+            <td>
+                <a href="javascript:;" class="dele" _id="@orderList[i].id">×</a>
+            </td>
+            @*<td class="_more_options">
+                <div class="_more_btn _relative _relative_zindex_1">
+                    <a href="javascript:void(0);" class="_show_more"><img src="/Content/imgs/template/_select_dowm.png"></a>
+                    <div class="_more_btns">
+                        <a href="javascript:void(0);" class="edit_paln" _id="@orderList[i].id"><span>编辑计划</span></a>
+                        <a href="/ERPProduct/EditForecastDetail?id=@orderList[i].id"><span>编辑关联</span></a>
+                        <a href="javascript:void(0);" class="edit_part" _id="@orderList[i].id"><span>删除</span></a>
+                    </div>
+                </div>
+            </td>*@
+        </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

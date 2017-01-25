@@ -1,0 +1,1 @@
+define([],function(){return{json2str:function(a){var b=[],c=this,d=function(a){return"undefined"==typeof a?'""':"object"==typeof a&&null!=a?c.json2str(a):/^(string|number)$/.test(typeof a)?'"'+a+'"':a};for(var e in a)"function"==typeof a[e]||a[e]instanceof jQuery||(a.push?b.push(d(a[e])):b.push('"'+e+'":'+d(a[e])));return a.push?"["+b.join(",")+"]":"{"+b.join(",")+"}"}}});

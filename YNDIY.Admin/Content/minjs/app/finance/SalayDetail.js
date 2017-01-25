@@ -1,0 +1,1 @@
+require(["/Content/minjs/config.js"],function(){require(["jquery","pop_window","base","domReady"],function(a,b,c,d,b){c.init();var e=window.location.search;a("._btns").on("click","a",function(){0===a(this).index()&&window.open("/ERPFinance/SalayPrint?"+e.substring(1))})})});

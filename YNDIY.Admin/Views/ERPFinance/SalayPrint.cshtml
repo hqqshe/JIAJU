@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>工资详情</title>
+    <script src="@Path.getJsPath()/jquery-1.7.2.js"></script>
+    <link href="/Content/mincss/print.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="_paper_render">
+        <div class="total_pay">
+            <span class="info_tip">   统计日期：</span>
+            <span class="total_pay_1"></span>
+            <span class="info_tip">   至：</span>
+            <span class="total_pay_1"></span>
+            <span class="info_tip">员工名：</span>
+            <span class="total_pay_1"></span>
+            <span class="info_tip">   总工资：</span>
+            <span class="total_pay_1"></span>
+        </div>
+        <div class="list_con ">
+            <div class="tab_item">
+                <table class="_info_table hard_table">
+                    <thead>
+                        <tr>
+                            <td>拍单时间</td>
+                            <td>扫码时间</td>
+                            <td>订单号</td>
+                            <td>生产编号</td>
+                            <td>型号</td>
+                            <td>规格</td>
+                            <td>备注</td>
+                            <td>制作要求</td>
+                            <td>工序号</td>
+                            <td>工序名称</td>
+                            <td>完成数量</td>
+                            <td>工价（元）</td>
+                            <td>计件总计（元）</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>统计时间</td>
+                            <td>订单号</td>
+                            <td>生产编号</td>
+                            <td>型号</td>
+                            <td>规格</td>
+                            <td>数量</td>
+                            <td>备注</td>
+                            <td>制作要求</td>
+                            <td>工序号</td>
+                            <td>工序名称</td>
+                            <td>完成数量</td>
+                            <td>工序单价（元）</td>
+                            <td>计件总计（元）</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        var td_item = "  <tr>                                                                                                      \
+                                    <td>统计时间</td>                                                                      \
+                                    <td>统计时间</td>                                                                      \
+                                    <td>订单号</td>                                                                           \
+                                    <td>生产编号</td>                                                                      \
+                                    <td>型号</td>                                                                                \
+                                    <td>规格</td>                                                                                \
+                                      <td width='150px'><div class='remark'></div></td>                                                                               \
+                                    <td>制作要求</td>                                                                      \
+                                    <td>工序号</td>                                                                           \
+                                    <td>工序名称</td>                                                                      \
+                                    <td>完成数量</td>                                                                      \
+                                    <td>工序单价（元）</td>                                                       \
+                                    <td>计件总计（元）</td>                                                       \
+                                </tr>";
+    </script>
+    <script>
+        $(document).ready(function () {
+            var star;
+            var end;
+            initData();
+            //获取详情数据
+            function initData() {
+                var _search = window.location.search.substring(1);
+                if (_search.length > 1) {
+                    var temp = _search.split(":");
+                    var _data = {}
+                    _data.scanStartDate = temp[0];
+                    _data.scanEndDate = temp[1];
+                    _data.userId = temp[2];
+                    _data.type = temp[3];
+                    star = temp[0];
+                    end = temp[1];
+                    $.ajax({
+                        type: "get",
+                        url: "/ERPProcedure/EmployeeSalayStatisticsDetail",
+                        data: _data,
+                        success: function (response) {
+                            if (response.code == 1) {
+                                showDetailList(response.data);
+                                $('.total_pay_1').eq(2).text(response.name);
+                                $('.total_pay_1').eq(3).text(response.total.toFixed(2));
+                                $('.total_pay_1').eq(0).text(star);
+                                $('.total_pay_1').eq(1).text(end);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert("网络异常,请刷新重试");
+                        }
+                    });
+                }
+            }
+            //展示详情
+            function showDetailList(data) {
+                var con = $('.list_con tbody');
+                con.empty();
+                for (var i = 0; i < data.length; i++) {
+                    for (var j = 0; j < data[i].processList.length; j++) {
+                        var tr = $(td_item).clone();
+                        tr.children().eq(0).text(star);
+                        tr.children().eq(1).text(end);
+                        tr.children().eq(2).text(data[i].order_id);
+                        tr.children().eq(3).text(data[i].produce_id);
+                        tr.children().eq(4).text(data[i].model_name);
+                        tr.children().eq(5).text(data[i].format);
+                        tr.children().eq(6).children().text(data[i].remarks).attr("title", data[i].remarks);
+                        tr.children().eq(7).text($.trim(data[i].special_remarks));
+                        tr.children().eq(8).text(data[i].processList[j].step_id);
+                        tr.children().eq(9).text(data[i].processList[j].step_name);
+                        tr.children().eq(10).text(data[i].processList[j].number + "/" + (data[i].processList[j].unit == 0 ? "套" : data[i].processList[j].unit == 1 ? "件" : data[i].processList[j].unit == 2 ? "把" : data[i].processList[j].unit == 3?"个":"张"));
+                        tr.children().eq(11).text(data[i].processList[j].price);
+                        tr.children().eq(12).text((data[i].processList[j].price * data[i].processList[j].number).toFixed(2));
+                        con.append(tr);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "新建产品";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    List<YNBanShiBrand> list = ViewBag.list;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/brand/NewProduct.js"></script>
+}
+<div class="_search_banner nobtn _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">新建产品</p>
+    </div>
+</div>
+<div class="_input_panel">
+    <div class="_input_item">
+        <div class="_left _input_title">图片：</div>
+        <div class="_input_content img">
+            <div class="img_view">
+                <img src="/Content/imgs/icons/img_back.png">
+            </div>
+            <a href="javascript:void(0);" class="_btn green _left upload_img">上传</a>
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>品牌：</div>
+        <div class="_input_content">
+            <div class="_search_filter ">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">@(list.Count > 0 ? list[0].name : "暂时无品牌")</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select brand_select" id="brand_select">
+                    @for (int i = 0; i < list.Count; i++)
+                    {
+                        <option value="@list[i].id">@list[i].name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>型号：</div>
+        <div class="_input_content">
+            <input type="text">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>产品名称：</div>
+        <div class="_input_content">
+            <input type="text">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>规格：</div>
+        <div class="_input_content">
+            <input type="text">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>颜色：</div>
+        <div class="_input_content">
+            <input type="text">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>单位：</div>
+        <div class="_input_content">
+            <div class="_search_filter ">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">套</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select unit_select">
+                    <option value="0" selected>套</option>
+                    <option value="1">件</option>
+                    <option value="2">把</option>
+                    <option value="3">个</option>
+                    <option value="4">张</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>标准单价(元)：</div>
+        <div class="_input_content">
+            <input type="text" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"><span class="_red_font">*</span>库存下限：</div>
+        <div class="_input_content">
+            <input type="text" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title">备注：</div>
+        <div class="_input_content">
+            <input type="text">
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_input_item">
+        <div class="_left _input_title"></div>
+        <div class="_input_content">
+            <a href="javascript:void(0);" class="_btn blue _left sub_mit">提交</a>
+        </div>
+        <div class="_clear"></div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>员工条形码</title>
+    <link href="/Content/mincss/print.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="_paper_render"> </div>
+    <!-- 加载覆盖层 -->
+    <div class="_loading">
+        <div class="_loading_opacity_bg"></div>
+        <div class="_loading_img">
+            <img src="/Content/imgs/template/ajax-loader.gif" />
+        </div>
+    </div>
+</body>
+<script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/employer/PrintEmployer.js"></script>
+</html>

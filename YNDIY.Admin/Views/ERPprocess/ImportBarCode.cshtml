@@ -1,0 +1,1373 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "批量导码";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    var departments = ViewBag.DepartMents as List<YNFactoryDepartMent> ?? new List<YNFactoryDepartMent>();
+
+    var enableWorksteps = Convert.ToBoolean(Session["ClothFactoryEnableWorksteps"]);
+}
+<link href="/Content/css/ERPCSS/process/import_bar_code.css" rel="stylesheet" />
+<div class="pro_head">
+    <ul class="po_menu">
+        @if (enableWorksteps)
+        {
+            <li><a href="javascript:void(0);" class="cur">离线数据导入</a></li>
+            <li><a href="javascript:void(0);" class="">工序数据导入</a></li>
+        }
+        else
+        {
+            <li><a href="javascript:void(0);" class="cur">离线条码导入</a></li>
+        }
+    </ul>
+</div>
+<div class="partment_con">
+    <div class="_input_line">
+        <span class="_input_title">请选择生产线<span class="_red_font">*</span>：</span>
+        <div class="_input_body">
+            <div class="_box_out_line">
+                <div class="_search_filter  _select_process _relative">
+                    <div class="_select_prev">
+                        <span class="_select_text">请选择</span>
+                        <div class="_select_down"><img src="/Content/imgs/erp/template/_select_dowm.png"></div>
+                    </div>
+                    <select class="_opacity_select department" name="DepartmentId">
+                        <option>请选择</option>
+                        @foreach (var department in departments)
+                        {
+                            <option value="@department.id">@department.department_name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bar_code_con">
+        <div class="_left _import_area _import_panel _width_percent_33">
+            <div class="_import_title">请录入扫码枪数据:</div>
+            <div class="_import_area_line">
+                <div class="_textarea_panel" spellcheck="false">
+                    <textarea class="_input_vals"></textarea>
+                </div>
+            </div>
+            <div class="_margin_top_10 _clear_panel">
+                <a href="javascript:void(0);" class="_import_option_btn _analysis_btn _left">
+                    <span>解析</span>
+                </a>
+                <a href="javascript:void(0);" class="_import_option_btn _left _input_empty">
+                    <span>清空</span>
+                </a>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <div class="_left _import_area _import_success_panel _width_percent_33">
+            <div class="_import_title">正确数据:<span class="_success_count">0</span>条</div>
+            <div class="_import_area_line _success_line">
+                <div class="_success_panel"></div>
+            </div>
+            <div class="_margin_top_10 _clear_panel">
+                <a href="javascript:void(0);" class="_import_option_btn _upload_data_btn _left">
+                    <span>上传</span>
+                </a>
+                <a href="javascript:void(0);" class="_import_option_btn _empty_success _left">
+                    <span>清空</span>
+                </a>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <div class="_left _import_area _import_error_panel _width_percent_33">
+            <div class="_import_title">错误数据:<span class="_error_count">0</span>条</div>
+            <div class="_import_area_line _error_line">
+                <div class="_error_panel"></div>
+            </div>
+            <div class="_margin_top_10 _clear_panel">
+                <a href="javascript:void(0);" class="_import_option_btn _empty_error _left">
+                    <span>清空</span>
+                </a>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <div class="_clear"></div>
+    </div>
+</div>
+<div class="large_order">
+    <div class="form_con _clear_panel">
+        <p class="_title">查询工号条码</p>
+        <div class="form_group">
+            <label for="">工号<span>*</span>：</label>
+            <input type="text" class="emNo" placeholder="请输入工号" />
+        </div>
+        <div class="form_group">
+            <button type="button" class="search_emNo">查询</button>
+        </div>
+        <div class="form_group">
+            <label></label>
+        </div>
+        <div class="form_group">
+            <label></label>
+        </div>
+    </div>
+    <div class="form_con _clear_panel">
+        <p class="_title">查询条码</p>
+        <form name="repair_form" class="repair_form">
+            <div class="form_group">
+                <label for="">订单号<span>*</span>：</label>
+                <input type="text" name="orderNumber" placeholder="请输入订单号" />
+            </div>
+            <div class="form_group">
+                <label for="">款号<span>*</span>：</label>
+                <input type="text" name="styleNo" placeholder="请输入款号" />
+            </div>
+            <div class="form_group">
+                <label for="">批次：</label>
+                <input type="text" name="pono" class="start_date" placeholder="请输入批次" />
+            </div>
+            <div class="form_group">
+                <label for="">床号：</label>
+                <input type="text" name="bedId" class="end_date" placeholder="请输入床号" />
+            </div>
+            <div class="form_group">
+                <label for="">包号：</label>
+                <input type="text" name="packageNo" class="end_date" placeholder="请输入包号" />
+            </div>
+            <div class="form_group">
+                <label for="">工序号：</label>
+                <input type="text" name="workstepNo" class="end_date" placeholder="请输入工序号" />
+            </div>
+            <div class="form_group">
+                <button type="button" class="search_procedure">查询</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="bar_code_con">
+        <div class="_left _import_area _import_panel _width_percent_33">
+            <div class="_import_title">请录入扫码枪数据:</div>
+            <div class="_import_area_line">
+                <div class="_textarea_panel" spellcheck="false">
+                    <textarea class="_input_vals"></textarea>
+                </div>
+            </div>
+            <div class="_margin_top_10 _clear_panel">
+                <a href="javascript:void(0);" class="_import_option_btn _analysis_btn _left">
+                    <span>解析</span>
+                </a>
+                <a href="javascript:void(0);" class="_import_option_btn _left _input_empty">
+                    <span>清空</span>
+                </a>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <div class="_left _import_area _import_success_panel _width_percent_33">
+            <div class="_import_title">正确数据:<span class="_success_count">0</span>条</div>
+            <div class="_import_area_line _success_line">
+                <div class="_success_panel">
+                    @*<div class="suc_item">
+                            <span>工号:1231 姓名:张三</span>
+                            <a class="suc_link" href="javascript:;">订单号：123 款号：456 批次号：1 床号：4包：1 工序名:上扣 数量:100</a>
+                            <a class="suc_link" href="javascript:;"> 订单号：123 款号：456 批次号：1 床号：4包：1 工序名:上扣 数量:100</a>
+                        </div>*@
+                </div>
+                <div class="_success_back"></div>
+            </div>
+            <div class="_margin_top_10 _clear_panel">
+                <a href="javascript:void(0);" class="_import_option_btn _upload_data_btn _left">
+                    <span>上传</span>
+                </a>
+                <a href="javascript:void(0);" class="_import_option_btn _empty_success _left">
+                    <span>清空</span>
+                </a>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <div class="_left _import_area _import_error_panel _width_percent_33">
+            <div class="_import_title">错误数据:<span class="_error_count">0</span>条</div>
+            <div class="_import_area_line _error_line">
+                <div class="_error_panel"></div>
+            </div>
+            <div class="_margin_top_10 _clear_panel">
+                <a href="javascript:void(0);" class="_import_option_btn _empty_error _left">
+                    <span>清空</span>
+                </a>
+                <div class="_clear"></div>
+            </div>
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="form_con _clear_panel">
+        <p class="_title">分配工序数量</p>
+    </div>
+    <div class="updated_con">
+        <div class="list">
+            <table class="_list_table">
+                <thead>
+                    <tr>
+                        <td>订单号</td>
+                        <td>款号</td>
+                        <td>批次号</td>
+                        <td>床号</td>
+                        <td>包号</td>
+                        <td>工序号</td>
+                        <td>数量</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*<tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>*@
+                </tbody>
+            </table>
+        </div>
+</div>
+    </div>
+<!-- 查询条码-->
+<div class="_pop_window _normas_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 90%; height: 600px; margin-left: -45%; margin-top: -300px;">
+        <div class="_pop_title">
+            <span>查询条码</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body" style="overflow:hidden">
+            <div class="normas_con">
+                @*<div class="normas_item _clear_panel">
+                        <a href="javascript:;" class="bag_click">款号 批次号 床号 包号 <span></span></a>
+                        <div class="code_con">
+                            <div class="code" code="02-5-06-08-0">工序1</div>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="normas_btn  _clear_panel">
+                <span class="_info_title">提示:按住Ctrl键多选或连选,按住Shift多选取消</span>
+                <a href="javascript:void(0);" class="add_expect_btn repair_cancle">
+                    <span>取消</span>
+                </a>
+                <a href="javascript:void(0);" class="add_expect_btn repair_btn">
+                    <span>确定</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑数量-->
+<div class="_pop_window _edit_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 90%; height: 660px; margin-left: -45%; margin-top: -330px;">
+        <div class="_pop_title">
+            <span>编辑工序数量</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body" style="overflow:hidden">
+            <div class="list">
+                <p class="title"></p>
+                <div class="_clear_panel">
+                    <div class="form_group">
+                        <label for="">工号<span>*</span>：</label>
+                        <input type="text" class="em_name" name="ShopName" placeholder="请输入工号">
+                    </div>
+                    <div class="form_group">
+                        <button type="button" class="search_emp">查询</button>
+                    </div>
+                </div>
+                <table class="_list_table">
+                    <thead>
+                        <tr>
+                            <td>工号</td>
+                            <td>员工姓名</td>
+                            <td>分配数量</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr>
+                                <td>1234</td>
+                                <td>老王</td>
+                                <td><input type="text" placeholder="请输入数量" class="_input_area "></td>
+                                <td><a href="javascript:;" class="dele">×</a></td>
+                            </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            <div class="normas_btn  _clear_panel">
+                <a href="javascript:void(0);" class="add_expect_btn repair_cancle">
+                    <span>取消</span>
+                </a>
+                <a href="javascript:void(0);" class="add_expect_btn change_btn">
+                    <span>确定</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--质检-->
+<div class="_pop_window _check_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 90%; height: 660px; margin-left: -45%; margin-top: -330px;">
+        <div class="_pop_title">
+            <span>订单质检</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body" style="overflow:hidden">
+            <div class="list">
+                <table class="_list_table">
+                    <thead>
+                        <tr>
+                            <td>订单号</td>
+                            <td>款式</td>
+                            <td>批次号</td>
+                            <td>包号</td>
+                            <td>尺寸</td>
+                            <td>颜色</td>
+                            <td>质检总数</td>
+                            <td>已通过</td>
+                            <td>未通过</td>
+                            <td>本次通过</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>订单号</td>
+                            <td>款式</td>
+                            <td>批次号</td>
+                            <td>包号</td>
+                            <td>尺寸</td>
+                            <td>颜色</td>
+                            <td>质检总数</td>
+                            <td>已通过</td>
+                            <td>未通过</td>
+                            <td><input type="text" placeholder="请输入数量" class="_input_area check_num" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="normas_btn  _clear_panel">
+                <a href="javascript:void(0);" class="add_expect_btn cancle_check ">
+                    <span>取消</span>
+                </a>
+                <a href="javascript:void(0);" class="add_expect_btn save_check">
+                    <span>确定</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--入库-->
+<div class="_pop_window _store_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 90%; height: 660px; margin-left: -45%; margin-top: -330px;">
+        <div class="_pop_title">
+            <span>成品入库</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body" style="overflow:hidden">
+            <div class="list">
+                <table class="_list_table">
+                    <thead>
+                        <tr>
+                            <td>订单号</td>
+                            <td>款式</td>
+                            <td>批次号</td>
+                            <td>包号</td>
+                            <td>尺寸</td>
+                            <td>颜色</td>
+                            <td>入库总数</td>
+                            <td>实际数量</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>订单号</td>
+                            <td>款式</td>
+                            <td>批次号</td>
+                            <td>包号</td>
+                            <td>尺寸</td>
+                            <td>颜色</td>
+                            <td>总数</td>
+                            <td><input type="text" placeholder="请输入入库数量" class="_input_area" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="normas_btn  _clear_panel">
+                <a href="javascript:void(0);" class="add_expect_btn cancle_store ">
+                    <span>取消</span>
+                </a>
+                <a href="javascript:void(0);" class="add_expect_btn save_store">
+                    <span>确定</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var _suc_html = '<div class="_success_data"></div>';
+    var _err_html = '<div class="_error_data"><span class="_code"></span><span class="_code_text"></span></div>';
+    var suc_item = ' <a class="suc_link" href="javascript:;"></a>';
+    var suc_link = '<a class="suc_link" href="javascript:;"></a>  ';
+</script>
+<script src="/Content/Scripts/utils.js"></script>
+<script>
+
+    //数据对象
+    function Storage(parent_name) {
+        this.parent_name = parent_name;
+        this._to_string = new jsonFun();
+        this._max_key = 0;
+        this._is_uploading = false;
+        this.SetContainer();
+        this.OnEvent();
+    }
+    //设置容器
+    Storage.prototype.SetContainer = function () {
+        this.parent = $(this.parent_name);
+        this._suc_count = $("._success_count", this.parent).eq(0);
+        this._err_count = $("._error_count", this.parent).eq(0);
+        this._success_panel = $("._success_panel", this.parent).eq(0);
+        this._error_panel = $("._error_panel", this.parent).eq(0);
+        this._success_table = this.parent.attr("class") + "_success";
+        this._error_table = this.parent.attr("class") + "_error";
+    };
+    //将字符串值转换成JSON对象
+    Storage.prototype._trans_val = function (_table_key) {
+        var _obj = window.localStorage[_table_key];
+        if (typeof _obj != "undefined") {
+            if (_obj.length) {
+                var _json;
+                eval("_json=" + _obj);
+                return _json;
+            }
+            return null;
+        }
+        return null;
+    }
+    //渲染页面数据
+    Storage.prototype.RenderDataItem = function (_table_key, _key, _data) {
+        if (_table_key == this._success_table) {
+            var _temp_html = $(_suc_html);
+            _temp_html.text(_data).attr("_id", _key);
+            this._success_panel.append(_temp_html);
+        } else {
+            var _temp_html = $(_err_html);
+            var _temp_arr = _data.split("%");
+            _temp_html.attr("_id", _key).find("span").each(function (i, o) {
+                $(o).text(_temp_arr[i]);
+            });
+            this._error_panel.append(_temp_html);
+        }
+    }
+    //解析数据
+    Storage.prototype.AnalysisData = function (_data) {
+        if (!window.localStorage) {
+            alert("您所使用的浏览器不支持离线存储！");
+            return;
+        }
+        var _arr = _data.split(/[\s\r\n]/);
+        var _arr_success = [];
+        var _arr_error = [];
+        this._getMaxKey();
+        for (var i = 0, _len = _arr.length; i < _len; i++) {
+            _arr[i] = _arr[i].replace(/[^\dA-Za-z_]/g, "-");
+            if (/^[\d]+?_\d_\d{1,10}-\d+?(-\d+?)*$/.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            } else if (/^0_[\d]+?_\d_\d{1,10}-\d+?(-\d+?)*$/.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            } else if (/^\d+$/.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            } else if (/^4_\d+$/.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            } else {
+                _arr_error.push(_arr[i] + '%格式错误');
+            }
+        }
+        if (_arr_success.length) {
+            this.SetSuccessList(_arr_success);
+        }
+        if (_arr_error.length) {
+            this.SetErrorList(_arr_error);
+        }
+    }
+    //初始化未处理数据
+    Storage.prototype.InitOffLineData = function () {
+        var _suc_json = this._trans_val(this._success_table);
+        var _err_json = this._trans_val(this._error_table);
+        if (_suc_json != null) {
+            for (var _key in _suc_json) {
+                this.RenderDataItem(this._success_table, _key, _suc_json[_key]);
+            }
+            this._suc_count.text(this._success_panel.children().length);
+        }
+        if (_err_json != null) {
+            for (var _key in _err_json) {
+                this.RenderDataItem(this._error_table, _key, _err_json[_key]);
+            }
+            this._err_count.text(this._error_panel.children().length);
+        }
+    }
+    //获取最大键
+    Storage.prototype._getMaxKey = function () {
+        var _suc_json = this._trans_val(this._success_table);
+        var _err_json = this._trans_val(this._error_table);
+        var _temp_arr = [];
+        if (_suc_json != null) {
+            for (var _key in _suc_json) {
+                _temp_arr.push(_key);
+            }
+        }
+        if (_err_json != null) {
+            for (var _key in _err_json) {
+                _temp_arr.push(_key);
+            }
+        }
+        for (var i = 0, _len = _temp_arr.length; i < _len; i++) {
+            if (!/^\d+$/.test(_temp_arr[i])) {
+                _temp_arr[i] = "0";
+            }
+        }
+        if (_temp_arr.length) {
+            this._max_key = parseInt(Math.max.apply(null, _temp_arr));
+        }
+    }
+    //设置一系列正确数据键值对
+    Storage.prototype.SetSuccessList = function (_array) {
+        var _json = this._trans_val(this._success_table);
+        if (_json == null) {
+            _json = {};
+        }
+        if (_array.length) {
+            var _temp_json = {};
+            this._getMaxKey();
+            for (var i = 1, _len = _array.length; i <= _len; i++) {
+                _temp_json["" + (i + this._max_key)] = _array[i - 1];
+                this.RenderDataItem(this._success_table, this._max_key + i, _array[i - 1]);
+            }
+            for (var _key in _temp_json) {
+                _json[_key] = _temp_json[_key];
+            }
+        }
+        this._suc_count.text(this._success_panel.children().length);
+        window.localStorage[this._success_table] = this._to_string.json2str(_json);
+    }
+    //设置错误单个数据视图
+    Storage.prototype.SeSuccessItemView = function (_key, _data) {
+        var _is_exits = false;
+        this._success_panel.children().each(function (i, o) {
+            if ($(o).attr("_id") == _key) {
+                _is_exits = true;
+                $(o).text(_data);
+                return false;
+            }
+        });
+        if (!_is_exits) {
+            this.RenderDataItem(this._success_table, _key, _data);
+        }
+    }
+    //设置正确数据键值对
+    Storage.prototype.SetSuccess = function (_key, _value) {
+        var _json = this._trans_val(this._success_table);
+        if (_json == null) {
+            _json = {};
+        }
+        if (typeof _value == "number" || typeof _value == "string") {
+            _json["" + _key] = _value;
+        } else {
+            _json["" + _key] = this._to_string.json2str(_value);
+        }
+        this.SeSuccessItemView(_key, _value);
+        this._suc_count.text(this._success_panel.children().length);
+        window.localStorage[this._success_table] = this._to_string.json2str(_json);
+    }
+    //获取正确数据键值对
+    Storage.prototype.GetSuccess = function (_key) {
+        var _json = this._trans_val(this._success_table);
+        if (_json != null) {
+            if (typeof _json["" + _key] != "undefined") {
+                return _json["" + _key];
+            }
+            return null;
+        }
+        return null;
+    }
+    //删除正确数据键值对
+    Storage.prototype.RemoveSuccess = function (_key) {
+        var _json = this._trans_val(this._success_table);
+        if (_json != null) {
+            if (typeof _json["" + _key] != "undefined") {
+                delete _json["" + _key];
+                window.localStorage[this._success_table] = this._to_string.json2str(_json);
+                this.RemoveSuccessViewItem("" + _key);
+                return true;
+            }
+            return false;
+        }
+        return false
+    }
+    //清除正确数据所有键值对
+    Storage.prototype.ClearSuccess = function () {
+        window.localStorage.removeItem(this._success_table);
+        this.ClearSuccessViewItem();
+        return true;
+    }
+    //删除正确数据视图
+    Storage.prototype.RemoveSuccessViewItem = function (_key) {
+        var _this = this;
+        this._success_panel.children().each(function (i, o) {
+            if ($(o).attr("_id") == _key) {
+                $(o).remove();
+                _this._suc_count.text(_this._success_panel.children().length);
+                return false;
+            }
+        });
+    }
+    //清除正确数据所有视图
+    Storage.prototype.ClearSuccessViewItem = function () {
+        this._success_panel.empty();
+        this._suc_count.text(0);
+    }
+    //设置一系列错误数据键值对
+    Storage.prototype.SetErrorList = function (_array) {
+        var _json = this._trans_val(this._error_table);
+        if (_json == null) {
+            _json = {};
+        }
+        if (_array.length) {
+            var _temp_json = {};
+            this._getMaxKey();
+            var _max_key = this._getMaxKey();
+            for (var i = 1, _len = _array.length; i <= _len; i++) {
+                _temp_json["" + (i + this._max_key)] = _array[i - 1];
+                this.RenderDataItem(this._error_table, this._max_key + i, _array[i - 1]);
+            }
+            for (var _key in _temp_json) {
+                _json[_key] = _temp_json[_key];
+            }
+        }
+        this._err_count.text(this._error_panel.children().length);
+        window.localStorage[this._error_table] = this._to_string.json2str(_json);
+    }
+    //设置错误单个数据视图
+    Storage.prototype.SetErrorItemView = function (_key, _data) {
+        var _is_exits = false;
+        this._error_panel.children().each(function (i, o) {
+            if ($(o).attr("_id") == _key) {
+                _is_exits = true;
+                var _temp_arr = _data.split("%");
+                $(o).find("span").each(function (i, o) {
+                    $(o).text(_temp_arr[i]);
+                });
+                return false;
+            }
+        });
+        if (!_is_exits) {
+            this.RenderDataItem(this._error_table, _key, _data);
+        }
+    }
+    //设置错误数据键值对
+    Storage.prototype.SetError = function (_key, _value) {
+        var _json = this._trans_val(this._error_table);
+        if (_json == null) {
+            _json = {};
+        }
+        if (typeof _value == "number" || typeof _value == "string") {
+            if (arguments.length > 2) {
+                _json["" + _key] = _value + "%" + arguments[2];
+            } else {
+                _json["" + _key] = _value;
+            }
+        } else {
+            _json["" + _key] = this._to_string.json2str(_value);
+        }
+        this.SetErrorItemView(_key, _json["" + _key]);
+        this._err_count.text(this._error_panel.children().length);
+        window.localStorage[this._error_table] = this._to_string.json2str(_json);
+    }
+    //获取错误数据键值对
+    Storage.prototype.GetError = function (_key) {
+        var _json = this._trans_val(this._error_table);
+        if (_json != null) {
+            if (typeof _json["" + _key] != "undefined") {
+                return _json["" + _key];
+            }
+            return null;
+        }
+        return null;
+    }
+    //删除错误数据键值对
+    Storage.prototype.RemoveError = function (_key) {
+        var _json = this._trans_val(this._error_table);
+        if (_json != null) {
+            if (typeof _json["" + _key] != "undefined") {
+                delete _json["" + _key];
+                window.localStorage[this._error_table] = this._to_string.json2str(_json);
+                this.RemoveErrorViewItem("" + _key);
+                return true;
+            }
+            return false;
+        }
+        return false
+    }
+    //清除错误数据所有键值对
+    Storage.prototype.ClearError = function () {
+        window.localStorage.removeItem(this._error_table);
+        this.ClearErrorViewItem();
+        return true;
+    }
+    //删除错误数据视图
+    Storage.prototype.RemoveErrorViewItem = function (_key) {
+        this._error_panel.children().each(function (i, o) {
+            if ($(o).attr("_id") == _key) {
+                $(o).remove();
+                return false;
+            }
+        });
+    }
+    //清除错误数据所有视图
+    Storage.prototype.ClearErrorViewItem = function () {
+        this._error_panel.empty();
+        this._err_count.text(0);
+    }
+    //上传条码
+    Storage.prototype.Upload_barcode = function () {
+        if (parseInt(this._suc_count.text()) > 0) {
+            var _ele = this._success_panel.children().eq(0);
+            var _key = _ele.attr("_id");
+            var _value = _ele.text().replace(/\s/g, "");
+            var _this = this;
+            _show_loading();
+            $.ajax({
+                type: "get",
+                url: "/ERPprocess/submitBarCode",
+                data: { barCode: _value, group: $("._opacity_select").val() },
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        if (!_this.RemoveSuccess(_key)) {
+                            _this._is_uploading = false;
+                            alert("请刷新重试！");
+                            return;
+                        }
+                        _this.RemoveSuccess(_key)
+                        if (response.data) {
+                            if (response.data.BarCodeType == 1) {
+                                var con = $('._check_con');
+                                con.fadeIn();
+                                var tr = $('._list_table tbody tr', con);
+                                tr.children().eq(0).text(response.data.OrderNumber);
+                                tr.children().eq(1).text(response.data.OrderStyleNo);
+                                tr.children().eq(2).text(response.data.OrderStylePo);
+                                tr.children().eq(3).text(response.data.PackageNumber);
+                                tr.children().eq(4).text(response.data.Size);
+                                tr.children().eq(5).text(response.data.Color);
+                                tr.children().eq(6).text(response.data.Quantity);
+                                tr.children().eq(7).text(response.data.PassedQuantity);
+                                tr.children().eq(8).text(response.data.Quantity - response.data.PassedQuantity);
+                                tr.attr("pid", response.data.PackageId);
+                                _this._is_uploading = false;
+                            } else if (response.data.BarCodeType == 2) {
+                                var con = $('._store_con');
+                                con.fadeIn();
+                                var tr = $('._list_table tbody tr', con);
+                                tr.children().eq(0).text(response.data.OrderNumber);
+                                tr.children().eq(1).text(response.data.OrderStyleNo);
+                                tr.children().eq(2).text(response.data.OrderStylePo);
+                                tr.children().eq(3).text(response.data.PackageNumber);
+                                tr.children().eq(4).text(response.data.Size);
+                                tr.children().eq(5).text(response.data.Color);
+                                tr.children().eq(6).text(response.data.Quantity);
+                                tr.attr("pid", response.data.PackageId);
+                                _this._is_uploading = false;
+                            }
+                        } else {
+                            _this.Upload_barcode();
+                        }
+                    } else {
+                        _this.SetError(_key, _this.GetSuccess(_key), response.message);
+                        _this.RemoveSuccess(_key);
+                        _this.Upload_barcode();
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    _this._is_uploading = false;
+                    alert("网络异常，请刷新重试！");
+                }
+            });
+        } else {
+            this._is_uploading = false;
+            alert("上传完毕！");
+        }
+    }
+    //绑定事件
+    Storage.prototype.OnEvent = function () {
+        var parent = this.parent;
+        var _this = this;
+        //录入清空
+        $("._input_empty", parent).on("click", function () {
+            $("._input_vals", parent).val("");
+        });
+        //解析
+        $("._analysis_btn", parent).on("click", function () {
+            _show_loading();
+            var _input_data = $("._input_vals", parent).val().replace(/(^[\r\n\s]*)|([\r\n\s]*$)/g, "");
+            if (_input_data != "") {
+                _this.AnalysisData(_input_data);
+                $("._input_vals", parent).val("");
+                _hide_loading();
+            } else {
+                _hide_loading();
+                alert("没有可正确解析的数据！");
+            }
+        });
+        //正确数据清空
+        $("._empty_success", parent).on("click", function () {
+            if (parseInt(_this._suc_count.text()) > 0) {
+                if (confirm("你确定要删除这些还未上传的数据？")) {
+                    _show_loading()
+                    _this.ClearSuccess();
+                    _hide_loading();
+                }
+            }
+        });
+        //错误数据清空
+        $("._empty_error", parent).on("click", function () {
+            if (parseInt(_this._err_count.text()) > 0) {
+                if (confirm("你确定不修改这些错误数据，而是接删除？")) {
+                    _show_loading()
+                    _this.ClearError();
+                    _hide_loading();
+                }
+            }
+        });
+        //上传正确数据
+        $("._upload_data_btn", parent).on("click", function () {
+            //if (confirm("确定在 " + $("._select_text").text() + " 中上传数据吗？")) {
+            if (confirm("确定上传数据吗？")) {
+                if (!_this._is_uploading) {
+                    if (parseInt(_this._suc_count.text()) > 0) {
+                        _this._is_uploading = true;
+                        _this.Upload_barcode();
+                    } else {
+                        alert("没有可上传的条码！");
+                    }
+                } else {
+                    alert("正在上传中……");
+                }
+            }
+        });
+    }
+    //大货数据对象
+    function LargeStorage(parent) {
+        Storage.call(this, parent);
+    }
+    LargeStorage.prototype = new Storage();
+    LargeStorage.prototype.AnalysisData = function (_data) {
+        if (!window.localStorage) {
+            alert("您所使用的浏览器不支持离线存储！");
+            return;
+        }
+        var _arr = _data.split(/[\s\r\n]/);
+        var _arr_success = [];
+        var _arr_error = [];
+        this._getMaxKey();
+        var packge_regx = /^1_(\d+)_(\d+)_(\d+)_(\d+)$/; //工序
+        var employe_regx = /^3_(\d+)$/;                                   //员工
+        var extra_regx = /^2_(\d+)$/;                                          //额外工序
+        for (var i = 0, _len = _arr.length; i < _len; i++) {
+            _arr[i] = _arr[i].replace(/[^\dA-Za-z_]/g, "-");
+            if (packge_regx.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            }
+            else if (employe_regx.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            } else if (extra_regx.test(_arr[i])) {
+                _arr_success.push(_arr[i]);
+            } else {
+                _arr_error.push(_arr[i] + '%格式错误');
+            }
+        }
+        if (_arr_success.length) {
+            this.SetSuccessList(_arr_success);
+        }
+        if (_arr_error.length) {
+            this.SetErrorList(_arr_error);
+        }
+    }
+    //上传条码
+    LargeStorage.prototype.Upload_barcode = function () {
+        if (parseInt(this._suc_count.text()) > 0) {
+            this._is_uploading = false;
+            var data_list = [];
+            this._success_panel.children().each(function (k, v) {
+                data_list.push($(v).text());
+            });
+            var jsonData = JSON.stringify(data_list);
+            var _this = this;
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPSalary/preSubmitBarCode",
+                data: jsonData,
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        _this._success_panel.empty();
+                        _this.Preview(response.data.BarCodeInfos);
+                        _this.ErrorPanel(response.data.ErrorMessages);
+                        _this._suc_count.text("0")
+                        _this.ClearSuccess();
+
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常，请刷新重试！");
+                }
+            });
+        }
+    }
+    //预览
+    LargeStorage.prototype.Preview = function (data) {
+        var tbody = $('.updated_con tbody');
+        tbody.empty();
+        for (var i = 0; i < data.length; i++) {
+            //var suc = $(suc_item).clone();
+            //data[i].IsExtraStepCode && suc.text("订单号:" + data[i].OrderNumber + " 款号:" + data[i].OrderPoNo + " 批次号:" + data[i].OrderStyleNo + " 工序号:" + data[i].WorkstepNo + " 数量:" + data[i].ItemsQuantity + "").attr("BarCode", data[i].BarCode) || suc.text("订单号:" + data[i].OrderNumber + " 款号:" + data[i].OrderPoNo + " 批次号:" + data[i].OrderStyleNo + " 床号:" + data[i].BedNo + "包:" + data[i].PackageNo + " 工序号:" + data[i].WorkstepNo + " 数量:" + data[i].ItemsQuantity + "").attr("BarCode", data[i].BarCode);
+            //suc_con.append(suc);
+            var gx_tr = $(gongxu_item).clone();
+            gx_tr.children().eq(0).text(data[i].OrderNumber);
+            gx_tr.children().eq(1).text(data[i].OrderStyleNo);
+            gx_tr.children().eq(2).text(data[i].OrderPoNo);
+            !data[i].IsExtraStepCode&&gx_tr.children().eq(3).text(data[i].BedNo);
+            !data[i].IsExtraStepCode && gx_tr.children().eq(4).text(data[i].PackageNo);
+            gx_tr.children().eq(5).text(data[i].WorkstepNo);
+            gx_tr.children().eq(6).text(data[i].ItemsQuantity);
+            gx_tr.attr("BarCode", data[i].BarCode);
+            tbody.append(gx_tr);
+            var tr = $(black_tr).clone();
+            var text="";
+            for (var j = 0; j < data[i].Users.length; j++) {
+                text += "员工 : " + data[i].Users[j].Name + " 数量 : " + data[i].Users[j].Quantity+"        ";
+            }
+            tr.children().html(text);
+            tbody.append(tr);
+        }
+    }
+    LargeStorage.prototype.ErrorPanel = function (data) {
+        for (var i = 0; i < data.length; i++) {
+            var ero = $(_err_html).clone();
+            ero.children('._code').text(data[i].BarCode);
+            ero.children('._code_text').text(data[i].Message);
+            this._error_panel.append(ero);
+        }
+    }
+</script>
+<script>
+    var normas_item = '  <div class="normas_item _clear_panel">                                                                                                                                           \
+                                                <a href="javascript:;" class="bag_click"><span class="info"></span><span class="icon"></span></a>                                                  \
+                                                <div class="code_con">                                                                                                                                                                            \
+                                                </div>                                                                                                                                                                                                              \
+                                            </div>';
+    var code_item = '<div class="code" code="" title=""></div>';
+    var emp_item = '<tr>                                                                                                                                                                                     \
+                                        <td>1234</td>                                                                                                                                                              \
+                                        <td>老王</td>                                                                                                                                                             \
+                                        <td><input type="text" placeholder="请输入数量" class="_input_area "></td>                           \
+                                        <td><a href="javascript:;" class="dele">×</a></td>                                                                                    \
+                                    </tr>';
+    var em_list = [];//员工集合
+    var current_quantity = 0;//当前总数
+    var store;
+    var gongxu_item = '  <tr class="gongxu_item">                                             \
+                                                <td></td>                               \
+                                                <td></td>                               \
+                                                <td></td>                               \
+                                                <td></td>                               \
+                                                <td></td>                               \
+                                                <td></td>                               \
+                                                <td></td>                               \
+                                            </tr>';
+    var black_tr = '<tr class="employ"><td colspan="7" ></td></tr>';
+    $(document).ready(function () {
+        //初始数据展示
+        if (window.localStorage) {
+            store = new Storage('.partment_con');
+            store.InitOffLineData();
+            new LargeStorage('.large_order').InitOffLineData();
+        } else {
+            alert("您的浏览器不支持本地数据存储，请更换成chrome、firefox、或者IE9+  ！");
+        }
+        //展开包
+        $('.normas_con').on("click", ".bag_click", function () {
+            $(this).toggleClass('open').next().slideToggle();
+        });
+        //工序选择事件
+        $('.normas_con').on('click', '.code_con .code', function (e) {
+            e = e || event;
+            if (e.ctrlKey) {
+                var si = $(start).index(), ti = $(this).index();
+                var sel = $(this).parent().children().slice(Math.min(si, ti), Math.max(si, ti) + 1);
+                sel.addClass("cur");
+            } else if (e.shiftKey) {
+                var si = $(start).index(), ti = $(this).index();
+                var sel = $(this).parent().children().slice(Math.min(si, ti), Math.max(si, ti) + 1);
+                sel.removeClass("cur");
+            } else {
+                start = this;
+                if ($(this).hasClass("cur")) {
+                    $(this).removeClass("cur");
+                } else {
+                    $(this).addClass("cur");
+                }
+            }
+            //var chosen_index = "";
+            //$('.normas_pan .cur').each(function (k, v) {
+            //    chosen_index += $(v).find('.normas_id').text() + ",";
+            //});
+            //$('.normas_set_con .chosen').empty().text(chosen_index.slice(0, chosen_index.length - 1));
+        });
+        //查询条码查询
+        $('.search_procedure').on("click", function () {
+            if ($('.repair_form .orderNumber').val() == "") {
+                alert("请输入订单号");
+                return;
+            }
+            if ($('.repair_form .styleNo').val() == "") {
+                alert("请输入款号");
+                return;
+            }
+            var _data = $('.repair_form').serialize();
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPBigOrder/QueryBarCodeJsonData?" + _data,
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        getProceList(response.data);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        //展示查询条码
+        function getProceList(data) {
+            $('._normas_con').show().find(' .normas_con').empty();
+            for (var i = 0; i < data.length; i++) {
+                var item = $(normas_item).clone();
+                item.children('.bag_click ').children(".info").text(data[i].title);
+                for (j = 0; j < data[i].data.length; j++) {
+                    var code = $(code_item).clone();
+                    code.text(data[i].data[j].name).attr({ "code": data[i].data[j].code, "title": data[i].data[j].name });
+                    item.children(".code_con").append(code);
+                }
+                $('.normas_con').append(item);
+            }
+        }
+        //定制生产线事件
+        $(".department").on("change", function () {
+            $(this).parents('.partment_con').children('.bar_code_con').fadeIn();
+        });
+        //定制大货切换
+        $(".po_menu").on("click", "a", function () {
+            var _this = $(this);
+            _this.addClass("cur");
+            _this.parent().siblings().children().removeClass("cur");
+            var index = _this.parent().index();
+            if (index == 0) {
+                $('.partment_con').show();
+                $('.large_order').hide();
+            } else {
+                $('.large_order').show();
+                $('.partment_con').hide();
+            }
+        });
+        //查询员工显示name
+        $('.search_emNo').on("click", function () {
+            var name = $('.emNo').val();
+            if (!name) {
+                alert("请输入工号");
+                return;
+            }
+            var _this = $(this);
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPemployer/GetEmployerInfo?employeeNo=" + name,
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        $('.large_order ._input_vals').val($('.large_order ._input_vals').val() + response.data.BarCode + "\n");
+                        _this.parent().next().children('label').text(" 扫码数据：" + response.data.BarCode).parent().next().children('label').text(" 姓名：" + response.data.Name)
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        //查询员工信息
+        $('.search_emp').on("click", function () {
+            var name = $('.em_name').val();
+            if (!name) {
+                alert("请输入工号");
+                return;
+            }
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPemployer/GetEmployerInfo?employeeNo=" + name,
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        addEmp(response.data);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        //查询员工添加到表格
+        function addEmp(data) {
+            for (var i = 0; i < em_list.length; i++) {
+                if (data.Id == em_list[i]) {
+                    alert(data.Name + " 已经存在");
+                    return;
+                }
+            }
+            var em = $(emp_item).clone();
+            em.children().eq(0).text(data.EmployeeNo);
+            em.children().eq(1).text(data.Name);
+            em.attr("_id", data.Id);
+            $('._edit_con tbody').append(em);
+            em_list.push(data.Id);
+        }
+        //删除一条员工
+        $('._edit_con tbody').on("click", ".dele", function () {
+            $(this).parents("tr").remove();
+        });
+        //确认改变数量
+        $('._edit_con').on("click", ".change_btn", function () {
+            var list_table = $('._edit_con ._list_table tbody');
+            var total_num = 0;
+            var _data = {};
+            _data.BarCode = list_table.parent().prevAll('.title').attr('barcode');
+            _data.Items = [];
+            var isok = false;
+            list_table.find('._input_area ').each(function (k, v) {
+                var number = parseInt($(v).val());
+                if (!number) {
+                    alert("请输入分配数量");
+                    isok = true;
+                    return false;
+                }
+                total_num += number;
+                var item = {};
+                item.WorkstepScanLogId = $(v).parents("tr").attr("logId");
+                item.UserId = $(v).parents("tr").attr("_id");
+                item.Quantity = number;
+                _data.Items.push(item);
+            });
+            if (isok) return;
+            if (total_num > current_quantity) {
+                alert("分配的数量超出可分配数量");
+                return;
+            }
+            if (total_num < current_quantity) {
+                if(!confirm("可分配数量还未分配完,是否提交?"))
+                return;
+            }
+            if (_data.Items.length < 1) {
+                return;
+            }
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPSalary/submitScanBarCode",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(_data),
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        alert("修改成功");
+                        $('._pop_close').trigger('click');
+                        em_list = [];
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        //获取工序对应员工信息
+        $('.updated_con').on("click", '.gongxu_item', function () {
+            var code = $(this).attr("BarCode");
+            var _this = this;
+            $.ajax({
+                type: "get",
+                url: "/ERPSalary/GetBarcodeInfo",
+                dataType: "json",
+                contentType: "application/json",
+                data: { "barcode": code },
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        showUpdatecon(response.data.Users)
+                        current_quantity = response.data.ItemsQuantity;
+                        $('._edit_con').show().find('.title').attr("BarCode", code).html("工序号：" + response.data.WorkstepNo + "&nbsp;&nbsp;&nbsp;&nbsp;工序名称：" + response.data.WorkstepName + "&nbsp;&nbsp;&nbsp;&nbsp;可分配数量：" + response.data.ItemsQuantity);
+                        $('.em_name').val('');
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        //展示工序对应员工信息
+        function showUpdatecon(data) {
+            var list_table = $('._edit_con ._list_table tbody');
+            list_table.empty();
+            for (var j = 0; j < data.length; j++) {
+                var em = $(emp_item).clone();
+                em.children().eq(0).text(data[j].EmployeeNo);
+                em.children().eq(1).text(data[j].Name);
+                em.children().eq(2).children().val(data[j].Quantity);
+                em.attr({ "_id": data[j].UserId, "logId": data[j].WorkstepLogId });
+                list_table.append(em);
+                em_list.push(data[j].UserId);
+            }
+        }
+        //查询条码取消
+        $('.repair_cancle').on("click", function () {
+            $('._pop_close').trigger('click');
+            em_list = [];
+        });
+        //查询条码确定
+        $('.repair_btn').on("click", function () {
+            var text = "";
+            $('.normas_con .code_con .cur').each(function (k, v) {
+                text += $(v).attr('code') + "\n";
+            });
+            $('.large_order ._input_vals').val($('.large_order ._input_vals').val() + text);
+            $('._pop_close').trigger('click');
+        });
+        //成品质检保存
+        $('._check_con').on("click", '.save_check', function () {
+            var tr = $(this).parent().prev().find('tbody').children();
+            var num = tr.children().eq(9).children().val();
+            if (!num) {
+                alert("请输入质检数量");
+                return;
+            }
+            var total = tr.children().eq(6).text();
+            var passed = tr.children().eq(7).text();
+            if (total - passed<num) {
+                alert("数量已超过未通过质检数量");
+                return;
+            }
+            var packageId = tr.attr("pid");
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPprocess/BigOrderCheckProcessAssignQuantity",
+                data: { "passQuantity": num, "packageId": packageId, "group": $("._opacity_select").val() },
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        tr.children().eq(9).children().val('');
+
+                        $('._check_con').fadeOut();
+                        store._is_uploading = true;
+                        store.Upload_barcode();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        $('._check_con').on("click", '.cancle_check', function () {
+            $('._check_con').fadeOut();
+            store._is_uploading = true;
+            store.Upload_barcode();
+        });
+        //成品入库保存
+        $('._store_con').on("click", '.save_store', function () {
+            var tr = $(this).parent().prev().find('tbody').children();
+            var num = tr.children().eq(7).children().val();
+            if (!num) {
+                alert("请输入入库数量");
+                return;
+            }
+            var total = parseInt(tr.children().eq(6).text());
+            if (total  < num) {
+                alert("数量已超过入库总数");
+                return;
+            }
+            var packageId = tr.attr("pid");
+            _show_loading();
+            $.ajax({
+                type: "post",
+                url: "/ERPprocess/BigOrderPackageInbound",
+                data: { "inboundQuantity": num, "packageId": packageId, "group": $("._opacity_select").val() },
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        tr.children().eq(7).children().val('');
+
+                        $('._store_con').fadeOut();
+                        store._is_uploading = true;
+                        store.Upload_barcode();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常！");
+                }
+            });
+        });
+        $('._store_con').on("click", '.cancle_store', function () {
+            $('._store_con').fadeOut();
+            store._is_uploading = true;
+            store.Upload_barcode();
+        });
+    });
+</script>

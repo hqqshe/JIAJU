@@ -1,0 +1,57 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<SalayDetail> salayDetailList = ViewBag.salayDetailList;
+}
+<div>
+    <div class="_search_head">
+        <div class="_search_time">统计日期：<span></span></div>
+        <table class="_head_table">
+            <thead>
+                <tr>
+                    <td>订单数量</td>
+                    <td>工序数量</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@ViewBag.orderCount</td>
+                    <td>@ViewBag.processCount</td>
+                </tr>
+            </tbody>
+        </table>
+    </div><div class="_list_table_render">
+        <table class="_list_table">
+            <thead>
+                <tr>
+                    <td>生产编号</td>
+                    <td>异型</td>
+                    <td>数量</td>
+                    <td>工序</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (salayDetailList.Count > 0)
+                {
+                    for (int i = 0; i < salayDetailList.Count; i++)
+                    {
+                        for (int k = 0; k < salayDetailList[i].processList.Count; k++)
+                        {
+                            <tr>
+                                <td>@salayDetailList[i].produce_id</td>
+                                <td>@(salayDetailList[i].yi_xing == 0 ? "否" : "是")</td>
+                                <td>@salayDetailList[i].processList[k].number</td>
+                                <td>@salayDetailList[i].processList[k].step_name</td>
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">没有查询到相关数据！</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

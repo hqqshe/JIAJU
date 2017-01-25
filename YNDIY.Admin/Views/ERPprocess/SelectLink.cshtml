@@ -1,0 +1,33 @@
+﻿@using YNDIY.API.Models;
+@{
+    ViewBag.Title = "SelectLink";
+    Layout = "~/Views/Shared/ProcessTemplate.cshtml";
+    List<FactoryProcess> processList = ViewBag.processList;
+}
+<link href="~/Content/css/ERPCSS/process/selectLink.css" rel="stylesheet" />
+<div class="sign_select">请选择当前环节</div>
+<div class="process_panel">
+    @for (int i = 0; i < processList.Count; i++)
+{
+    <a href="/ERPprocess/Sweep?factoryProcedureId=@processList[i].factoryProcedureId&factoryProcedureName=@processList[i].factoryProcedureName&stepName=@processList[i].stepName" class="process_item _left">
+        <div class="process_super">
+            <div class="process_title">@processList[i].factoryProcedureName</div>
+            <div class="process_letter">环节：<span>@processList[i].stepName</span></div>
+        </div>
+    </a>
+}
+</div>
+<script>
+
+    var tag = $(".process_super");
+    var len = tag.length;
+    for (var i = 0; i < len; i++) {
+        (i % 4 == 1 || i % 4 == 2) ? change0(i) : change1(i);
+    }
+    function change0(i) {
+        tag.eq(i).css({ "background": "#fefefe" })
+    }
+    function change1(i) {
+        tag.eq(i).css({ "background": "#fbfbfe" })
+    }
+</script>

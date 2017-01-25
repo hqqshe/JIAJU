@@ -1,0 +1,119 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNFactoryOrder> orderList = ViewBag.orderList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+    JavaScriptSerializer js = new JavaScriptSerializer();
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>订单号</td>
+            <td>生产编号</td>
+            <td>创建日期</td>
+            <td>交货日期</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>数量</td>
+            <td>进度</td>
+            <td>是否延期</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (orderList.Count>0)
+        {
+            for (var i = 0; i < orderList.Count; i++)
+            { 
+            <tr>
+                <td>
+                    @if (orderList[i].factory_order_status == YNDIY.API.Controllers.FactoryOrderController.factory_order_status0)
+                    {
+                         if (orderList[i].yi_xing_state == YNDIY.API.Controllers.FactoryOrderController.yixing_state1)
+                         {
+                             <a href="/MaterialAudit/SchedulingOrderDetail?orderId=@orderList[i].id" target="_blank">@orderList[i].order_id</a>
+                         }
+                         else
+                         {
+                             <a href="/MaterialAudit/SpecialDetail?orderId=@orderList[i].id" target="_blank">@orderList[i].order_id</a>
+                         }
+                    }
+                    else
+                    {
+                        <a href="/ERPOrder/OrderDetail?id=@orderList[i].id" target="_blank">@orderList[i].order_id</a>
+                    }
+                </td>
+                <td>@orderList[i].produce_id</td>
+                <td>@orderList[i].create_time.ToString("yyyy-MM-dd")</td>
+                <td>@orderList[i].factory_delivery_day.ToString("yyyy-MM-dd")</td>
+                <td>@orderList[i].model_name</td>
+                <td>@orderList[i].format</td>
+                <td>@orderList[i].color</td>
+                <td>@orderList[i].number<span>@(orderList[i].unit == 0 ? "套" : orderList[i].unit == 1 ? "件" : orderList[i].unit == 2 ? "把" : orderList[i].unit == 3 ? "个" : "张")</span></td>
+                @if (orderList[i].factory_order_status == YNDIY.API.Controllers.FactoryOrderController.factory_order_status0)
+                {
+                        if (orderList[i].material_state == 0)
+                        {
+                            if (orderList[i].yi_xing_state == 1)
+                            {
+                                <td>等待原材料审核</td>
+                            }
+                            else
+                            {
+                                <td>等待异形订单审核</td>
+                            }
+                        }
+                        else if (orderList[i].material_state == 1)
+                        {
+                            <td>缺原材料</td>
+                        }
+                        else
+                        {
+                            <td>等待排产</td>
+                        }
+                }
+                else if (orderList[i].factory_order_status == YNDIY.API.Controllers.FactoryOrderController.factory_order_status1)
+                {
+                    if (orderList[i].storage_in == orderList[i].number)
+                    {
+                            <td><span style="color:red">已完成入库，需扫码</span></td>
+                    }
+                    else
+                    {
+                        <td><span style="color:green">生产中</span></td>
+                    }
+                }
+                else if (orderList[i].factory_order_status == YNDIY.API.Controllers.FactoryOrderController.factory_order_status2)
+                {
+                    if (orderList[i].number == orderList[i].storage_out)
+                    {
+                        <td>订单已完成</td>
+                    }
+                    else
+                    {
+                        <td>生产已完成</td>
+                    }
+                }
+                else if (orderList[i].factory_order_status == YNDIY.API.Controllers.FactoryOrderController.factory_order_status99)
+                {
+                    <td>已停止</td>
+                }
+                @if ((orderList[i].storage_out < orderList[i].number) && orderList[i].factory_delivery_day < DateTime.Now.Date.AddDays(-1))
+                {
+                    <td><span style="color:red">已延期</span></td>
+                }
+                else
+                {
+                    <td><span style="color:green">未延期</span></td>
+                }
+            </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="10" class="_none_list_data">抱歉！没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

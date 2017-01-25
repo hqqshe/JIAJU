@@ -1,0 +1,158 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+    List<YNBanShiProduct> product_list = ViewBag.product_list;
+    List<int> plan_lock = ViewBag.plan_lock;
+    List<YNBanShiBrand> brand_list = ViewBag.brand_list;
+    JavaScriptSerializer js = new JavaScriptSerializer();
+    YNDIY.API.Controllers.ProductController product_ctrl = ViewBag.product_ctrl;
+    YNDIY.API.Controllers.FactoryStorageOutController out_ctrl = new YNDIY.API.Controllers.FactoryStorageOutController();
+    int factory_id = ViewBag.factory_id;
+    YNDIY.API.Controllers.InventoryController inventory_ctrl = new YNDIY.API.Controllers.InventoryController();
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            @*<td>序号</td>*@
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>包号</td>
+            @*<td>总入库数量</td>*@
+            <td>未锁数量</td>
+            <td>锁定数量</td>
+            <td>出库计划锁定</td>
+            <td>库存总量</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+@if (product_list.Count > 0)
+{
+    for (int i = 0; i < product_list.Count; i++)
+    {
+        YNBanShiBrand brand = brand_list.FirstOrDefault(f => f.id == product_list[i].brand_id);
+        if (!String.IsNullOrEmpty(product_list[i].package_info))
+        {
+            YNInventory entity = inventory_ctrl.GetInventoryByProductId(factory_id, product_list[i].id);
+            List<ProductPackage> package_list = js.Deserialize<List<ProductPackage>>(product_list[i].package_info);
+            if (package_list.Count > 0) {
+                for (var j = 0; j < package_list.Count; j++)
+                {
+                    int minus_count = 0;
+                    if (package_list[j].relation_id == 0) {
+                        if (entity != null)
+                        {
+                            List<ProductPackage> temp_package_list = js.Deserialize<List<ProductPackage>>(entity.package_info);
+                            for (var m = 0; m < temp_package_list.Count; m++)
+                            {
+                                if (temp_package_list[m].packageNumber == package_list[j].packageNumber && package_list[j].relation_id == 0)
+                                {
+                                    minus_count = temp_package_list[j].number;
+                                    break;
+                                }
+                            }
+                        } 
+                        <tr>
+                            <td _id="@product_list[i].brand_id">@brand.name</td>
+                            <td>@product_list[i].produce_name</td>
+                            <td>@product_list[i].model_name</td>
+                            <td>@product_list[i].format</td>
+                            <td>@product_list[i].color</td>
+                            <td>@package_list[j].packageNumber</td>
+                            <td>@package_list[j].number</td>
+                            <td>@package_list[j].lockNumber</td>
+                            <td>@plan_lock[i]</td>
+                            @if (entity != null && minus_count != 0) 
+                            { 
+                            <td>@(package_list[j].number + package_list[j].lockNumber + plan_lock[i] - minus_count) <span class="scrap">@(package_list[j].number + package_list[j].lockNumber + plan_lock[i])</span></td>
+                            }
+                            else
+                            { 
+                            <td>@(package_list[j].number + package_list[j].lockNumber + plan_lock[i])</td>
+                            }
+                            <td>
+                                @*<a href="javascript:void(0);" class="edit_store" _id="@product_list[i].id" _package_num="@package_list[j].packageNumber">调拨库存</a>*@
+                                <a href="javascript:void(0);" class="allot" _id="@product_list[i].id">盘点</a>
+                            </td>
+                        </tr>
+                    }
+                    else 
+                    {
+                        YNBanShiProduct product = product_ctrl.GetProductById(factory_id, package_list[j].relation_id);
+                        if (product != null)
+                        {
+                            //查询未出库的计划数量
+                            List<YNStorageOut> out_plan_list = out_ctrl.GetNotOutPlanListByProduct(factory_id, product_list[i].id);
+                            int temp_count = 0;
+                            for (var n = 0; n < out_plan_list.Count; n++)
+                            {
+                                temp_count += out_plan_list[n].out_num;
+                                temp_count += out_plan_list[n].out_lock_num;
+                            }
+                            brand = brand_list.FirstOrDefault(f => f.id == product.brand_id);
+                            <tr>
+                                <td _id="@product.brand_id">@brand.name</td>
+                                <td>@product.produce_name</td>
+                                <td>@product.model_name</td>
+                                <td>@product.format</td>
+                                <td>@product.color</td>
+                                <td>@package_list[j].packageNumber</td>
+                                <td>@product.total_avaible_num</td>
+                                <td>@product.toal_lock_num</td>
+                                <td>@temp_count</td>
+                                <td>@(product.toal_lock_num + product.total_avaible_num + temp_count)</td>
+                                <td>关联包</td>
+                            </tr>
+                        }
+                        else 
+                        { 
+                            <tr>
+                                <td colspan="5">该引用产品已不存在</td>
+                                <td colspan="6">@package_list[j].packageNumber</td>
+                            </tr>
+                        }
+                    }
+                }
+            }
+        }
+        else { 
+            <tr>
+                <td>@brand.name</td>
+                <td>@product_list[i].produce_name</td>
+                <td>@product_list[i].model_name</td>
+                <td>@product_list[i].format</td>
+                <td>@product_list[i].color</td>
+                <td colspan="6">未编辑包信息</td>
+            </tr>
+        }
+    }
+}
+else { 
+    <tr>
+        <td colspan="11">抱歉，没有查询到相关数据！</td>
+    </tr>
+}
+    </tbody>
+    <thead>
+        <tr>
+            @*<td>序号</td>*@
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>包号</td>
+            @*<td>总入库数量</td>*@
+            <td>未锁数量</td>
+            <td>锁定数量</td>
+            <td>出库计划锁定</td>
+            <td>库存总量</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+</table>
+@Html.Partial("page")

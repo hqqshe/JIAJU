@@ -1,0 +1,197 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "订单列表";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/order/OrderList"></script>
+}
+<div class="_clear_panel _search_banner " style="min-width: 1315px;*width:1315px">
+    <div class=" form_group">
+        <label>
+            交货日期：
+            <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <label>
+            至：
+            <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>逾期状态：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load" id="yanqi_status">
+                <option value="-1">全部</option>
+                <option value="1">已逾期</option>
+                <option value="0">未逾期</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>订单状态：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load" id="order_status">
+                <option value="-1">全部</option>
+                <option value="0">未出库</option>
+                <option value="1">部分出库</option>
+                <option value="2">全部出库</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>库存状态：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load" id="kucun_status">
+                <option value="-1">全部</option>
+                <option value="0">库存充足</option>
+                <option value="1">部分有货</option>
+                <option value="2">无货</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="客户名称/订单号/型号/产品名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+</div>
+<div class="_ajax_container" style="min-width:1800px;*width:1800px;"></div>
+@*<div class="ab_con">
+        <table class="_info_table">
+            <thead>
+                <tr>
+                    <td>包号</td>
+                    <td>锁定部件数量</td>
+                    <td>可出库数量</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>4</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>*@
+<!-- 出库计划面板-->
+<div class="_pop_window join_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 550px; height: 600px; margin-left: -300px; margin-top: -300px;">
+        <div class="_pop_title">
+            <span>出库计划</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>订单数量</td>
+                            <td>可计划数量</td>
+                            <td>预备出库</td>
+                            <td>已出库</td>
+                            <td>销售单可出库</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pop_con">
+                    <div class="form_item">
+                        <span class="tip">本次出库数量：</span>
+                        <input type="text" placeholder="请填写数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="    this.value = this.value.replace(/\D/g, '')">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">计划出库时间：</span>
+                        <input type="text" placeholder="计划出库时间" id="out_date">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">出库说明：</span>
+                        <input type="text" placeholder="出库说明">
+                    </div>
+                </div>
+                <div class="pop_con" style="height:251px;overflow-y:auto;overflow-x:hidden;">
+                    <table class="_list_table out_history">
+                        <thead>
+                            <tr>
+                                <td>计划出库日期</td>
+                                <td>出库数量</td>
+                                <td>状态</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>计划出库日期</td>
+                                <td>出库数量</td>
+                                <td>状态</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 调拨库存面板-->
+<div class="_pop_window get_store_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:1000px; height: 450px; margin-left: -500px; margin-top: -225px;">
+        <div class="_pop_title">
+            <span>调拨库存</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con click_tb" style="height:325px;overflow-x:hidden;overflow-y:auto;">
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right  cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right  sub_mit">确定</a>
+            </div>
+        </div>
+    </div>
+</div>

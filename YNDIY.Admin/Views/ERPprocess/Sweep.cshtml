@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Sweep";
+    Layout = "~/Views/Shared/ProcessTemplate.cshtml";
+}
+<link href="~/Content/css/ERPCSS/process/Sweep.css" rel="stylesheet" />
+<div class="process_content">
+    <div class="process_show">
+        <div class="process_container ">
+            <div class="process_title">@ViewBag.factoryProcedureName</div>
+            <div class="process_letter">环节：<span>@ViewBag.stepName</span></div>
+        </div>
+        <div class="order_container _hidden">
+            <div class="order_num">订单号：<span class="_order"></span></div>
+            <div class="order_state">环节：<span>@ViewBag.stepName</span></div>
+        </div>
+    </div>
+    <div class="sweep_panel ">
+        <div class="sweep_container">
+            <div class="sweep_title">扫码光标：</div>
+            <input type="text" name="sweep" />
+        </div>
+        <div class="sweep_note">扫码完成你负责的<span>@ViewBag.stepName</span></div>
+    </div>
+    @*<div class="order_box _hidden">
+        <div class="success_show _hidden">
+            <div class="order_success">
+                <div class="order_img">
+                    <img src="/Content/imgs/erp/process/process_perfect.png" />
+                </div>
+                <div class="order_note">提交成功</div>
+            </div>
+            <div class="order_timer">将在<span>3</span>秒后返回</div>
+        </div>
+        <div class="fail_show _hidden">
+            <div class="order_success">
+                <div class="order_img">
+                    <img src="/Content/imgs/erp/process/progress_defective.png" />
+                </div>
+                <div class="order_note_fail">这次扫描提交不成功</div>
+            </div>
+            <div class="order_timer_fail">将在<span>3</span>秒后返回扫描页</div>
+        </div>
+    </div>*@
+</div>
+<script>
+    var _input = $('input[name="sweep"]');
+    function _getData() {
+        var _obj = {};
+        _obj.factoryProcedureId = "@ViewBag.factoryProcedureId";
+        _obj.stepName = "@ViewBag.stepName";
+        _obj.orderId = _input.val().replace(/[\r\n\s]/g, "").replace(/[^\d_]/g, "-").replace(/--/g, "-").replace(/-+?$/, "").replace(/(—{2})/g, "_");
+
+        return _obj;
+    }
+
+    var _step_name = "@ViewBag.stepName";
+    $('input[name="sweep"]').live("change", function () {
+        if ($(this).val() != "") {
+            if (_step_name.indexOf("质检") == -1) {
+                getPage();
+            } else {
+                location.href = "/ERPprocess/OrderCheck?factoryProcedureId=@ViewBag.factoryProcedureId&factoryProcedureName=@ViewBag.factoryProcedureName&stepName=@ViewBag.stepName&orderId=" + $('input[name="sweep"]').val().replace(/[\r\n\s]/g, "").replace(/[^\d_]/g, "-").replace(/--/g, "-").replace(/-+?$/, "");
+            }
+        }
+    });
+     /**异步提交数据**/
+     function getPage() {
+         var _data = _getData();
+         $.ajax({
+             type: "post",
+             url: "/ERPprocess/submitProcess",
+             data: _data,
+             datatype: "json",
+             success: function (response) {
+                 $('input[name="sweep"]').val("");
+                 if (response.code == 1) {
+                     alert("成功");
+                     _input.focus();
+                 } else {
+                     alert("失败");
+                     _input.focus();
+                 }
+             },
+             error: function () {
+                 alert("网络异常！");
+             }
+         });
+     }
+     $(document).ready(function () {
+         $('input[name="sweep"]').focus();
+     });
+</script>

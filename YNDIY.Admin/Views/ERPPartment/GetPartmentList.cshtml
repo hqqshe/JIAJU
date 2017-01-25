@@ -1,0 +1,38 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNFactoryDepartMent> departmentList = ViewBag.departmentList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>生产线名称</td>
+            <td>描述</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (departmentList.Count > 0)
+        {
+            for (int i = 0; i < departmentList.Count; i++)
+            {
+                <tr>
+                    <td class="_tec_name _over_text"><a href="javascript:void(0);"><span>@departmentList[i].department_name</span></a></td>
+                    <td class="_link_man _over_text">@departmentList[i].describle</td>
+                    <td>@departmentList[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td >
+                        <a href="javascript:;" class="dele" _id="@departmentList[i].id">×</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="_none_list_data">抱歉！目前没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

@@ -1,0 +1,169 @@
+﻿@using YNDIY.API.Models
+
+@{
+    ViewBag.Title = "制定生产计划";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNBanShiProduct product = ViewBag.product;
+    YNBanShiBrand brand = ViewBag.brand;
+    List<YNShopInfo> shop_list = ViewBag.shop_list;
+    YNShopInfo sys_shop = ViewBag.sys_shop;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/product/ForecastDetail"></script>
+}
+<div class="_clear_panel _search_banner ">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="infos">
+            制定生产计划
+        </span>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class=" form_group">
+        <label>
+            下单日期：
+            <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date">
+        </label>
+    </div>
+
+    <div class="form_group">
+        <label>
+            至：
+            <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>是否关联：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select select_load" id="isRelation">
+                <option value="-1">全部</option>
+                <option value="0">未关联</option>
+                <option value="1">已关联</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="客户名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+  
+</div>
+<div class="pop_con">
+    <table class="_list_table head_info">
+        <thead>
+            <tr>
+                <td>品牌</td>
+                <td>产品名称</td>
+                <td>型号</td>
+                <td>规格</td>
+                <td>颜色</td>
+                <td>可用数量</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="_td_15 _over_text"_id="@brand.id">@brand.name</td>
+                <td class="_td_15 _over_text">@product.produce_name</td>
+                <td class="_td_15 _over_text">@product.model_name</td>
+                <td class="_td_15 _over_text">@product.format</td>
+                <td class="_td_10 _over_text">@product.color</td>
+                <td class="_td_10">@product.total_avaible_num</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="_ajax_container"></div>
+<div class="_wraper _clear_panel">
+    <a href="javascript:void(0);" class="_btn blue _left  make_plan">制定生产计划</a>
+</div>
+<!-- 制定生产计划面板-->
+<div class="_pop_window plan_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 600px; height:420px; margin-left: -300px; margin-top: -210px;">
+        <div class="_pop_title">
+            <span>制定生产计划</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>品牌</td>
+                            <td>产品名称</td>
+                            <td>产品型号</td>
+                            <td>产品规格</td>
+                            <td>产品颜色</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="_produt_info">
+                            <td class="_td_15 _over_text" _id="@brand.id">@brand.name</td>
+                            <td class="_td_15 _over_text" _id="@product.id">@product.produce_name</td>
+                            <td class="_td_15 _over_text">@product.model_name</td>
+                            <td class="_td_15 _over_text">@product.format</td>
+                            <td class="_td_10 _over_text">@product.color</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pop_con">
+                    <div class="form_item">
+                        <span class="tip">下单日期：</span>
+                        <input type="text" placeholder="生产下单日期" id="pop_start">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">客户名称：</span>
+                        <div class="_relative _left _width_percent_60">
+                            <div class="_search_filter " style="width:100%;left:0;">
+                                <div class="_select_prev">
+                                    <span class="_select_text" style="line-height:32px;">@sys_shop.shop_name</span>
+                                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                                </div>
+                                <select class="_opacity_select" id="customer">
+                                    <option value="@sys_shop.id">@sys_shop.shop_name</option>
+                                    @for(var i =0;i<shop_list.Count;i++)
+                                    { 
+                                        <option value="@shop_list[i].id">@shop_list[i].shop_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">交货日期：</span>
+                        <input type="text" placeholder="生产交货日期" id="pop_end">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">数量：</span>
+                        <input type="text" class="_number" placeholder="请填写生产数量" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g, '')">
+                    </div>
+                    <div class="form_item">
+                        <span class="tip">计划说明：</span>
+                        <input type="text" class="_plan_remark" placeholder="生产计划说明">
+                    </div>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

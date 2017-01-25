@@ -1,0 +1,168 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "产品详情";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    List<ProductParts> partsList = ViewBag.partsList;
+    List<ProductPackage> packageList = ViewBag.packageList;
+    List<YNBanShiBrand> brandList = ViewBag.brandList;
+    YNBanShiProduct yNBanShiProduct = ViewBag.yNBanShiProduct;
+    List<ProductProcess> processList = ViewBag.processList;
+    int factory_id = ViewBag.factory_id;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/brand/BrandDetail.js"></script>
+}
+<div class="_clear_panel _search_banner nobtn">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">产品详情</p>
+    </div>
+</div>
+<div class="_wraper">
+    <table class="_list_table head_info">
+        <thead>
+            <tr>
+                <td>图片</td>
+                <td>产品名称</td>
+                <td>品牌</td>
+                <td>型号</td>
+                <td>规格</td>
+                <td>颜色</td>
+                <td>单位</td>
+                <td>标准单价</td>
+                <td>备注</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="@yNBanShiProduct.image" class="tab_img"></td>
+                <td>@yNBanShiProduct.produce_name</td>
+                <td>@brandList.FirstOrDefault(s => s.id == yNBanShiProduct.brand_id).name</td>
+                <td>@yNBanShiProduct.model_name</td>
+                <td>@yNBanShiProduct.format</td>
+                <td>@yNBanShiProduct.color</td>
+                <td>@(yNBanShiProduct.unit == 0 ? "套" : yNBanShiProduct.unit == 1 ? "件" : yNBanShiProduct.unit == 2 ? "把" : yNBanShiProduct.unit == 3 ? "个" : "张")</td>
+                <td>@yNBanShiProduct.standard_price</td>
+                <td class="_td_20 _over_text">@yNBanShiProduct.remarks</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pop_con detail_btn _clear_panel">
+        <a href="javascript:void(0);" class="_btn  _left right blue cur"><span class="icon i1"></span><span>部件明细</span></a>
+        <a href="javascript:void(0);" class="_btn _left right"><span class="icon i2"></span><span>包号明细</span></a>
+        <a href="javascript:void(0);" class="_btn _left "><span class="icon i3"></span><span>工序明细</span></a>
+    </div>
+    <div class="detail_tab">
+        <div class="pop_con">
+            <table class="_list_table">
+                <thead>
+                    <tr>
+                        <td>部件名称</td>
+                        <td>规格</td>
+                        <td>数量</td>
+                        <td>材料</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < partsList.Count; i++)
+                    {
+                        <tr>
+                            <td>@partsList[i].name</td>
+                            <td>@partsList[i].format</td>
+                            <td>@partsList[i].number</td>
+                            <td>@partsList[i].material</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pop_con">
+                <p class="infos">部件总数量：<span>@partsList.Count</span></p>
+            </div>
+        </div>
+        <div class="pop_con" style="display:none;">
+            <table class="_list_table">
+                <thead>
+                    <tr>
+                        <td>包号</td>
+                        <td>包含部件</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < packageList.Count; i++)
+                    {
+                        <tr>
+                            <td>@packageList[i].packageNumber</td>
+                            @if (packageList[i].relation_id == 0)
+                            {
+                                string parts = packageList[i].partsList == null ? "" : string.Join(",", packageList[i].partsList.Select(s => s.name).ToArray());
+                                <td>@parts</td>
+                            }
+                            else
+                            {
+                                YNDIY.API.Controllers.ProductController product_ctrl = new YNDIY.API.Controllers.ProductController();
+                                YNBanShiProduct product = product_ctrl.GetProductById(factory_id, packageList[i].relation_id);
+                                if (product == null)
+                                {
+                                    <td>该关联产品已经不存在</td>
+                                }
+                                else
+                                {
+                                    <td>关联产品：@product.model_name</td>
+                                }
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="pop_con">
+                <p class="infos">包总数量：<span>@packageList.Count</span></p>
+            </div>
+        </div>
+        <div class="pop_con" style="display:none;">
+            <table class="_list_table pro_tb">
+                <thead>
+                    <tr>
+                        <td>工序号</td>
+                        <td>工序名称</td>
+                        <td>工序价格（元）</td>
+                        <td>工序工段</td>
+                        <td>包含部件</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < processList.Count; i++)
+                    {
+                        <tr>
+                            <td>@processList[i].id</td>
+                            <td>@processList[i].name</td>
+                            <td>@processList[i].price</td>
+                            <td>@processList[i].stage</td>
+                            @if (processList[i].type == 1)
+                            {
+                                <td>部件内容后续加上</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pop_con _clear_panel">
+                <div class="form_group">
+                    <p class="infos">工序总数量：<span>@processList.Count</span></p>
+                </div>
+                <div class="form_group">
+                    <p class="infos">工序总价：<span>@processList.Sum(s => s.price)</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

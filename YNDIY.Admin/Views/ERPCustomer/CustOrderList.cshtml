@@ -1,0 +1,63 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNFactoryOrder> list = ViewBag.list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>订单号</td>
+            <td>销售单号</td>
+            <td>下单日期</td>
+            <td>收货人</td>
+            <td>品牌</td>
+            <td>产品名称</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>订单状态</td>
+            <td>订单总数量</td>
+            <td>订单已出库</td>
+            <td>库存锁定数量</td>
+            @*<td>可出库数量</td>*@
+            <td>交货日期</td>
+            <td>备注</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count > 0) {
+            for (var i = 0; i < list.Count; i++) { 
+                <tr>
+                    <td>@list[i].order_id</td>
+                    <td>@list[i].sale_id</td>
+                    <td>@list[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td>@list[i].factory_consumer_linkman</td>
+                    <td>@list[i].brand_name</td>
+                    <td>@list[i].product_name</td>
+                    <td>@list[i].product_model</td>
+                    <td>@list[i].product_format</td>
+                    <td>@list[i].product_color</td>
+                    <td>@(list[i].factory_order_status == 0 ? "未出库" : list[i].factory_order_status == 1 ? "部分出库" : "出库完成")</td>
+                    <td>@list[i].product_number</td>
+                    <td>@list[i].product_out_number</td>
+                    <td>@list[i].product_lock_number</td>
+                    @*<td>可出库数量</td>*@
+                    @if (list[i].factory_delivery_day < DateTime.Now.Date)
+                    {
+                        <td><span class="_red_font">@list[i].factory_delivery_day.ToString("yyyy-MM-dd")</span></td>
+                    }
+                    else
+                    {
+                        <td>@list[i].factory_delivery_day.ToString("yyyy-MM-dd")</td>
+                    }
+                    <td>@list[i].remarks</td>
+                </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="15">抱歉，没有查询到相关数据!</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

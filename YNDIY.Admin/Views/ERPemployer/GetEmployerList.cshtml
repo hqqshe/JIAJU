@@ -1,0 +1,56 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNShopUser> shopUserList = ViewBag.shopUserList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>帐号</td>
+            <td>姓名</td>
+            <td>工号</td>
+            <td>工种</td>
+            <td>员工职位</td>
+            <td>手机号码</td>
+            <td>Email</td>
+            <td>生产线</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (shopUserList.Count > 0)
+        {
+            for (int i = 0; i < shopUserList.Count; i++)
+            {
+                <tr>
+                    <td class="_tec_name _over_text">@shopUserList[i].account</td>
+                    <td class="_link_man _over_text">@shopUserList[i].nick_name</td>
+                    <td class="_link_man _over_text">@shopUserList[i].employee_no</td>
+                    <td class="_link_man _over_text">@shopUserList[i].factory_remarks</td>
+                    <td class="_link_man _over_text">@(shopUserList[i].employ_type==0?"普通员工":"生产组长")</td>
+                    <td class="_over_text">@shopUserList[i].phone</td>
+                    <td class="_tec_adds _over_text">@shopUserList[i].email</td>
+                    <td class="_from _over_text">后勤</td>
+                    <td>@shopUserList[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td class="_more_options">
+                        <div class="_more_btn _relative">
+                            <a href="javascript:void(0);" class="_show_more"><img src="/Content/imgs/template/_select_dowm.png" /></a>
+                            <div class="_more_btns">
+                                <a href="/ERPemployer/employerInfo?id=@shopUserList[i].id"><span>编辑</span></a>
+                                <a href="javascript:void(0);" class="dele" _id="@shopUserList[i].id"><span>删除</span></a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10" class="_none_list_data">抱歉！目前没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

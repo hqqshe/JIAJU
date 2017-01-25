@@ -1,0 +1,55 @@
+﻿@using YNDIY.API.Models;
+@{
+    Layout = null;
+    List<YNFactoryShopRelation> relationList = ViewBag.relationList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>工厂名称</td>
+            <td>工厂帐号</td>
+            <td>工厂联系人</td>
+            <td>商家名称</td>
+            <td>商家帐号</td>
+            <td>商家联系人</td>
+            <td>关联时间</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (relationList.Count > 0)
+        {
+            for (int i = 0; i < relationList.Count; i++)
+            {
+                <tr>
+                    <td>@relationList[i].id</td>
+                    <td>@relationList[i].factory_name</td>
+                    <td>@relationList[i].factory_user_account</td>
+                    <td>@relationList[i].factory_link_man</td>
+                    <td class="_tec_name _over_text">@relationList[i].shop_name</td>
+                    <td>@relationList[i].shop_user_account</td>
+                    <td>@relationList[i].shop_link_man</td>
+                    <td>@relationList[i].create_time.ToString("yyyy-MM-dd")</td>
+                    <td class="_more_options">
+                        <div class="_more_btn _relative">
+                            <a href="javascript:void(0);" class="_show_more"><img src="/Content/imgs/erp/template/_select_dowm.png" /></a>
+                            <div class="_more_btns">
+                                <a href="javascript:void(0);" class="_del_relation" _id="@relationList[i].id"><span>删除</span></a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="_none_list_data">抱歉！目前没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

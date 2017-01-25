@@ -1,0 +1,32 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<YNRecharge> list = ViewBag.list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>操作人</td>
+            <td>收款金额（元）</td>
+            <td>备注</td>
+            <td>操作时间</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count > 0) {
+            for (var i = 0; i < list.Count; i++) { 
+                <tr>
+                    <td>@list[i].operator_name</td>
+                    <td>@list[i].money</td>
+                    <td>@list[i].remark</td>
+                    <td>@list[i].create_date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="4">抱歉，没有查询到相关数据！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

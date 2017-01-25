@@ -1,0 +1,288 @@
+﻿@{
+    ViewBag.Title = "面料厂商管理";
+    Layout = "~/Views/Shared/BaseTemplate.cshtml";
+
+}
+<link href="/Content/css/Manage/product_factory.css" rel="stylesheet" />
+<div class="_main_body_margin _main_min_width">
+    <div class="_search_panel">
+        <div class="_show_member_opt_head">
+            <a href="javascript:void(0);" class="_add_fabric_item">
+                <span>添加面料厂商</span>
+            </a>
+            <div class="_opt_head_center _search_shop_order_panel">
+                <input type="text" placeholder="关键字" class="_left _query_key">
+                <a href="javascript:void(0);" class="_right _query_btn"><span>搜索</span></a>
+                <span class="_clear"></span>
+            </div>
+            <span class="_clear"></span>
+        </div>
+    </div>
+    <div class="_ajax_data_panel _margin_top_20"></div>
+    <!-- 详情弹出层 -->
+    <div class="_pop_window _fabricfac_detail_panel">
+        <div class="_opacity_bg"></div>
+        <div class="_fabricfac_detail_conatainer">
+            <div class="_suit_list_select_title _pop_title">
+                <span>面料厂商详情</span>
+                <a href="javascript:void(0);" class="_pop_close _close_add_suits"><span>×</span></a>
+            </div>
+            <div class="_pop_container_panel">
+                <div class="_pop_container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var _factory_item_html = '<div class="_factory_item _editing_panel">                                                     \
+                                <div class="_fy_info_line _clear_panel">                                                                    \
+                                    <div class="_left _width_percent_33">                                                                   \
+                                        <div class="_line_info_li">                                                                         \
+                                            <div class="_line_title">面料厂商名称</div>                                                           \
+                                            <div class="_line_content"></div>                                                 \
+                                            <div class="_edit_input">                                                                       \
+                                                <input type="hidden" name="userId"/>                                                                       \
+                                                <input type="text" name="fabric_factory_name"/>                                                                       \
+                                            </div>                                                                                          \
+                                        </div>                                                                                              \
+                                    </div>                                                                                                  \
+                                    <div class="_left _width_percent_33">                                                                   \
+                                        <div class="_line_info_li">                                                                         \
+                                            <div class="_line_title">联系人</div>                                                           \
+                                            <div class="_line_content"></div>                                                         \
+                                            <div class="_edit_input">                                                                       \
+                                                <input type="text" name="link_man"/>                                                                       \
+                                            </div>                                                                                          \
+                                        </div>                                                                                              \
+                                    </div>                                                                                                  \
+                                    <div class="_left _width_percent_33">                                                                   \
+                                        <div class="_line_info_li">                                                                         \
+                                            <div class="_line_title">电话</div>                                                             \
+                                            <div class="_line_content"></div>                                                    \
+                                            <div class="_edit_input">                                                                       \
+                                                <input type="text" name="phone"/>                                                                       \
+                                            </div>                                                                                          \
+                                        </div>                                                                                              \
+                                    </div>                                                                                                  \
+                                    <span class="_clear"></span>                                                                            \
+                                </div>                                                                                                      \
+                                <div class="_fy_info_line _clear_panel">                                                                    \
+                                    <div class="_left _width_percent_33">                                                                   \
+                                        <div class="_line_info_li">                                                                         \
+                                            <div class="_line_title">邮箱</div>                                                             \
+                                            <div class="_line_content"></div>                                                \
+                                            <div class="_edit_input">                                                                       \
+                                                <input type="text" name="email"/>                                                                       \
+                                            </div>                                                                                          \
+                                        </div>                                                                                              \
+                                    </div>                                                                                                  \
+                                    <div class="_left _width_percent_33">                                                                   \
+                                        <div class="_line_info_li">                                                                         \
+                                            <div class="_line_title">账号</div>                                                         \
+                                            <div class="_line_content"></div>                                                     \
+                                            <div class="_edit_input">                                                                       \
+                                                <input type="text" name="account"/>                                                                       \
+                                            </div>                                                                                          \
+                                        </div>                                                                                              \
+                                    </div>                                                                                                  \
+                                    <div class="_left _width_percent_33">                                                                   \
+                                        <div class="_line_info_li">                                                                         \
+                                            <div class="_line_title">密码</div>                                                             \
+                                            <div class="_line_content _fac_adds">                                                           \
+                                                <a href="javascript:void(0);" class="_text_over_line_2">                                    \
+                                                    <span></span>                                                                           \
+                                                </a>                                                                                        \
+                                            </div>                                                                                          \
+                                            <div class="_edit_input">                                                                       \
+                                                <input type="password" name="password" />                                                                       \
+                                            </div>                                                                                          \
+                                        </div>                                                                                              \
+                                    </div>                                                                                                  \
+                                    <span class="_clear"></span>                                                                            \
+                                </div>                                                                                                      \
+                                <div class="_factory_edit_panel">                                                                           \
+                                    <a href="javascript:void(0);" class="_edit_btn">                                                        \
+                                        <span>编辑</span>                                                                                   \
+                                    </a>                                                                                                    \
+                                    <a href="javascript:void(0);" class="_save_btn">                                                        \
+                                        <span>保存</span>                                                                                   \
+                                    </a>                                                                                                    \
+                                    <a href="javascript:void(0);" class="_cancel_btn">                                                      \
+                                        <span>退出</span>                                                                                   \
+                                    </a>                                                                                                    \                                                                                               \
+                                </div>                                                                                                      \
+                            </div>';
+</script>
+<script>
+    //查看详情
+    $("._show_detail").live("click", function () {
+        var _userId = $(this).attr("_id");
+        _show_loading();
+        $.ajax({
+            type: "get",
+            url: "/admin/getShopUserById",
+            data: { userId: _userId },
+            dataType: "json",
+            success: function (response) {
+                _hide_loading();
+                if (response.code == 1) {
+                    var _html = $(_factory_item_html);
+                    //_html.removeClass("_editing_panel");
+                    _html.find("input[name='userId']").val(response.data.id);
+                    _html.find("input[name='fabric_factory_name']").val(response.data.fabric_factory_name);
+                    _html.find("input[name='link_man']").val(response.data.link_man);
+                    _html.find("input[name='phone']").val(response.data.phone);
+                    _html.find("input[name='email']").val(response.data.email);
+                    _html.find("input[name='account']").val(response.data.account);
+                    _html.find("input[name='password']").val(response.data.password);
+                    $("._fabricfac_detail_conatainer ._pop_container").empty().append(_html);
+                    $("._fabricfac_detail_panel").fadeIn();
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络故障！！");
+            }
+        });
+    });
+    //进入编辑状态
+    $("._edit_btn").live("click", function () {
+        var _this = $(this).parent().parent();
+        _this.addClass("_editing_panel").siblings().removeClass("_editing_panel");
+        _this.find("input,textarea").each(function (i, o) {
+            var _me = $(this);
+            _me.val(_me.parent().prev().text().replace(/\s/g, ""));
+        });
+    });
+    //退出编辑状态
+    $("._cancel_btn").live("click", function () {
+        var _userId = $(this).parent().parent().find("input[name='userId']").val();
+        if (_userId == null || _userId == "") {
+            if (confirm("确定退出新增操作？")) {
+                $("._fabricfac_detail_panel").fadeOut();
+            }
+        } else {
+            if (confirm("确定退出当前编辑状态？")) {
+                //$(this).parent().parent().removeClass("_editing_panel");
+                $("._fabricfac_detail_panel").fadeOut();
+            }
+        }
+    });
+    //删除当前面料厂商
+    $("._del_").live("click", function () {
+        var _id = $(this).attr("_id");
+        var _object = $(this).parent().parent().parent();
+        if (confirm("确定删除当前面料厂商信息？")) {
+            _show_loading();
+            $.ajax({
+                type: "get",
+                url: "/admin/deleteShopUser",
+                data: { userId: _id },
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        alert(response.message);
+                        _object.remove();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络故障！！");
+                }
+            });
+        }
+    });
+    //保存信息
+    $("._save_btn").live("click", function () {
+        var _object = $(this).parent().parent();
+        var userId = _object.find("input[name='userId']").val();
+        var fabric_factory_name = _object.find("input[name='fabric_factory_name']").val();
+        var link_man = _object.find("input[name='link_man']").val();
+        var phone = _object.find("input[name='phone']").val();
+        var email = _object.find("input[name='email']").val();
+        var account = _object.find("input[name='account']").val();
+        var password = _object.find("input[name='password']").val();
+        if (fabric_factory_name == null || fabric_factory_name == "") {
+            alert("面料厂商名称不能为空");
+            return false;
+        }
+        if (link_man == null || link_man == "") {
+            alert("联系人不能为空");
+            return false;
+        }
+        if (phone == null || phone == "") {
+            alert("电话不能为空");
+            return false;
+        }
+        if (email == null || email == "") {
+            alert("邮箱不能为空");
+            return false;
+        }
+        if (account == null || account == "") {
+            alert("账号不能为空");
+            return false;
+        }
+        if (password == null || password == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        _show_loading();
+        $.ajax({
+            type: "post",
+            url: "/admin/saveShopUser",
+            data: { userId: userId, fabric_factory_name: fabric_factory_name, link_man: link_man, phone: phone, email: email, account: account, password: password, type: 2 },
+            dataType: "json",
+            success: function (response) {
+                _hide_loading();
+                if (response.code == 1) {
+                    alert(response.message);
+                    $("._fabricfac_detail_panel").fadeOut();
+                    _load_items(1);
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络故障！！");
+            }
+        });
+    });
+    //添加面料厂商
+    $("._add_fabric_item").live("click", function () {
+        var _html = $(_factory_item_html);
+        $("._fabricfac_detail_conatainer ._pop_container").empty().append(_html);
+        $("._fabricfac_detail_panel").fadeIn();
+    })
+    //加载列表信息
+    function _load_items(_page_index) {
+        _show_loading();
+        var _key = $("._query_key").val();
+        $.ajax({
+            type: "get",
+            url: "/admin/fabricFactoryListItems",
+            data: { _rdm: Math.random(), pageIndex: _page_index, searchKey: _key },
+            dataType: "html",
+            success: function (response) {
+                _hide_loading();
+                $("._ajax_data_panel").empty().append(response);
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络故障！！");
+            }
+        });
+    }
+    $("._query_btn").live("click", function () {
+        _load_items(1);
+    });
+    $(document).ready(function () {
+        //CloseSideMenu_width_for_LT_1280();
+        _load_items(1);
+    });
+</script>

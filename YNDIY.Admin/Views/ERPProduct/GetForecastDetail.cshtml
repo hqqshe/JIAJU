@@ -1,0 +1,75 @@
+﻿@using YNDIY.API.Models;
+@using System.Web.Script.Serialization;
+@{
+    List<YNFactoryOrder> sale_order_list = ViewBag.sale_order_list;
+    YNDIY.API.Controllers.FactoryOrderController sale_order_ctrl = new YNDIY.API.Controllers.FactoryOrderController();
+    JavaScriptSerializer js = new JavaScriptSerializer();
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+            <td>销售单号</td>
+            <td>订单号</td>
+            <td>下单日期</td>
+            <td>客户名称</td>
+            <td>总数量</td>
+            <td>出库数量</td>
+            <td>锁定数量</td>
+            <td>备注</td>
+            <td>交货日期</td>
+            <td>关联批次号</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (sale_order_list.Count > 0)
+{
+    for (var i = 0; i < sale_order_list.Count; i++)
+    {
+        <tr _id="@sale_order_list[i].id" _wait_process="@(sale_order_list[i].product_number - sale_order_list[i].product_out_number - sale_order_list[i].out_lock_number)">
+            <td><input type="checkbox"></td>
+            <td class="_td_10 _over_text">
+                @if (sale_order_list[i].is_relation_order == 1)
+                {
+                    //如果是子销售单，就显示出主销售单号
+                    YNFactoryOrder temp_sale_order = sale_order_ctrl.FactoryGetFactoryOrderById(Convert.ToInt32(sale_order_list[i].relation_order_id), sale_order_list[i].jiaju_factory_id);
+                    <div style="line-height:20px;">
+                        <a href="/ERPOrder/OrderDetail?id=@temp_sale_order.id">@temp_sale_order.sale_id</a>
+                    </div>
+                    <div style="line-height:20px;">@sale_order_list[i].sale_id</div>
+                }
+                else
+                { 
+                <a href="/ERPOrder/OrderDetail?id=@sale_order_list[i].id">@sale_order_list[i].sale_id</a>
+                }
+            </td>
+            <td class="_td_10 _over_text">@sale_order_list[i].order_id</td>
+            <td class="_td_10 _over_text">@sale_order_list[i].create_time.ToString("yyyy-MM-dd")</td>
+            <td class="_td_10 _over_text">@sale_order_list[i].shop_name</td>
+            <td>@sale_order_list[i].product_number</td>
+            <td>@sale_order_list[i].product_out_number</td>
+            <td>@sale_order_list[i].product_lock_number</td>
+            <td class="_td_30 _over_text">@sale_order_list[i].remarks</td>
+            <td class="_td_10 _over_text">@sale_order_list[i].factory_delivery_day.ToString("yyyy-MM-dd")</td>
+            <td class="_td_20 _over_text">
+                @if (!String.IsNullOrEmpty(sale_order_list[i].ralation_produce_orderid))
+                {
+                    List<string> relation_list = js.Deserialize<List<string>>(sale_order_list[i].ralation_produce_orderid);
+                    for (var j = 0; j < relation_list.Count; j++)
+                    {
+                        <div style="line-height:20px;">@relation_list[j]</div>
+                    }
+                }
+            </td>
+        </tr>
+    }
+}
+else
+{
+        <tr>
+            <td colspan="11">抱歉，没有查询到相关数据！</td>
+        </tr>
+        }
+    </tbody>
+</table>
+@*@Html.Partial("page")*@

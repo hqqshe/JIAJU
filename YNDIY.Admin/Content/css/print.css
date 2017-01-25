@@ -1,0 +1,62 @@
+﻿@charset 'utf-8';
+/*****打印 *****/
+body,html {margin:0;padding:0;font-family:'Microsoft YaHei';background:#fff}
+._left{float:left;}
+._right{float:right;}
+._clear{overflow:hidden;*zoom:1;}
+._clears{height:0;width:0;font-size:0;line-height:0;clear:both;}
+.center{text-align:center;}
+._paper_render{width:210mm;margin:0 auto;}
+._more_a4{width:210mm;}
+._a4_paper{width:210mm;height:297mm;background-color:#FFF;}
+._bar_code_container{margin:0 auto}
+ .pageNext{page-break-after: always;}
+ ._margin_clear{clear:both;width:0;height:0;font-size:0;display:block;margin-top:80px;}
+._suit_title{font-size:20px;line-height:40px;text-align:center;}
+._bar_code_table{background-color:#FFF;margin:10px;min-height:100px;}
+._bar_code_table._no_padding {margin:0;}
+._code_item{margin:5px 0;}
+._cut_line{display:block;padding:5px;margin:0 5px;border:1px dashed black;}
+._null_item ._cut_line{border-color:#FFF;height:76px;}
+._bar_code_desc{text-align:center;text-align:center;line-height:20px;font-size:14px;}
+ /*****打印表格 *****/
+._info_table{width:100%;background-color:#FFF;text-align:center;font-size:12px;border-collapse:collapse;table-layout:fixed \9;}
+._info_table thead{background:#fff;}
+._info_table tr{border-collapse:collapse;}
+._info_table td{border:1px solid #000;border-collapse:collapse;}
+._info_table thead tr td{height:36px;line-height:36px;font-weight:bold;padding:0;}
+._info_table tbody tr td{height:36px;line-height:16px;padding:0;}
+ /*****销货单 *****/
+._wraper{width:818px;margin:0 auto;padding:0 28px;font-family:'Microsoft YaHei';}
+._content{margin:20px 0;}
+._content .name{font-size:20px;}
+._content .cname{font-size:22px;font-weight:bold;}
+._content .rname{font-size:16px;}
+._info_item{line-height:27px;font-size:13px;width: 33%;}
+._info_item span{font-weight:bold}
+._info_item span.text{font-weight:normal}
+.big{font-size:12px;}
+.big thead tr td{height:36px;line-height:36px;font-weight:bold}
+.big tbody tr td{height:36px;line-height:36px;}
+/**** 比例宽高 *****/
+._height_percent_50{height:50%;}
+._height_percent_100{height:100%;}
+._width_percent_10{width:10%;}
+._width_percent_15{width:15%;*width:14.9%;}
+._width_percent_20{width:20%;*width:19.9%;}
+._width_percent_25{width:25%;}
+._width_percent_30{width:30%;}
+._width_percent_33{width:33.3333333%;}
+._width_percent_35{width:35%;}
+._width_percent_40{width:40%;}
+._width_percent_45{width:45%;}
+._width_percent_50{width:50%;*width:49.9%;}
+._width_percent_55{width:55%;*width:54.9%;}
+._width_percent_60{width:60%;}
+._width_percent_66{width:66.6666666%;}
+._width_percent_65{width:65%;}
+._width_percent_70{width:70%;}
+._width_percent_75{width:75%;}
+._width_percent_80{width:80%;}
+._width_percent_90{width:90%;}
+._width_percent_100{width:100%;}

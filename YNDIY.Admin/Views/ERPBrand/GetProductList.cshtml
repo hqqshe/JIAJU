@@ -1,0 +1,55 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<BrandProduct> list = ViewBag.list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>图片</td>
+            <td>产品名称</td>
+            <td>品牌</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>单位</td>
+            <td>标准单价</td>
+            <td>备注</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count > 0) {
+            for (var i = 0; i < list.Count; i++) { 
+                <tr>
+                    <td><img src="@list[i].product.image" class="tab_img"></td>
+                    <td><a href="/ERPBrand/ProductDetail?id=@list[i].product.id">@list[i].product.produce_name</a></td>
+                    <td _id="@list[i].product.brand_id">@list[i].brand</td>
+                    <td>@list[i].product.model_name</td>
+                    <td class="_td_20 _over_text" title="@list[i].product.format">@list[i].product.format</td>
+                    <td>@list[i].product.color</td>
+                    <td>@(list[i].product.unit == 0 ? "套" : list[i].product.unit == 1 ? "件" : list[i].product.unit == 2 ? "把" : list[i].product.unit == 3 ? "个" : "张")</td>
+                    <td>@list[i].product.standard_price</td>
+                    <td class="_td_20 _over_text" title="@list[i].product.remarks">@list[i].product.remarks</td>
+                    <td class="_more_options">
+                        <div class="_more_btn _relative _relative_zindex_1">
+                            <a href="javascript:void(0);" class="_show_more"><img src="/Content/imgs/template/_select_dowm.png"></a>
+                            <div class="_more_btns">
+                                <a href="/ERPBrand/EditProduct?id=@list[i].product.id"><span>编辑产品</span></a>
+                                <a href="javascript:void(0);" class="edit_part" _id="@list[i].product.id"><span>编辑部件</span></a>
+                                <a href="/ERPBrand/EditBag?id=@list[i].product.id"><span>编辑包号</span></a>
+                                <a href="/ERPBrand/EditProcedure?id=@list[i].product.id"><span>编辑工序</span></a>
+                                <a href="javascript:void(0);" class="dele" _id="@list[i].product.id"><span>删除</span></a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else { 
+        <tr>
+            <td colspan="10">抱歉，没有查询到相关数据!</td>
+        </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

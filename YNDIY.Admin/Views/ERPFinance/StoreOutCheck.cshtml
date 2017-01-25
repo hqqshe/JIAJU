@@ -1,0 +1,83 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "客户订单出库";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/finance/StoreOutCheck"></script>
+}
+<div class="_clear_panel _search_banner ">
+    <div class=" form_group _clear_panel">
+        <label>出日期：</label>
+        <div class="_left _filter_item">
+            <a href="javascript:void(0);" class="_date_page _my_prev ">前一天</a>
+        </div>
+        <div class="_left _filter_item">
+            <a href="javascript:void(0);" class="_search_date " id="start_date"></a>
+        </div>
+        <div class="_left _filter_item">
+            <a href="javascript:void(0);" class="_date_page _my_next ">后一天</a>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="订单号/客户名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 出库审核面板-->
+<div class="_pop_window plan_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height:250px; margin-left: -250px; margin-top: -125px;">
+        <div class="_pop_title">
+            <span>出库审核</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con">
+                <table class="_list_table order_info">
+                    <thead>
+                        <tr>
+                            <td>客户名称</td>
+                            <td>结算方式</td>
+                            <td>账户余额</td>
+                            <td>剩余信用额度</td>
+                            <td>出库价值</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+                <div class="pop_con">
+                    <div class="form_item center">
+                        <label>
+                            通过审核
+                            <input type="radio" name="check" value="1" checked="">
+                        </label>
+                        <label>
+                            不通过审核
+                            <input type="radio" name="check" value="2">
+                        </label>
+                    </div>
+                </div>
+                <div class="_clear_panel">
+                    <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                    <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+                </div>
+            </div>
+    </div>
+</div>

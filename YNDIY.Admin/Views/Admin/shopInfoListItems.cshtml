@@ -1,0 +1,53 @@
+﻿@using YNDIY.API.Models;
+@{
+    Layout = null;
+    List<YNShopUser> shopUserList = ViewBag.shopUserList;
+    YNDIY.API.Controllers.PagesController page = ViewBag.page;
+}
+<table class="_normal_table">
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>定制商家名称</td>
+            <td>联系人</td>
+            <td>电话</td>
+            <td>账号</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (shopUserList.Count > 0)
+        {
+            for (int i = 0; i < shopUserList.Count; i++)
+            {
+                <tr>
+                    <td>@shopUserList[i].id</td>
+                    <td>
+                        @*<div class="_text_overflow _max_width_100_td"></div>*@
+                        @shopUserList[i].shop_name
+                    </td>
+                    <td>@shopUserList[i].link_man</td>
+                    <td>@shopUserList[i].phone</td>
+                    <td>@shopUserList[i].account</td>
+                    <td>
+                        <div class="_text_overflow _max_width_140_td">
+                            <a href="javascript:void(0);" class="_opt_a_btn _show_detail" _id="@shopUserList[i].id">
+                                <span>编辑</span>
+                            </a>
+                            <a href="javascript:void(0);" class="_opt_a_btn _del_" _id="@shopUserList[i].id">
+                                <span>删除</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">目前没有查询到你所需要的定制商家信息！</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("page")

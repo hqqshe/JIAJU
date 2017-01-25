@@ -1,0 +1,190 @@
+﻿@using YNDIY.API.Models;
+@{
+    ViewBag.Title = "环节扫码";
+    Layout = "~/Views/Shared/ProcessTemplate.cshtml";
+    YNShopUser yNShopUser = ViewBag.yNShopUser;
+    YNFactoryDepartMent yNFactoryDepartMent = ViewBag.yNFactoryDepartMent;
+    Dictionary<string, string> dictionary = ViewBag.dictionary;
+}
+<link href="~/Content/css/mobile/scancode.css" rel="stylesheet" />
+<div class="_page_body">
+    <div class="_scan_panel">
+        <div class="_factory_name">@Session["Name"]</div>
+        <div class="_info_items">
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">姓名：</div>
+                <div class="_info_content">@yNShopUser.nick_name</div>
+            </div>
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">部门：</div>
+                <div class="_info_content">@yNFactoryDepartMent.department_name</div>
+            </div>
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">工号：</div>
+                <div class="_info_content">@yNShopUser.employee_no</div>
+            </div>
+        </div>
+        <div>
+            <a href="javascript:void(0);" class="_scan_code_btn">
+                <img src="/Content/imgs/scan/scan.png" />
+                <span>扫一扫</span>
+            </a>
+        </div>
+    </div>
+    <div class="_scan_info">
+        <div class="_scan_tip">
+            <img src="/Content/imgs/scan/tip.png" />
+            <span>扫码信息</span>
+        </div>
+        <div class="_info_items">
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">生产编号：</div>
+                <div class="_info_content">NTS1234-2</div>
+            </div>
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">型号：</div>
+                <div class="_info_content">NTS1234</div>
+            </div>
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">工序号：</div>
+                <div class="_info_content">5</div>
+            </div>
+            <div class="_info_item _clear_panel">
+                <div class="_left _info_title">工序名称：</div>
+                <div class="_info_content">组装</div>
+            </div>
+        </div>
+        <div class="_clear_panel">
+            <a href="javascript:void(0);" class="_submit_btn _left">
+                <span>完成</span>
+            </a>
+            <a href="javascript:void(0);" class="_restart _left">
+                <span>返回重扫</span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="_page_body">
+    <div class="_clear_panel _opt_btn_panel">
+        <div class="_left _opt_btn_wrap">
+            <a href="/ERPprocess/MobileStatistics?type=0" class="_opt_type_btn _type_1">
+                <span>订单完成统计</span>
+            </a>
+        </div>
+        <div class="_left _opt_btn_wrap">
+            <a href="/ERPprocess/MobileStatistics?type=1" class="_opt_type_btn _type_2">
+                <span>工序完成统计</span>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+    var _scan_code_val = "";
+    //绑定返回结果
+    function FillCodeInfoData(_data) {
+        var _scan_info_panel = $("._scan_info");
+        var _scan_panel = $("._scan_panel");
+        $("._info_content",_scan_info_panel).each(function (i, o) {
+            i == 0 ? $(o).text(_data.produce_id) :
+            i == 1 ? $(o).text(_data.model_name) :
+            i == 2 ? $(o).text(_data.step_id) :
+            i == 3 ? $(o).text(_data.step_name) : null;
+        });
+        _scan_info_panel.show();
+        _scan_panel.hide();
+    }
+    //后台解析扫码结构
+    function GetCodeInfo(_code) {
+        _show_loading();
+        $.ajax({
+            type: "get",
+            url: "/ERPprocess/getCodeInfo",
+            data: { barCode: _code },
+            dataType: "json",
+            success: function (response) {
+                _hide_loading();
+                if (response.code) {
+                    FillCodeInfoData(response.data);
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络异常，分析数据信息失败！");
+            }
+        });
+    }
+    //分析扫码返回数据
+    function AnalysisCodeResult(_result) {
+        var _code = "";
+        if (/,/.test(_result)) {
+            _code = _result.split(",")[1];
+        } else {
+            _code = _result;
+        }
+        _scan_code_val = _code;
+        GetCodeInfo(_code);
+    }
+
+    $(document).ready(function () {
+        //返回重扫
+        $("._restart").bind("click", function () {
+            $("._scan_info").hide();
+            $("._scan_panel").show();
+        });
+        //提交环节扫码信息
+        $("._submit_btn").bind("click", function () {
+            _show_loading();
+            $.ajax({
+                type: "get",
+                url: "/ERPprocess/submitBarCode",
+                data: { barCode: _scan_code_val },
+                dataType: "json",
+                success: function (response) {
+                    _hide_loading();
+                    if (response.code == 1) {
+                        //alert("提交成功！");
+                        $("._restart").click();
+                        $("._scan_code_btn").click();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (e) {
+                    _hide_loading();
+                    alert("网络异常，提交失败！");
+                }
+            });
+        });
+    });
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    var url = "@dictionary["url"].Split('?')[0]";
+    wx.config({
+        debug: false,
+        appId: 'wx0eb2f308e7d7add2',
+        timestamp: '@dictionary["timestamp"]',
+        nonceStr: '@dictionary["nonceStr"]',
+        signature: '@dictionary["signature"]',
+        jsApiList: [
+          'scanQRCode'
+        ]
+    });
+    wx.ready(function () {
+        $("._scan_code_btn").bind("click", function () {
+            wx.scanQRCode({
+                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["barCode"],
+                success: function (res) {
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    AnalysisCodeResult(result);
+                },
+                fail: function (e) {
+                    alert("读取条码失败，请重试！");
+                }
+            });
+        });
+    });
+</script>

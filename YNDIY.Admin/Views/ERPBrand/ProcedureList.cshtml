@@ -1,0 +1,45 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "新建工段";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/brand/ProcedureList.js"></script>
+}
+<div class="_clear_panel _search_banner">
+    <div class="form_group">
+        <span class="infos">
+            工段管理
+        </span>
+    </div>
+    <div class="_btns _right">
+        <a href="javascript:;" class="_btn green _left"><img src="/Content/imgs/btn_icon/new.png">新建工段</a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 新建工段面板-->
+<div class="_pop_window new_brand_con ">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height: 280px; margin-left: -250px; margin-top: -140px;">
+        <div class="_pop_title _none_list_data">
+            <span><span class="inven_title">新建工段</span></span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body _clear_panel">
+            <div class="pop_con _clear_panel">
+                <div class="form_item">
+                    <span class="tip">工段名称：</span>
+                    <input type="text" placeholder="工段名称" class="sub_num">
+                </div>
+                <div class="form_item">
+                    <span class="tip">备注：</span>
+                    <textarea class="tip_txt"></textarea>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

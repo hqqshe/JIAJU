@@ -1,0 +1,227 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "编辑包号";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    List<ProductParts> partsList = ViewBag.partsList;
+    List<ProductPackage> packageList = ViewBag.packageList;
+    List<YNBanShiBrand> brandList = ViewBag.brandList;
+    YNBanShiProduct yNBanShiProduct = ViewBag.yNBanShiProduct;
+    int factory_id = ViewBag.factory_id;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/brand/EditBag"></script>
+}
+<div class="_clear_panel _search_banner nobtn">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">编辑包号</p>
+    </div>
+</div>
+<div class="_wraper">
+    <table class="_list_table">
+        <thead>
+            <tr>
+                <td>图片</td>
+                <td>产品名称</td>
+                <td>品牌</td>
+                <td>型号</td>
+                <td>规格</td>
+                <td>颜色</td>
+                <td>单位</td>
+                <td>标准单价</td>
+                <td>备注</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="@yNBanShiProduct.image" class="tab_img"></td>
+                <td>@yNBanShiProduct.produce_name</td>
+                <td>@brandList.FirstOrDefault(s => s.id == yNBanShiProduct.brand_id).name</td>
+                <td>@yNBanShiProduct.model_name</td>
+                <td>@yNBanShiProduct.format</td>
+                <td>@yNBanShiProduct.color</td>
+                <td>@(yNBanShiProduct.unit == 0 ? "套" : yNBanShiProduct.unit == 1 ? "件" : yNBanShiProduct.unit == 2 ? "把" : yNBanShiProduct.unit == 3 ? "个" : "张")</td>
+                <td>@yNBanShiProduct.standard_price</td>
+                <td class="_td_20 _over_text">@yNBanShiProduct.remarks</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pop_con _clear_panel">
+        <a href=" javascript:;" class="_btn green _left add_bag">
+            <img src="/Content/imgs/btn_icon/new.png">添加包号
+        </a>
+    </div>
+    <div class="pop_con">
+        <table class="_list_table bag_tab">
+            <thead>
+                <tr>
+                    <td>包号</td>
+                    <td>包含部件</td>
+                    <td>关联产品</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < packageList.Count; i++)
+                {
+                    string parts = packageList[i].partsList == null ? "" : string.Join(",", packageList[i].partsList.Select(s => s.name).ToArray());
+                    string relation_product = "";
+                    if (packageList[i].relation_id == 0)
+                    {
+                        relation_product = "无";
+                    }
+                    else
+                    {
+                        YNDIY.API.Controllers.ProductController product_ctrl = new YNDIY.API.Controllers.ProductController();
+                        YNBanShiProduct product = product_ctrl.GetProductById(factory_id, packageList[i].relation_id);
+                        if (product == null)
+                        {
+                            relation_product = "该关联产品不存在";
+                        }
+                        else
+                        {
+                            relation_product = product.model_name;
+                        }
+                    }
+                    <tr>
+                        <td class="_td_15 _over_text">@packageList[i].packageNumber</td>
+                        <td>@parts</td>
+                        <td>@relation_product</td>
+                        <td class="_td_15 _over_text">
+                            <a href="javascript:;" class="chosen_part">选择部件</a>
+                            <a href="javascript:;" class="gy">关联产品</a>
+                            <a href="javascript:;" class="dele text_info">×</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="pop_con _clear_panel">
+        <a href="javascript:void(0);" class="_btn blue _left sub_mit_all">保存</a>
+    </div>
+</div>
+<!-- 选择部件面板-->
+<div class="_pop_window parts_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 900px; height: 600px; margin-left: -450px; margin-top: -300px;">
+        <div class="_pop_title">
+            <span>选择部件</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body _clear_panel">
+            <div class="pop_con" style="overflow-x:hidden;overflow-y:auto;height:480px;">
+                <div class="_left _width_percent_45">
+                    <p class="tip">所有部件</p>
+                    <table class="_list_table parts_tb">
+                        <thead>
+                            <tr>
+                                <td>部件名称</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@for (int i = 0; i < partsList.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@partsList[i].name</td>
+                                        <td class="_td_15 _over_text">
+                                            <a href="javascript:;" class="chosen_part">选择</a>
+                                        </td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mid_line"></div>
+                <div class="_right _width_percent_45">
+                    <p class="tip">所有部件</p>
+                    <table class="_list_table right_parts_tb">
+                        <thead>
+                            <tr>
+                                <td>打包顺序</td>
+                                <td>部件名称</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                    <td>打包顺序</td>
+                                    <td>部件名称</td>
+                                    <td class="_td_15 _over_text">
+                                        <a href="javascript:;" class="chosen_part">上移</a>
+                                        <a href="javascript:;" class="chosen_part ">下移</a>
+                                        <a href="javascript:;" class="dele">×</a>
+                                    </td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 关联产品面板-->
+<div class="_pop_window pro_gy_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:700px; height: 450px; margin-left: -350px; margin-top: -225px;">
+        <div class="_pop_title">
+            <span>关联产品</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con" style="height:330px;overflow-y:auto;overflow-x:hidden;">
+                <div class="pop_con _clear_panel">
+                    <div class="form_group">
+                        <label>产品型号：</label>
+                        <input type="text" placeholder="请输入产品型号" class="search_input">
+                        <a href="javascript:void(0);" class="search_btn">
+                            <div id="cross" class="cross"></div>
+                           
+                        </a>
+                    </div>
+                </div>
+                <table class="_list_table pro_tab">
+                    <thead>
+                        <tr>
+                            <td>选择</td>
+                            <td>产品名称</td>
+                            <td>产品型号</td>
+                            <td>产品规格</td>
+                            <td>产品颜色</td>
+                            <td>单位</td>
+                            <td>标准单价</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @*<td>
+                                        <input type="checkbox">
+                                    </td>
+                                    <td>产品名称</td>
+                                    <td>产品型号</td>
+                                    <td>产品规格</td>
+                                    <td>产品颜色</td>
+                                    <td>单位</td>
+                                    <td>标准单价（元）</td>
+                                    <td><input type="text" placeholder="客户单价" class="_input_area" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')"></td>
+                                </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right  cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right sub_mit">确定</a>
+            </div>
+        </div>
+    </div>
+</div>

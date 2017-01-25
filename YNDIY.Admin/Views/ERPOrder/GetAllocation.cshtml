@@ -1,0 +1,100 @@
+﻿@using YNDIY.API.Models;
+@{
+    Layout = null;
+    YNBanShiBrand brand = ViewBag.brand;
+    YNBanShiProduct product = ViewBag.product;
+    List<YNFactoryOrder> sale_order_list = ViewBag.sale_order_list;
+    YNDIY.API.Controllers.FactoryOrderController sale_order_ctrl = new YNDIY.API.Controllers.FactoryOrderController();
+
+}
+<div class="pop_con">
+    <table class="_list_table  head_info">
+        <thead>
+            <tr>
+                <td>品牌</td>
+                <td>产品名称</td>
+                <td>型号</td>
+                <td>规格</td>
+                <td>颜色</td>
+                <td>库存可用数量</td>
+                <td>库存调拨数量</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="_td_10 _text_overflow" _id="@brand.id">@brand.name</td>
+                <td class="_td_10 _text_overflow" _id="@product.id">@product.produce_name</td>
+                <td class="_td_20 _text_overflow">@product.model_name</td>
+                <td class="_td_20 _text_overflow">@product.format</td>
+                <td>@product.color</td>
+                <td>@product.total_avaible_num</td>
+                <td><input type="text" placeholder="库存调拨数量" class="_input_area sub_num" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g,'')"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="pop_con">
+    <table class="_list_table  ">
+        <thead>
+            <tr>
+                <td><span class="select_span"><label><span>全选</span><input type="checkbox" class="all_cbo"></label></span></td>
+                <td>销售单号</td>
+                <td>订单号</td>
+                <td>下单日期</td>
+                <td>客户名称</td>
+                @*<td>品牌</td>
+                    <td>产品名称</td>
+                    <td>型号</td>
+                    <td>规格</td>
+                    <td>颜色</td>*@
+                <td>数量</td>
+                <td>交货日期</td>
+                <td>出库数量</td>
+                <td>可调拨数量</td>
+                <td>调拨数量</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (sale_order_list.Count > 0)
+            {
+                for (var i = 0; i < sale_order_list.Count; i++)
+                {
+                    <tr _id="@sale_order_list[i].id">
+                       <td><input type="checkbox"></td>
+                        <td>
+                            @if (sale_order_list[i].is_relation_order == 0)
+                            {
+                                @sale_order_list[i].sale_id
+                            }
+                            else
+                            {
+                                YNFactoryOrder sale_order = sale_order_ctrl.FactoryGetFactoryOrderById(Convert.ToInt32(sale_order_list[i].relation_order_id), sale_order_list[i].jiaju_factory_id);
+                                <div style="line-height:20px;">@sale_order.sale_id</div>
+                                <div style="line-height:20px;">@sale_order_list[i].sale_id</div>
+                            }
+                        </td>
+                        <td>@sale_order_list[i].order_id</td>
+                        <td>@sale_order_list[i].create_time.ToString("yyyy-MM-dd")</td>
+                        <td>@sale_order_list[i].shop_name</td>
+                           @* <td class="_td_5 _over_text" title="@sale_order_list[i].brand_name">@sale_order_list[i].brand_name</td>
+    <td class="_td_5 _over_text" _id="@sale_order_list[i].product_id" title="@sale_order_list[i].product_name">@sale_order_list[i].product_name</td>
+    <td class="_td_10 _over_text" title="@sale_order_list[i].product_model">@sale_order_list[i].product_model</td>
+    <td class="_td_5 _over_text" title="@sale_order_list[i].product_format">@sale_order_list[i].product_format</td>
+    <td>@sale_order_list[i].product_color</td>*@
+                        <td>@sale_order_list[i].product_number</td>
+                        <td>@sale_order_list[i].factory_delivery_day.ToString("yyyy-MM-dd")</td>
+                        <td>@sale_order_list[i].product_out_number</td>
+                        <td>@sale_order_list[i].product_lock_number</td>
+                        <td><input type="text" placeholder="调拨数量" class="_input_area" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g,'')"></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="15">抱歉，没有查询到相关数据</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

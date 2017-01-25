@@ -1,0 +1,146 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "编辑工序";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    List<YNBanShiBrand> brandList = ViewBag.brandList;
+    YNBanShiProduct yNBanShiProduct = ViewBag.yNBanShiProduct;
+    List<YNGongDuan> gongduan_list = ViewBag.gongduan_list;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/brand/EditProcedure.js"></script>
+}
+    <div class="_clear_panel _search_banner nobtn">
+        <div class=" form_group">
+            <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group">
+            <p class="infos">编辑工序</p>
+        </div>
+    </div>
+<div class="_wraper">
+    <table class="_list_table">
+        <thead>
+            <tr>
+                <td>图片</td>
+                <td>产品名称</td>
+                <td>品牌</td>
+                <td>型号</td>
+                <td>规格</td>
+                <td>颜色</td>
+                <td>单位</td>
+                <td>标准单价</td>
+                <td>备注</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="@yNBanShiProduct.image" class="tab_img"></td>
+                <td>@yNBanShiProduct.produce_name</td>
+                <td>@brandList.FirstOrDefault(s => s.id == yNBanShiProduct.brand_id).name</td>
+                <td>@yNBanShiProduct.model_name</td>
+                <td>@yNBanShiProduct.format</td>
+                <td>@yNBanShiProduct.color</td>
+                <td>@(yNBanShiProduct.unit == 0 ? "套" : yNBanShiProduct.unit == 1 ? "件" : yNBanShiProduct.unit == 2 ? "把" : yNBanShiProduct.unit == 3 ? "个" : "张")</td>
+                <td>@yNBanShiProduct.standard_price</td>
+                <td class="_td_20 _over_text">@yNBanShiProduct.remarks</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pop_con _clear_panel">
+        <a href=" javascript:;" class="_btn green _left add_bag">
+            <img src="/Content/imgs/btn_icon/new.png">添加工序
+        </a>
+    </div>
+    <div class="pop_con">
+        <table class="_list_table pro_tb">
+            <thead>
+                <tr>
+                    <td>工序号</td>
+                    <td>工序名称</td>
+                    <td>工序价格（元）</td>
+                    <td>工序工段</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @*@for (int i = 0; i < processList.Count; i++)
+                {
+                    <tr>
+                        <td>@processList[i].id</td>
+                        <td>@processList[i].name</td>
+                        <td>@processList[i].price</td>
+                        <td>@processList[i].stage</td>
+                        <td class="_td_15 _over_text">
+                            <a href="javascript:;" class="chose_gd">选择工段</a>
+                            <a href="javascript:;" class="change_pst">调整工序</a>
+                            <a href="javascript:;" class="dele">×</a>
+                        </td>
+                    </tr>
+                }*@
+            </tbody>
+        </table>
+    </div>
+    <div class="pop_con">
+        <a href="javascript:void(0);" class="_btn blue _left sub_mit">提交</a>
+    </div>
+</div>
+<!-------调整顺序面板------>
+<div class="_pop_window change_pos">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:400px;height:210px;margin-left:-200px;margin-top:-105px;">
+        <div class="_pop_title">
+            <span>调整顺序</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body">
+            <div class="pop_con">
+                <label>将工序 <span class="old_pos">3</span> 调整到工序</label>
+                <input type="text" placeholder="输入已有的工序号" class="pro_pos" onkeyup="this.value = this.value.replace(/\D/g, '');" onafterpaste=" this.value=this.value.replace(/\D/g, '')" />
+            </div>
+            <a href="javascript:;" class="_btn blue _right cancle">取消</a>
+            <a href="javascript:;" class="_btn blue _right right change_ok">确定</a>
+        </div>
+    </div>
+</div>
+<!-------选择工段面板------>
+<div class="_pop_window gd_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:400px;height:400px;margin-left:-200px;margin-top:-200px;">
+        <div class="_pop_title">
+            <span>选择工段</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body">
+            <div class="pop_con" style="overflow-x:hidden;overflow-y:auto;height:280px;">
+                <table class="_list_table">
+                    <thead>
+                        <tr>
+                            <td>选择</td>
+                            <td>工段名称</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (gongduan_list.Count > 0) {
+                            for (var i = 0; i < gongduan_list.Count; i++) { 
+                                <tr>
+                                    <td><input type="radio" name="gongd" value="@gongduan_list[i].id" /></td>
+                                    <td>@gongduan_list[i].name</td>
+                                </tr>
+                            }
+                        }
+                        else { 
+                            <tr>
+                                <td colspan="3">你还没有在工段管理里面添加数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <a href="javascript:;" class="_btn blue _right cancle">取消</a>
+            <a href="javascript:;" class="_btn blue _right right change_ok _select_gongduan">确定</a>
+        </div>
+    </div>
+</div>

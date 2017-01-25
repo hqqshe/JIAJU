@@ -1,0 +1,191 @@
+﻿@{
+    ViewBag.Title = "FactoryShopRelation";
+    Layout = "~/Views/Shared/BaseTemplate.cshtml";
+}
+
+<link href="/Content/css/erpTemplate.css" rel="stylesheet" />
+<link href="/Content/css/ERPCSS/customer/customer_list.css" rel="stylesheet" />
+
+<div class="_ctt_top_header _relative">
+    <h4>工厂关联商户</h4>
+    <a href="javascript:void(0);" class="_add_new_btn">
+        <img class="_add_symble" src="/Content/imgs/erp/template/add_symble.png" /><span>新建关联</span>
+    </a>
+</div>
+<div class="_search_line _relative">
+    <!-- 下拉筛选框 -->
+    <div class="_search_filter _absulute">
+        <div class="_select_prev">
+            <span class="_select_text">工厂</span>
+            <div class="_select_down"><img src="/Content/imgs/erp/template/_select_dowm.png" /></div>
+        </div>
+        <select class="_opacity_select">
+            <option value="0">工厂</option>
+            <option value="1">商家</option>
+        </select>
+    </div>
+    <!-- 搜索输入框 -->
+    <div class="_search_input_panel">
+        <div class="_search_input_box">
+            <input type="text" placeholder="工厂或商家名称" />
+        </div>
+        <a href="javascript:void(0);" class="_search_btn">
+            <div id="cross" class="cross"></div>
+            <img src="/Content/imgs/erp/template/_search_btn.png" />
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 添加客户 -->
+<div class="_pop_window _add_customer_window">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:580px;height:250px;margin-left:-290px;margin-top:-125px;">
+        <div class="_pop_title">
+            <span>新建关联</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <form name="_relation_info">
+            <div class="_pop_body">
+                <div class="_clear_panel _add_form_line">
+                    <div class="_add_form_title _left">工厂帐号<span class="_red_font">*</span></div>
+                    <div class="_add_form_content">
+                        <div class="_content_out_line">
+                            <input type="text" placeholder="输入工厂帐号" name="factoryAccount" />
+                        </div>
+                    </div>
+                    <div class="_clear"></div>
+                </div>
+                <div class="_clear_panel _add_form_line">
+                    <div class="_add_form_title _left">商家帐号<span class="_red_font">*</span></div>
+                    <div class="_add_form_content">
+                        <div class="_content_out_line">
+                            <input type="text" placeholder="输入商家帐号" name="shopAccount" />
+                        </div>
+                    </div>
+                    <div class="_clear"></div>
+                </div>                
+                <div class="_h_split_line"></div>
+                <a href="javascript:void(0);" class="_sub_new_customer _sub_new_info"><span>确定</span></a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //select_opacity下拉框
+    $("._search_filter ._opacity_select").live("change", function () {
+        $(this).prev().find("._select_text").text($(this.options[this.selectedIndex]).text());
+    });
+    //隐藏菜单 begin
+    $("._more_btn ._show_more").live("click", function () {
+        var _this = $(this);
+        $("._relative_zindex_1").removeClass("_relative_zindex_1");
+        _this.parents("._relative").addClass("_relative_zindex_1");
+        $("._more_btn ._more_btns").hide();
+        _this.next().show();
+        return false;
+    });
+    $("html,body").live("click", function () {
+        $("._more_btn ._more_btns").hide();
+    });
+    //删除关系
+    $("._del_relation").live("click", function () {
+        var _id = $(this).attr("_id");
+        _show_loading();
+        $.ajax({
+            type: "get",
+            url: "/admin/deleteRelation",
+            data:{id:_id},
+            dataType: "json",
+            success: function (response) {
+                _hide_loading();
+                if (response.code == 1) {
+                    _load_items(1);
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络异常！");
+            }
+        });
+    });
+    //添加客户
+    $("._add_new_btn").live('click', function () {
+        $("form[name='_relation_info']")[0].reset();
+        $("._add_customer_window").fadeIn();
+    });
+    //查询参数
+    function _get_load_parms() {
+        var _parms = {};
+        _parms.type = $("._search_line select").val();
+        _parms.key = $("._search_line input").val();
+        return _parms;
+    }
+    //提交新关联信息
+    $("._sub_new_info").live("click", function () {
+        if ($("input[name='factoryAccount']").val().replace(/\s/g, "") == "") {
+            alert("工厂帐号不能为空！");
+            return;
+        }
+        if ($("input[name='shopAccount']").val().replace(/\s/g, "") == "") {
+            alert("商家帐号不能为空！");
+            return;
+        }
+        _show_loading();
+        $.ajax({
+            type: "post",
+            url: "/admin/addRelation",
+            data: $("form[name='_relation_info']").serialize(),
+            dataType: "json",
+            success: function (response) {
+                _hide_loading();
+                if (response.code == 1) {
+                    alert("添加成功");
+                    _load_items(1);
+                    $("._add_customer_window").fadeOut();
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络异常！");
+            }
+        });
+    });
+    //加载数据
+    function _load_items(_page_index) {
+        _show_loading();
+        var _parms = _get_load_parms();
+        $.ajax({
+            type: "get",
+            url: "/Admin/GetFactoryShopRelation",
+            data: { _rdm: Math.random(), searchType: _parms.type, searchKey: _parms.key, pageIndex: _page_index },
+            dataType: "html",
+            success: function (response) {
+                _hide_loading();
+                $("._ajax_container").empty().append($(response));
+            },
+            error: function (e) {
+                _hide_loading();
+                alert("网络异常！");
+            }
+        });
+    }
+    //绑定加载数据事件 begin
+    $("._search_filter select").live("change", function () { _load_items(1); });
+    $("._search_line input").live("keyup", function (e) {
+        if (e.keyCode == 13) {
+            $(this).blur();
+            _load_items(1);
+        }
+    });
+    $("._search_line ._search_btn").live("click", function (e) {
+        _load_items(1);
+    });
+    //绑定加载数据事件 end
+    $(document).ready(function () {
+        _load_items(1);
+    });
+</script>

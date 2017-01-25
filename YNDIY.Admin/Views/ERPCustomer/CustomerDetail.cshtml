@@ -1,0 +1,169 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "客户详情";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNShopInfo shop = ViewBag.yNShopInfo;
+    List<YNBanShiBrand> brands_list = ViewBag.brands_list;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/customer/CustomerDetail.js"></script>
+}
+<div class="_search_banner  _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">@shop.shop_name</p>
+    </div>
+    <div class="_btns _right">
+        <a href="/ERPOrder/NewOrder?shopId=@shop.id" class="_btn green right _left"><img src="/Content/imgs/btn_icon/new.png">新建订单</a>
+        @*<a href="javascript:;" class="_btn blue right _left _upload"><img src="/Content/imgs/btn_icon/import.png">导入订单</a>
+            <a href="javascript:;" class="_btn red _left"><img src="/Content/imgs/btn_icon/download.png">下载导入出错的订单</a>*@
+    </div>
+</div>
+<!-- 公司信息 -->
+<div class="_order_info_panel _clear_panel">
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系人:</div>
+        <div class="_info_content _over_text" title="@shop.link_man">@shop.link_man</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系电话：</div>
+        <div class="_info_content _over_text" title="@shop.phone">@shop.phone</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">联系地址：</div>
+        <div class="_info_content _over_text" title="@shop.address_detail">@shop.address_detail</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">返点金额：</div>
+        <div class="_info_content _over_text" title="@shop.fandian">@shop.fandian</div>
+    </div>
+    @*<div class="_info_item _left _width_percent_25">
+            <div class="_left _info_title">特殊价格：</div>
+            <div class="_info_content _over_text" title="@shop.special_price">@shop.special_price</div>
+        </div>*@
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">标志：</div>
+        <div class="_info_content _over_text" title="@shop.tags">@shop.tags</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">结算方式：</div>
+        <div class="_info_content _over_text" title="@shop.jiesuan">@shop.jiesuan</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">下单要求：</div>
+        <div class="_info_content _over_text" title="@shop.order_requires">@shop.order_requires</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">货运地址：</div>
+        <div class="_info_content _over_text" title="@shop.huoyun">@shop.huoyun</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">货运电话：</div>
+        <div class="_info_content _over_text" title="@shop.huoyun_phone">@shop.huoyun_phone</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">发货方式：</div>
+        <div class="_info_content _over_text" title="@shop.fahuo">@shop.fahuo</div>
+    </div>
+    <div class="_info_item _left _width_percent_25">
+        <div class="_left _info_title">备注：</div>
+        <div class="_info_content _over_text" title="@shop.remarks">@shop.remarks</div>
+    </div>
+    @*<div class="_info_item _left _width_percent_25">
+            <div class="_left _info_title">信用额度：</div>
+            <div class="_info_content _over_text" title="@shop.credit_limit">@shop.credit_limit</div>
+        </div>*@
+    <div class="_clear"></div>
+    <div class="pop_con">
+        <table class="_list_table head_info">
+            <thead>
+                <tr>
+                    <td>账户余额（元）</td>
+                    <td>锁定金额（元）</td>
+                    <td>欠款总额（元）</td>
+                    <td>剩余信用额度</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@shop.balance_money</td>
+                    <td>@shop.lock_money</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="_wraper">
+    <div class=" detail_btn _clear_panel">
+        <a href="javascript:void(0);" class="_btn  right _left blue cur"><span class="icon i4"></span><span>客户订单</span></a>
+        <a href="javascript:void(0);" class="_btn _left "><span class="icon i5"></span><span>客户品牌</span></a>
+    </div>
+    <div class="_clear_panel _search_banner pop_con order_seach">
+        <div class="form_group" style="position:relative;width:175px;">
+            <label>订单状态：</label>
+            <div class="_search_filter ">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">全部</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select" id="order_status">
+                    <option value="100">全部</option>
+                    <option value="0">未付款</option>
+                    <option value="1">部分付款</option>
+                    <option value="2">已结清</option>
+                </select>
+            </div>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class=" form_group">
+            <label>
+                交货日期：
+                <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date">
+            </label>
+        </div>
+        <div class="form_group">
+            <label>
+                至：
+                <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date">
+            </label>
+        </div>
+        <div class="form_group">
+            <span class="gen"></span>
+        </div>
+        <div class="form_group">
+            <input type="text" placeholder="订单号/产品名称/型号" class="search_input">
+            <a href="javascript:void(0);" class="search_btn">
+                <div id="cross" class="cross"></div>
+
+            </a>
+        </div>
+    </div>
+    <div class="_clear_panel _search_banner pop_con brand_seach" style="display:none;">
+        <div class="form_group" style="position:relative;width:175px;">
+            <label>品牌名称：</label>
+            <div class="_search_filter ">
+                <div class="_select_prev">
+                    <span class="_select_text" style="line-height:32px;">全部</span>
+                    <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                </div>
+                <select class="_opacity_select" id="brand_id">
+                    <option value="100">全部</option>
+                    @for (var i = 0; i < brands_list.Count; i++)
+                    {
+                        <option value="@brands_list[i].id">@brands_list[i].name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="_ajax_container"></div>

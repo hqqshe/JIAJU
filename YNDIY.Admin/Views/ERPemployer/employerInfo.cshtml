@@ -1,0 +1,147 @@
+﻿@using YNDIY.API.Models;
+@{
+    ViewBag.Title = "新建员工";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNShopUser yNShopUser = ViewBag.yNShopUser;
+    List<YNFactoryDepartMent> departMentList = ViewBag.departMentList;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/employer/NewEmployer.js"></script>
+}
+<div class="_search_banner nobtn _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">新建员工</p>
+    </div>
+</div>
+<div class="_input_panel _wraper">
+    <form name="employer">
+        <div class="_input_item">
+            <div class="_left _input_title"><span class="_red_font">*</span>登录账号：</div>
+            <div class="_input_content">
+                <input type="hidden" name="id" class="inputFrame" value="@yNShopUser.id" />
+                <input type="text" name="account" class="inputFrame" value="@yNShopUser.account" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title"><span class="_red_font">*</span>登录密码：</div>
+            <div class="_input_content">
+                <input type="password" name="password" class="inputFrame" value="@yNShopUser.password" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title"><span class="_red_font">*</span>确认密码：</div>
+            <div class="_input_content">
+                <input type="password" name="repassword" class="inputFrame" value="@yNShopUser.password" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title">工号：</div>
+            <div class="_input_content">
+                <input type="text" name="employee_no" class="inputFrame" value="@yNShopUser.employee_no" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title">姓名：</div>
+            <div class="_input_content">
+                <input type="text" name="nick_name" class="inputFrame" value="@yNShopUser.nick_name" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title">工种：</div>
+            <div class="_input_content">
+                <input type="text" name="factory_remarks" class="inputFrame" value="@yNShopUser.factory_remarks" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title"><span class="_red_font">*</span>生产线：</div>
+            <div class="_input_content">
+                <div class="_search_filter ">
+                    <div class="_select_prev">
+                        @if (departMentList.Count > 0)
+                        {
+                            bool flag = true;
+                            for (int i = 0; i < departMentList.Count; i++)
+                            {
+                                if (departMentList[i].id == yNShopUser.factory_department_id)
+                                {
+                                    <span class="_select_text" style="line-height:32px;">@departMentList[i].department_name</span>
+                                    flag = false;
+                                    break;
+                                }
+                            }
+                            if (flag)
+                            {
+                                <span class="_select_text" style="line-height:32px;">@departMentList[0].department_name</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="_select_text" style="line-height:32px;">请选择生产线</span>
+                        }
+                        <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                    </div>
+                    <select class="_opacity_select" name="factory_department_id">
+                        @for (int i = 0; i < departMentList.Count; i++)
+                        {
+                            if (departMentList[i].id == yNShopUser.factory_department_id)
+                            {
+                                <option value="@departMentList[i].id" selected>@departMentList[i].department_name</option>
+                            }
+                            else
+                            {
+                                <option value="@departMentList[i].id">@departMentList[i].department_name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title"><span class="_red_font">*</span>职位：</div>
+            <div class="_input_content">
+                <div class="_search_filter ">
+                    <div class="_select_prev">
+                        <span class="_select_text" style="line-height:32px;">@(yNShopUser.employ_type == 0 ? "普通员工" : "生产组长")</span>
+                        <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+                    </div>
+                    <select class="_opacity_select" name="employ_type">
+                        @if (yNShopUser.employ_type == 0)
+                        {
+                            <option value="0" selected>普通员工</option>
+                            <option value="1">生产组长</option>
+                        }
+                        else
+                        {
+                            <option value="0">普通员工</option>
+                            <option value="1" selected>生产组长</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title">手机号码：</div>
+            <div class="_input_content">
+                <input type="text" name="phone" class="inputFrame" value="@yNShopUser.phone" />
+            </div>
+        </div>
+        <div class="_input_item">
+            <div class="_left _input_title">邮箱：</div>
+            <div class="_input_content">
+                <input type="text" name="email" class="inputFrame" value="@yNShopUser.email" />
+            </div>
+        </div>
+    </form>
+    <div class="_input_item">
+        <div class="_left _input_title"></div>
+        <div class="_input_content">
+            <a href="javascript:void(0);" class="_btn blue _left sub_mit">提交</a>
+        </div>
+    </div>
+</div>

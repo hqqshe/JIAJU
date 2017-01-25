@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2234FCA0-DBAE-4B89-AA50-7FC7D46F1B8B}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YNDIY.Admin</RootNamespace>
+    <AssemblyName>YNDIY.Admin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.4778.30637, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThoughtWorks.QRCode.1.1.0\lib\ThoughtWorks.QRCode.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DownLoadController.cs" />
+    <Compile Include="Controllers\ERPBrandController.cs" />
+    <Compile Include="Controllers\ERPCustomerController.cs" />
+    <Compile Include="Controllers\ERPDeliverStoreController.cs" />
+    <Compile Include="Controllers\ERPemployerController.cs" />
+    <Compile Include="Controllers\ERPFinanceController.cs" />
+    <Compile Include="Controllers\ERPhomeController.cs" />
+    <Compile Include="Controllers\ERPMaterialController.cs" />
+    <Compile Include="Controllers\ERPOrderController.cs" />
+    <Compile Include="Controllers\ERPPartmentController.cs" />
+    <Compile Include="Controllers\ERPStoreController.cs" />
+    <Compile Include="Controllers\ERPPlanController.cs" />
+    <Compile Include="Controllers\ERPProcedureController.cs" />
+    <Compile Include="Controllers\ERPprocessController.cs" />
+    <Compile Include="Controllers\ERPProcessManageController.cs" />
+    <Compile Include="Controllers\ERPProductController.cs" />
+    <Compile Include="Controllers\ERPSalaryController.cs" />
+    <Compile Include="Controllers\ERPSupplierController.cs" />
+    <Compile Include="Controllers\FactoryFileController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrderFactoryController.cs" />
+    <Compile Include="Controllers\ParentController.cs" />
+    <Compile Include="Controllers\PropagandaController.cs" />
+    <Compile Include="Controllers\SaleStatisticsController.cs" />
+    <Compile Include="Controllers\ShopUserController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\WebController.cs" />
+    <Compile Include="Controllers\WeiXinJsSdkController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\css\admin\baseTemplate.css" />
+    <Content Include="Content\css\admin\product_factory.css" />
+    <Content Include="Content\css\base.css" />
+    <Content Include="Content\css\mobile\scancode.css" />
+    <Content Include="Content\css\print.css" />
+    <Content Include="Content\css\controls.css" />
+    <Content Include="Content\css\popWindow.css" />
+    <Content Include="Content\css\process.css" />
+    <Content Include="Content\css\template.css" />
+    <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\main.css" />
+    <Content Include="Content\css\page.css" />
+    <Content Include="Content\imgs\btn_icon\download.png" />
+    <Content Include="Content\imgs\btn_icon\forder.png" />
+    <Content Include="Content\imgs\btn_icon\import.png" />
+    <Content Include="Content\imgs\btn_icon\new.png" />
+    <Content Include="Content\imgs\btn_icon\part.png" />
+    <Content Include="Content\imgs\btn_icon\people.png" />
+    <Content Include="Content\imgs\btn_icon\shield.png" />
+    <Content Include="Content\imgs\btn_icon\warning.png" />
+    <Content Include="Content\imgs\date\my_date.png" />
+    <Content Include="Content\imgs\date\my_next.png" />
+    <Content Include="Content\imgs\date\my_prev.png" />
+    <Content Include="Content\imgs\scan\logo.png" />
+    <Content Include="Content\imgs\scan\scan.png" />
+    <Content Include="Content\imgs\scan\tip.png" />
+    <Content Include="Content\imgs\template\ajax-loader.gif" />
+    <Content Include="Content\imgs\template\logo.png" />
+    <Content Include="Content\imgs\template\order.png" />
+    <Content Include="Content\imgs\template\product.png" />
+    <Content Include="Content\js\app\order\allotOrderList.js" />
+    <Content Include="Content\js\app\product\ArrangedList.js" />
+    <Content Include="Content\js\app\brand\BrandDetail.js" />
+    <Content Include="Content\js\app\employer\EmployerList.js" />
+    <Content Include="Content\js\app\finance\SalayPrint.js" />
+    <Content Include="Content\js\app\finance\StoreOutCheck.js" />
+    <Content Include="Content\js\app\finance\SalayStatistics.js" />
+    <Content Include="Content\js\app\finance\SalayDetail.js" />
+    <Content Include="Content\js\app\finance\CustomerAcountDetail.js" />
+    <Content Include="Content\js\app\finance\CustomerAcount.js" />
+    <Content Include="Content\js\app\employer\NewEmployer.js" />
+    <Content Include="Content\js\app\store\Inventory.js" />
+    <Content Include="Content\js\app\store\AllotOrderList.js" />
+    <Content Include="Content\js\app\employer\PartmentList.js" />
+    <Content Include="Content\js\app\employer\PrintEmployer.js" />
+    <Content Include="Content\js\app\product\PrintTransferList.js" />
+    <Content Include="Content\js\app\brand\ProcedureList.js" />
+    <Content Include="Content\js\app\product\ProductDetail.js" />
+    <Content Include="Content\js\app\product\PendingList.js" />
+    <Content Include="Content\js\app\product\ProductForecast.js" />
+    <Content Include="Content\js\app\product\ForecastDetail.js" />
+    <Content Include="Content\js\app\product\ProductPlan.js" />
+    <Content Include="Content\js\app\store\InventoryDetail.js" />
+    <Content Include="Content\js\app\store\ProductStore.js" />
+    <Content Include="Content\js\app\store\ProductStoreOut.js" />
+    <Content Include="Content\js\app\store\ProductStoreIn.js" />
+    <Content Include="Content\js\app\order\DeliverPlan.js" />
+    <Content Include="Content\js\app\order\OrderDetail.js" />
+    <Content Include="Content\js\app\customer\CustomerList.js" />
+    <Content Include="Content\js\app\customer\CustomerDetail.js" />
+    <Content Include="Content\js\app\employer\Login.js" />
+    <Content Include="Content\js\app\brand\BrandList.js" />
+    <Content Include="Content\js\app\customer\EditCustomer.js" />
+    <Content Include="Content\js\app\customer\NewCustomer.js" />
+    <Content Include="Content\js\app\order\EditOrder.js" />
+    <Content Include="Content\js\app\brand\NewProduct.js" />
+    <Content Include="Content\js\app\brand\EditProcedure.js" />
+    <Content Include="Content\js\app\customer\EditProPrice.js" />
+    <Content Include="Content\js\app\brand\ProductList.js" />
+    <Content Include="Content\js\app\order\NewOrder.js" />
+    <Content Include="Content\js\app\order\OrderList.js" />
+    <Content Include="Content\js\app\brand\EditBag.js" />
+    <Content Include="Content\js\base.js" />
+    <Content Include="Content\js\cn2pinyin.js" />
+    <Content Include="Content\js\config.js" />
+    <Content Include="Content\js\domReady.js" />
+    <Content Include="Content\js\jquery-1.7.2.js" />
+    <Content Include="Content\js\jquery-barcode.js" />
+    <Content Include="Content\js\laydate\laydate.js" />
+    <Content Include="Content\js\laydate\need\laydate.css" />
+    <Content Include="Content\js\laydate\skins\dahong\icon.png" />
+    <Content Include="Content\js\laydate\skins\dahong\laydate.css" />
+    <Content Include="Content\js\laydate\skins\default\icon.png" />
+    <Content Include="Content\js\laydate\skins\default\laydate.css" />
+    <Content Include="Content\js\laydate\skins\molv\icon.png" />
+    <Content Include="Content\js\laydate\skins\molv\laydate.css" />
+    <Content Include="Content\js\pop_window.js" />
+    <Content Include="Content\js\require.js" />
+    <Content Include="Content\js\uploadForm.js" />
+    <Content Include="Content\js\utils.js" />
+    <Content Include="Content\mincss\admin\baseTemplate.min.css" />
+    <Content Include="Content\mincss\admin\product_factory.min.css" />
+    <Content Include="Content\mincss\base.min.css" />
+    <Content Include="Content\mincss\controls.min.css" />
+    <Content Include="Content\mincss\login.min.css" />
+    <Content Include="Content\mincss\main.min.css" />
+    <Content Include="Content\mincss\mobile\scancode.min.css" />
+    <Content Include="Content\mincss\page.min.css" />
+    <Content Include="Content\mincss\popWindow.min.css" />
+    <Content Include="Content\mincss\print.min.css" />
+    <Content Include="Content\mincss\process.min.css" />
+    <Content Include="Content\mincss\template.min.css" />
+    <Content Include="Content\minjs\app\brand\BrandDetail.js" />
+    <Content Include="Content\minjs\app\brand\BrandList.js" />
+    <Content Include="Content\minjs\app\brand\EditBag.js" />
+    <Content Include="Content\minjs\app\brand\EditProcedure.js" />
+    <Content Include="Content\minjs\app\brand\NewProduct.js" />
+    <Content Include="Content\minjs\app\brand\ProcedureList.js" />
+    <Content Include="Content\minjs\app\brand\ProductList.js" />
+    <Content Include="Content\minjs\app\customer\CustomerDetail.js" />
+    <Content Include="Content\minjs\app\customer\CustomerList.js" />
+    <Content Include="Content\minjs\app\customer\EditCustomer.js" />
+    <Content Include="Content\minjs\app\customer\EditProPrice.js" />
+    <Content Include="Content\minjs\app\customer\NewCustomer.js" />
+    <Content Include="Content\minjs\app\employer\EmployerList.js" />
+    <Content Include="Content\minjs\app\employer\Login.js" />
+    <Content Include="Content\minjs\app\employer\NewEmployer.js" />
+    <Content Include="Content\minjs\app\employer\PartmentList.js" />
+    <Content Include="Content\minjs\app\employer\PrintEmployer.js" />
+    <Content Include="Content\minjs\app\finance\CustomerAcount.js" />
+    <Content Include="Content\minjs\app\finance\CustomerAcountDetail.js" />
+    <Content Include="Content\minjs\app\finance\SalayDetail.js" />
+    <Content Include="Content\minjs\app\finance\SalayPrint.js" />
+    <Content Include="Content\minjs\app\finance\SalayStatistics.js" />
+    <Content Include="Content\minjs\app\finance\StoreOutCheck.js" />
+    <Content Include="Content\minjs\app\order\allotOrderList.js" />
+    <Content Include="Content\minjs\app\order\DeliverPlan.js" />
+    <Content Include="Content\minjs\app\order\EditOrder.js" />
+    <Content Include="Content\minjs\app\order\NewOrder.js" />
+    <Content Include="Content\minjs\app\order\OrderDetail.js" />
+    <Content Include="Content\minjs\app\order\OrderList.js" />
+    <Content Include="Content\minjs\app\product\ArrangedList.js" />
+    <Content Include="Content\minjs\app\product\ForecastDetail.js" />
+    <Content Include="Content\minjs\app\product\PendingList.js" />
+    <Content Include="Content\minjs\app\product\PrintTransferList.js" />
+    <Content Include="Content\minjs\app\product\ProductDetail.js" />
+    <Content Include="Content\minjs\app\product\ProductForecast.js" />
+    <Content Include="Content\minjs\app\product\ProductPlan.js" />
+    <Content Include="Content\minjs\app\store\ProductStore.js" />
+    <Content Include="Content\minjs\app\store\ProductStoreIn.js" />
+    <Content Include="Content\minjs\app\store\ProductStoreOut.js" />
+    <Content Include="Content\minjs\base.js" />
+    <Content Include="Content\minjs\cn2pinyin.js" />
+    <Content Include="Content\minjs\config.js" />
+    <Content Include="Content\minjs\domReady.js" />
+    <Content Include="Content\minjs\jquery-1.7.2.js" />
+    <Content Include="Content\minjs\jquery-barcode.js" />
+    <Content Include="Content\minjs\laydate\laydate.js" />
+    <Content Include="Content\minjs\laydate\need\laydate.css" />
+    <Content Include="Content\minjs\laydate\skins\dahong\icon.png" />
+    <Content Include="Content\minjs\laydate\skins\dahong\laydate.css" />
+    <Content Include="Content\minjs\laydate\skins\default\icon.png" />
+    <Content Include="Content\minjs\laydate\skins\default\laydate.css" />
+    <Content Include="Content\minjs\laydate\skins\molv\icon.png" />
+    <Content Include="Content\minjs\laydate\skins\molv\laydate.css" />
+    <Content Include="Content\minjs\pop_window.js" />
+    <Content Include="Content\minjs\require.js" />
+    <Content Include="Content\minjs\uploadForm.js" />
+    <Content Include="Content\minjs\utils.js" />
+    <Content Include="crossdomain.xml" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Views\ERPOrder\GetOrderList.cshtml" />
+    <Content Include="Views\ERPOrder\OrderDetail.cshtml" />
+    <Content Include="Views\ERPOrder\OrderList.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\imgs\icons\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.alipay.api\com.alipay.api.csproj">
+      <Project>{b1a1f0c6-1028-4a88-8645-24061321f7d6}</Project>
+      <Name>com.alipay.api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MvcCaptcha\MvcCaptcha.csproj">
+      <Project>{de85c9ae-360e-492b-9041-5af0a4dc726d}</Project>
+      <Name>MvcCaptcha</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YNDIY.API\YNDIY.API.csproj">
+      <Project>{8bc1577f-6c80-46c0-bacc-c4eff9f2d329}</Project>
+      <Name>YNDIY.API</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Code\Path.cshtml" />
+    <None Include="Properties\PublishProfiles\ANDIY.Admin.pubxml" />
+    <Content Include="Views\Login\GetCode.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Shared\ERPTemplate.cshtml" />
+    <Content Include="Views\ERPCustomer\CustomerList.cshtml" />
+    <Content Include="Views\ERPCustomer\GetCustomerList.cshtml" />
+    <Content Include="Views\ERPCustomer\CustomerDetail.cshtml" />
+    <Content Include="Views\ERPCustomer\GetCustomerOrderList.cshtml" />
+    <Content Include="Views\Shared\page.cshtml" />
+    <Content Include="Views\Upload\UploadFile.cshtml" />
+    <Content Include="Views\Upload\UploadImage.cshtml" />
+    <Content Include="Views\Upload\UploadModel.cshtml" />
+    <Content Include="Views\ERPCustomer\EditCustomer.cshtml" />
+    <Content Include="Views\Upload\CustomerExcelTemplate.cshtml" />
+    <Content Include="Views\Upload\ExcelTemplate.cshtml" />
+    <Content Include="Views\Upload\ProcedureExcelTemplate.cshtml" />
+    <Content Include="Views\Upload\SupplierExcelTemplate.cshtml" />
+    <Content Include="Views\ERPBrand\BrandList.cshtml" />
+    <Content Include="Views\ERPBrand\GetBrandList.cshtml" />
+    <Content Include="Views\ERPBrand\EditBag.cshtml" />
+    <Content Include="Views\ERPBrand\EditProcedure.cshtml" />
+    <Content Include="Views\ERPBrand\EditProduct.cshtml" />
+    <Content Include="Views\ERPBrand\GetProductList.cshtml" />
+    <Content Include="Views\ERPBrand\NewProduct.cshtml" />
+    <Content Include="Views\ERPBrand\ProductDetail.cshtml" />
+    <Content Include="Views\ERPBrand\ProductList.cshtml" />
+    <Content Include="Views\ERPBrand\GetProcedureList.cshtml" />
+    <Content Include="Views\ERPBrand\ProcedureList.cshtml" />
+    <Content Include="Views\ERPCustomer\CustOrderList.cshtml" />
+    <Content Include="Views\ERPCustomer\EditProPrice.cshtml" />
+    <Content Include="Views\ERPCustomer\NewCustomer.cshtml" />
+    <Content Include="Views\ERPCustomer\ProPriceList.cshtml" />
+    <Content Include="Views\ERPOrder\DeliverPlan.cshtml" />
+    <Content Include="Views\ERPOrder\EditOrder.cshtml" />
+    <Content Include="Views\ERPOrder\GetDeliverPlan.cshtml" />
+    <Content Include="Views\ERPOrder\NewOrder.cshtml" />
+    <Content Include="Views\ERPOrder\PickingList.cshtml" />
+    <Content Include="Views\ERPOrder\SalesList.cshtml" />
+    <Content Include="Views\ERPCustomer\CustBrandList.cshtml" />
+    <Content Include="Views\ERPProduct\ArrangedList.cshtml" />
+    <Content Include="Views\ERPProduct\EditForecastDetail.cshtml" />
+    <Content Include="Views\ERPProduct\ForecastDetail.cshtml" />
+    <Content Include="Views\ERPProduct\GetArrangedList.cshtml" />
+    <Content Include="Views\ERPProduct\GetForecastDetail.cshtml" />
+    <Content Include="Views\ERPProduct\GetPendingList.cshtml" />
+    <Content Include="Views\ERPProduct\GetProductForecast.cshtml" />
+    <Content Include="Views\ERPProduct\GetProductList.cshtml" />
+    <Content Include="Views\ERPProduct\PendingList.cshtml" />
+    <Content Include="Views\ERPProduct\PrintTransferList.cshtml" />
+    <Content Include="Views\ERPProduct\ProductDetail.cshtml" />
+    <Content Include="Views\ERPProduct\ProductForecast.cshtml" />
+    <Content Include="Views\ERPProduct\ProductList.cshtml" />
+    <Content Include="Views\Admin\clothFactoryList.cshtml" />
+    <Content Include="Views\Admin\clothFactoryListItems.cshtml" />
+    <Content Include="Views\Admin\fabricFactoryList.cshtml" />
+    <Content Include="Views\Admin\fabricFactoryListItems.cshtml" />
+    <Content Include="Views\Admin\FactoryShopRelation.cshtml" />
+    <Content Include="Views\Admin\GetFactoryShopRelation.cshtml" />
+    <Content Include="Views\Admin\shopInfoList.cshtml" />
+    <Content Include="Views\Admin\shopInfoListItems.cshtml" />
+    <Content Include="Views\Shared\BaseTemplate.cshtml" />
+    <Content Include="Views\ERPemployer\employerInfo.cshtml" />
+    <Content Include="Views\ERPemployer\EmployerList.cshtml" />
+    <Content Include="Views\ERPemployer\GetEmployerList.cshtml" />
+    <Content Include="Views\ERPemployer\PrintBarCodes.cshtml" />
+    <Content Include="Views\ERPPartment\GetPartmentList.cshtml" />
+    <Content Include="Views\ERPPartment\PartmentList.cshtml" />
+    <Content Include="Views\ERPprocess\BigOrderCheck.cshtml" />
+    <Content Include="Views\ERPprocess\GetMobileStatisticsItems.cshtml" />
+    <Content Include="Views\ERPprocess\GroupScanCode.cshtml" />
+    <Content Include="Views\ERPprocess\ImportBarCode.cshtml" />
+    <Content Include="Views\ERPprocess\Login.cshtml" />
+    <Content Include="Views\ERPprocess\MobileStatistics.cshtml" />
+    <Content Include="Views\ERPprocess\OrderCheck.cshtml" />
+    <Content Include="Views\ERPprocess\ScanCode.cshtml" />
+    <Content Include="Views\ERPprocess\SelectLink.cshtml" />
+    <Content Include="Views\ERPprocess\Sweep.cshtml" />
+    <Content Include="Views\Shared\ProcessTemplate.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\ERPStore\ProductStoreOut.cshtml" />
+    <Content Include="Views\ERPStore\ProductStoreIn.cshtml" />
+    <Content Include="Views\ERPStore\ProductStore.cshtml" />
+    <Content Include="Views\ERPStore\GetProductStoreIn.cshtml" />
+    <Content Include="Views\ERPStore\GetProductStoreOut.cshtml" />
+    <Content Include="Views\ERPStore\GetProductStore.cshtml" />
+    <Content Include="Views\ERPFinance\CustomerAcount.cshtml" />
+    <Content Include="Views\ERPFinance\GetCustomerAcount.cshtml" />
+    <Content Include="Views\ERPFinance\StoreOutCheck.cshtml" />
+    <Content Include="Views\ERPFinance\GetStoreOutCheck.cshtml" />
+    <Content Include="Views\ERPFinance\SalayDetail.cshtml" />
+    <Content Include="Views\ERPFinance\SalayPrint.cshtml" />
+    <Content Include="Views\ERPFinance\SalayStatistics.cshtml" />
+    <Content Include="Views\ERPFinance\GetSalayStatistics.cshtml" />
+    <Content Include="Views\ERPFinance\CustomerAcountDetail.cshtml" />
+    <Content Include="Views\ERPFinance\InfoOrderList.cshtml" />
+    <Content Include="Views\ERPFinance\InfoReceipt.cshtml" />
+    <Content Include="Views\ERPFinance\InfoPendingList.cshtml" />
+    <Content Include="Views\ERPOrder\GetAllocation.cshtml" />
+    <Content Include="Views\ERPStore\PrintStoreOut.cshtml" />
+    <Content Include="Views\ERPStore\AllotOrderDetail.cshtml" />
+    <Content Include="Views\ERPStore\AllotOrderList.cshtml" />
+    <Content Include="Views\ERPStore\GetAllotOrderList.cshtml" />
+    <Content Include="Views\ERPStore\Inventory.cshtml" />
+    <Content Include="Views\ERPStore\GetInventoryList.cshtml" />
+    <Content Include="Views\ERPStore\InventoryrDetail.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3118</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:3118/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,40 @@
+﻿@using YNDIY.API.Models;
+@{
+    List<CustomerProductPriceModel> list = ViewBag.list;
+}
+<table class="_list_table">
+    <thead>
+        <tr>
+            <td>产品名称</td>
+            <td>品牌</td>
+            <td>型号</td>
+            <td>规格</td>
+            <td>颜色</td>
+            <td>单位</td>
+            <td>标准单价</td>
+            <td>客户单价</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count > 0) { 
+            for (var i = 0; i < list.Count; i++) { 
+                <tr>
+                    <td>@list[i].product.produce_name</td>
+                    <td>@list[i].brand.name</td>
+                    <td>@list[i].product.model_name</td>
+                    <td>@list[i].product.format</td>
+                    <td>@list[i].product.color</td>
+                    <td>@(list[i].product.unit == 0 ? "套" : list[i].product.unit == 1 ? "件" : list[i].product.unit == 2 ? "把" : list[i].product.unit == 3 ? "个" : "张")</td>
+                    <td>@list[i].product.standard_price</td>
+                    <td>@list[i].price</td>
+                </tr>
+            }
+        }
+        else { 
+            <tr>
+                <td colspan="8">抱歉，没有查询到相关数据</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*@Html.Partial("page")*@

@@ -1,0 +1,15 @@
+﻿@charset 'utf-8';
+/**** 分页*****/
+._not_page{cursor:default;background-color:#ddd;}
+._all_pages{color:#85adfe;padding:0 5px;font-size:13px;}
+._pagerBox{padding:0;margin:20px 0;}
+._pagerBox ul{display:inline-block;}
+._pagerBox li{list-style:none;display:inline;}
+._pagerBox li{line-height:28px;}
+._pagerBox li a{border:#dae2ed 1px solid; padding:2px 9px;  margin:0 5px; color: #333;background-color: #fff;font-family: simsun;font-size: 12px;border-radius: 2px;line-height:20px;}
+._pagerBox li a._not_page{border:#dae2ed 1px solid;color: #aaa; background-color: #ecedef;}
+._pagerBox li a._borderColor {border:#85adfe 1px solid;color: #fff; background-color: #85adfe;}
+._pagerBox input{width:40px;height:26px;line-height:26px;vertical-align:middle;padding:0;margin:0;border:1px solid #ccc;text-align:center;margin-left:5px;border-radius: 2px;}
+._jump_page{margin-left:5px;}
+._pagerBox li ._hoverBorderColor:hover{border-color:#85adfe;}
+._pagerBox li ._hoverColor:hover{color:#85adfe;}

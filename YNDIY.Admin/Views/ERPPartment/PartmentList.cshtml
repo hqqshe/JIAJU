@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "部门管理";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/employer/PartmentList.js"></script>
+}
+<div class="_clear_panel _search_banner">
+    <div class="form_group">
+        <span class="infos">
+            生产线管理
+        </span>
+    </div>
+    <div class="_btns _right">
+        <a href="javascript:;" class="_btn green _left _add_new_btn"><img src="/Content/imgs/btn_icon/new.png">新建生产线</a>
+    </div>
+</div>
+<div class="_ajax_container"></div>
+<!-- 添加部门 -->
+<div class="_pop_window _add_partment_window ">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width: 500px; height: 273px; margin-left: -250px; margin-top: -136.5px;">
+        <div class="_pop_title _none_list_data">
+            <span>生产线信息</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body _clear_panel">
+            <div class="pop_con _clear_panel">
+                <div class="form_item">
+                    <span class="tip">生产线名称：</span>
+                    <input type="text" placeholder="输入生产线名称" class="partment">
+                </div>
+                <div class="form_item">
+                    <span class="tip">备注：</span>
+                    <textarea class="tip_txt"></textarea>
+                </div>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right _sub_new_customer">提交</a>
+            </div>
+        </div>
+    </div>
+</div>

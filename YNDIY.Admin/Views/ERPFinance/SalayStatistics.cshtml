@@ -1,0 +1,66 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "工资统计";
+    var departmens = ViewBag.DepartMents as List<YNFactoryDepartMent>;
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/finance/SalayStatistics"></script>
+}
+<div class="_search_banner _clear_panel" style="min-width:1118px;">
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>统计依据：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">订单完成统计</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select _type">
+                <option value="0">订单完成统计</option>
+                <option value="1">工序完成统计</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class=" form_group">
+        <label>
+            统计日期：
+            <input type="text" placeholder="请选择开始日期" class="sear_input" id="start_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <label>
+            至：
+            <input type="text" placeholder="请选择结束日期" class="sear_input" id="end_date">
+        </label>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group" style="position:relative;width:175px;">
+        <label>生产线：</label>
+        <div class="_search_filter ">
+            <div class="_select_prev">
+                <span class="_select_text" style="line-height:32px;">全部</span>
+                <div class="_select_down"><img src="/Content/imgs/template/_select_dowm.png"></div>
+            </div>
+            <select class="_opacity_select department select_load">
+                <option value="0">生产线</option>
+                <option value="1">生产线</option>
+            </select>
+        </div>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <input type="text" placeholder="员工名称" class="search_input">
+        <a href="javascript:void(0);" class="search_btn">
+            <div id="cross" class="cross"></div>
+           
+        </a>
+    </div>
+</div>
+<div class="_ajax_container"></div>

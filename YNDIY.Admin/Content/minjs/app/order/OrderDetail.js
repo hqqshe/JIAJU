@@ -1,0 +1,1 @@
+require(["/Content/minjs/config.js"],function(){require(["jquery","pop_window","base","domReady"],function(a,b,c,b,b){c.init()})});

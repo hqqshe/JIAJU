@@ -1,0 +1,98 @@
+﻿@using YNDIY.API.Models
+@{
+    ViewBag.Title = "编辑产品";
+    Layout = "~/Views/Shared/ERPTemplate.cshtml";
+    YNShopInfo shop = ViewBag.shop;
+    List<YNBanShiBrand> brand_list = ViewBag.brand_list;
+    List<int> count_list = ViewBag.count_list;
+    int customer_id = shop.id;
+}
+@section require_js{
+    <script src="@Path.getJsPath()/require.js" data-main="@Path.getJsPath()/app/customer/EditProPrice.js"></script>
+}
+<div class="_search_banner nobtn _clear_panel">
+    <div class=" form_group">
+        <a href="javascript:void(0);" class="back _left"><img src="/Content/imgs/date/my_prev.png"> <span class="blue_color">返回</span></a>
+    </div>
+    <div class="form_group">
+        <span class="gen"></span>
+    </div>
+    <div class="form_group">
+        <p class="infos">编辑产品</p>
+    </div>
+</div>
+<div class="_ajax_container">
+    <div class="pop_con">
+        <table class="_list_table brand_tab" _id="@shop.id">
+            <thead>
+                <tr>
+                    <td>品牌名称</td>
+                    <td>产品数量</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (brand_list.Count > 0)
+                {
+                    for (var i = 0; i < brand_list.Count; i++)
+                    {
+                        <tr>
+                            <td>@brand_list[i].name</td>
+                            <td>@count_list[i]</td>
+                            <td><a href="javascript:;" class="edit_price" _id="@brand_list[i].id">编辑产品价格</a><a href="javascript:;" class="dele" _id="@brand_list[i].id">×</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3">该客户还未添加品牌!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 编辑产品价格面板-->
+<div class="_pop_window pro_price_con">
+    <div class="_pop_opacity_bg"></div>
+    <div class="_pop_block" style="width:700px; height: 450px; margin-left: -350px; margin-top: -225px;">
+        <div class="_pop_title">
+            <span>编辑产品价格</span>
+            <a href="javascript:void(0);" class="_pop_close"><span>×</span></a>
+        </div>
+        <div class="_pop_body ">
+            <div class="pop_con" style="height: 330px;overflow-x: hidden;overflow-y: auto;">
+                <table class="_list_table pro_price_tab">
+                    <thead>
+                        <tr>
+                            <td>产品名称</td>
+                            <td>产品型号</td>
+                            <td>产品规格</td>
+                            <td>产品颜色</td>
+                            <td>单位</td>
+                            <td>标准单价（元）</td>
+                            <td>客户单价（元）</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @*<td><input type="checkbox"></td>
+                        <td>产品名称</td>
+                        <td>产品型号</td>
+                        <td>产品规格</td>
+                        <td>产品颜色</td>
+                        <td>单位</td>
+                        <td>标准单价（元）</td>
+                        <td><input type="text" placeholder="客户单价" class="_input_area" onkeyup="this.value = this.value.replace(/[^0-9^.]/g, '')" onafterpaste="this.value = this.value.replace(/[^0-9]/g,'')"></td>*@
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="_clear_panel">
+                <a href="javascript:void(0);" class="_btn blue _right  cancle">取消</a>
+                <a href="javascript:void(0);" class="_btn blue _right right  sub_mit">确定</a>
+            </div>
+        </div>
+    </div>
+</div>

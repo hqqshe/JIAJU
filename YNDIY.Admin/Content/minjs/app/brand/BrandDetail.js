@@ -1,0 +1,1 @@
+require(["/Content/minjs/config.js"],function(){require(["jquery","base","pop_window","domReady"],function(a,b){b.init(),a(".detail_btn").on("click","a",function(){var b=a(this).index();a(this).addClass("blue cur").siblings().removeClass("blue cur"),a(".detail_tab").children().eq(b).fadeIn().siblings().hide()})})});

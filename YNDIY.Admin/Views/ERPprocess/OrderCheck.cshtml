@@ -1,0 +1,117 @@
+﻿@using YNDIY.API.Models;
+@{
+    ViewBag.Title = "OrderCheck";
+    Layout = "~/Views/Shared/ProcessTemplate.cshtml";
+    OrderCheck orderCheck = ViewBag.orderCheck;
+
+    bool isBigOrderBarCode = ViewBag.isBigOrderBarCode ?? false;
+}
+<link href="~/Content/css/ERPCSS/process/ordercheck.css" rel="stylesheet" />
+<div class="order_panel">
+    <div class="order_show">
+        <div class="order_container">
+            @if (isBigOrderBarCode)
+            {
+                <div class="order_num">订单号：<span>@ViewBag.bigOrderNumber</span></div> 
+                <div class="order_state">环节：<span>@ViewBag.stepName</span></div>
+                <div class="order_state">条码：<span>@ViewBag.orderId</span></div>
+            }
+            else
+            {
+                <div class="order_num">订单号：<span>@orderCheck.orderId</span></div>
+                <div class="order_state">服装：<span>@orderCheck.clothName</span></div>
+                <div class="order_state">环节：<span>@orderCheck.stepName</span></div>
+                <div class="order_state">包的编号：<span>@orderCheck.packageBarCode</span></div>
+                if (orderCheck.type == 0)
+                {
+                    <div class="order_state suit_num">衣服数量：<span>@orderCheck.packageNumber</span></div>
+                }
+                else
+                {
+                    <div class="order_state suit_id">服装的编号：<span>@orderCheck.clothBarCode</span></div>
+                }
+            }
+            
+        </div>
+    </div>
+    <div class="order_box0">
+        <div class="check_boole">
+            <div class="check_item _left">
+                <a href="javascript:void(0)" class="check_btn active ">
+                    <div class="check_remark _left">
+                        <div class="check_in"></div>
+                    </div>
+                    <span class="_left">通过</span>
+                    <span class="_clear"></span>
+                </a>
+            </div>
+            <div class="check_item _left">
+                <a href="javascript:void(0)" class="check_btn ">
+                    <div class="check_remark _left">
+                        <div class="check_in"></div>
+                    </div>
+                    <span class="_left">失败</span>
+                    <span class="_clear"></span>
+                </a>
+            </div>
+            <span class="_clear"></span>
+        </div>
+        <a href="javascript:void(0)" class="check_sub">提交</a>
+    </div>
+    <div class="order_box _hidden">
+        <div class="success_show _hidden">
+            <div class="order_success">
+                <div class="order_img">
+                    <img src="/Content/imgs/erp/process/process_perfect.png" />
+                </div>
+                <div class="order_note">提交成功</div>
+            </div>
+            <div class="order_timer">将在<span>3</span>秒后返回</div>
+        </div>
+        <div class="fail_show _hidden">
+            <div class="order_success">
+                <div class="order_img">
+                    <img src="/Content/imgs/erp/process/progress_defective.png" />
+                </div>
+                <div class="order_note_fail">这次扫描提交不成功</div>
+            </div>
+            <div class="order_timer_fail">将在<span>3</span>秒后返回扫描页</div>
+        </div>
+    </div>
+</div>
+<script>
+  
+    $(document).ready(function () {
+        /**质检人员触发**/
+        $(".check_btn").live("click", changeState);
+        $(".check_sub").live("click", getPiece);
+        /**暂存数据到temp**/
+        function changeState() {
+            $(".check_btn").removeClass("active");
+            $(this).addClass("active");
+        }
+        /**异步提交数据**/
+        function getPiece() {
+            $(".order_box0").addClass("_hidden");
+            $(".order_box").removeClass("_hidden");
+            $.ajax({
+                type: "post",
+                url: "/ERPprocess/submitOrderCheck",
+                data: { factoryProcedureId: "@ViewBag.factoryProcedureId", stepName: "@ViewBag.stepName", orderId: "@ViewBag.orderId", flag: $(".active").parent().index() },
+                datatype: "json",
+                success: function (response) {
+                    if (response.code == 1) {
+                        alert("提交成功");
+                        window.location.href = "/ERPprocess/Sweep?factoryProcedureId=@ViewBag.factoryProcedureId&factoryProcedureName=@ViewBag.factoryProcedureName&stepName=@ViewBag.stepName";
+                    } else {
+                        alert("提交失败");
+                    }
+                },
+                error: function () {
+                    alert("网络异常");
+                }
+            });
+        }
+    });
+</script>
+

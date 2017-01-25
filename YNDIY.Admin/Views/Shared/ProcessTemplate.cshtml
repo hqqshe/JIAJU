@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    <link href="/Content/mincss/process.min.css" rel="stylesheet" />
+    <script src="@Path.getJsPath()/jquery-1.7.2.js"></script>
+</head>
+<body>
+    <script>
+        function _hide_loading() {
+            $("._loading").hide();
+        }
+        function _show_loading() {
+            $("._loading").show();
+        }
+    </script>
+    <div class="_page_head _clear_panel">
+        <a href="javascript:void(0);" class="_logo">
+            <img src="/Content/imgs/scan/logo.png" />
+        </a>
+        <div class="_head_opt_panel _right">
+            <a href="javascript:void(0);" class="_user_name _left">
+                <span>@Session["Account"]</span>
+            </a>
+            <a href="/login/logout?url=/ERPprocess/ScanCode" class="_login_out _left"><span>退出</span></a>
+        </div>
+    </div>   
+     @RenderBody()
+    <!-- 加载覆盖层 -->
+    <div class="_loading">
+        <div class="_loading_opacity_bg"></div>
+        <div class="_loading_img">
+            <img src="/Content/imgs/template/ajax-loader.gif" />
+        </div>
+    </div>
+</body>
+</html>

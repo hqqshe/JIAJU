@@ -1,0 +1,378 @@
+﻿@{
+    Layout = null;
+}
+@*<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">*@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    <link href="/Content/mincss/admin/baseTemplate.min.css" rel="stylesheet" />
+    <script src="@Path.getJsPath()/jquery-1.7.2.js"></script>
+    <link href="/Content/mincss/page.css" rel="stylesheet" />
+</head>
+<body>
+    <script>
+        function _hide_loading() {
+            if (typeof _request_suit_max == "number") {
+                //构建订单服饰时，用于连续创建多件服饰时连续显示加载
+                if (_request_suit_max == _create_suit_index) {
+                    $("._loading").hide();
+                } else {
+                    //_show_loading();
+                }
+            } else {
+                $("._loading").hide();
+            }
+        }
+        function _show_loading() {
+            $("._loading").show();
+        }
+    </script>
+    <div class="_body_panel">
+        <div class="_head_bar">
+            <a href="/" class="_head_logo _left">
+                <img class="_big_logo" src="/Content/imgs/template/logo.png" />
+                @*<img class="_small_logo" src="/Content/imgs/template/logo_sm.png" />*@
+            </a>
+            @*<div class="_head_link _left">
+                <a href="javascript:void(0);" class="_head_a_link">帮助中心</a>
+                <a href="javascript:void(0);" class="_head_a_link">联系客服</a>
+            </div>*@
+            <div class="_user_info _right">
+                <a href="/login/logout" class="_right _logout"><span>退出</span></a>
+                <span class="_right _split_vertical">|</span>
+                <a href="/shopUser/UserCenter" class="_right _user_name"><span style="color: #85adfe">@Session["Account"]</span></a>
+                <span class="_right _split_vertical">|</span>
+                <a href="javascript:void(0);" class="_right _shop_info">
+                    <div class="_right _user_shop_name">@Session["Name"]</div>
+                    <div class="_user_photo _right">
+                        @if (Session["logo"] != null)
+                        {
+                            <img src="@Session["logo"].ToString().Replace("/n0","/n4")" />
+                        }
+                        else
+                        {
+                            <img src="" />
+                        }
+                    </div>
+                    <span class="_clear"></span>
+                </a>
+            </div>
+            <span class="_clear"></span>
+        </div>
+        <div class="_body_container _clear_panel">
+            <div class="_side_bar _left">
+                @*<div class="_side_split_line"></div>*@
+                <div class="_side_bar_render">
+                        @*<div class="_relative _fold_menu_panel">
+                            <a href="javascript:void(0);" class="_side_menu_fold _side_menu_close">
+                                <span class="_menu_close">＜</span>
+                                <span class="_menu_open">＞</span>
+                            </a>
+                        </div>*@
+                        <ul class="_side_bar_menu_width">
+                            @*超级管理员*@
+                            @if (Convert.ToInt32(Session["Type"]) == 0)
+                            {
+                             <li>
+                                <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                    <img src="/Content/imgs/template/_x_3.png" class="_x_icon" />
+                                    <div class="_item_imgs">
+                                        @*<img src="/Content/imgs/template/custom_item_pre.png" class="_in_img" />
+                                        <img src="/Content/imgs/template/custom_item.png" class="_out_img" />*@
+                                        <div class="_ver_mid"></div>
+                                    </div>
+                                    <span>账号管理</span>
+                                    @*<div class="_down">
+                                        <div class="_down_1"></div>
+                                        <div class="_down_2"></div>
+                                    </div>
+                                    <div class="_up">
+                                        <div class="_up_1"></div>
+                                        <div class="_up_2"></div>
+                                    </div>*@
+                                </a>
+                                <div class="_menu_sub_items">
+                                    <a href="/admin/shopInfoList" links="/admin/shopInfoList"><span>定制商家管理</span></a>
+                                    <a href="/admin/fabricFactoryList" links="/admin/fabricFactoryList"><span>面料商家管理</span></a>
+                                    <a href="/admin/clothFactoryList" links="/admin/clothFactoryList"><span>加工工厂管理</span></a>
+                                    <a href="/admin/FactoryShopRelation" links="/admin/FactoryShopRelation"><span>工厂商家关联管理</span></a>
+                                </div>
+                            </li>
+                            }
+                            @*面料商家*@
+                            else if (Convert.ToInt32(Session["Type"]) == 2)
+                            {
+                             <li>
+                                <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                    <img src="/Content/imgs/template/_x_5.png" class="_x_icon" />
+                                    <div class="_item_imgs">
+                                        @*<img src="/Content/imgs/template/order_item_pre.png" class="_in_img" />
+                                        <img src="/Content/imgs/template/order_item.png" class="_out_img" />*@
+                                        <div class="_ver_mid"></div>
+                                    </div>
+                                    <span>订单管理</span>
+                                    @*<div class="_down">
+                                        <div class="_down_1"></div>
+                                        <div class="_down_2"></div>
+                                    </div>
+                                    <div class="_up">
+                                        <div class="_up_1"></div>
+                                        <div class="_up_2"></div>
+                                    </div>*@
+                                </a>
+                                <div class="_menu_sub_items">
+                                    <a href="/orderFabric/fabricFactoryInfo" links="/orderFabric/fabricFactoryInfo"><span>商家信息配置</span></a>
+                                    <a href="/orderFabric/fabricFactoryOrderList" links="/orderFabric/fabricFactoryOrderList"><span>面料订单</span></a>
+                                </div>
+                            </li>
+                            }
+                            @*衣服加工厂*@
+                            else if (Convert.ToInt32(Session["Type"]) == 3)
+                            {
+                            <li>
+                                <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                    <img src="/Content/imgs/template/_x_5.png" class="_x_icon" />
+                                    <div class="_item_imgs">
+                                        @*<img src="/Content/imgs/template/order_item_pre.png" class="_in_img" />
+                                        <img src="/Content/imgs/template/order_item.png" class="_out_img" />*@
+                                        <div class="_ver_mid"></div>
+                                    </div>
+                                    <span>订单管理</span>
+                                    @*<div class="_down">
+                                        <div class="_down_1"></div>
+                                        <div class="_down_2"></div>
+                                    </div>
+                                    <div class="_up">
+                                        <div class="_up_1"></div>
+                                        <div class="_up_2"></div>
+                                    </div>*@
+                                </a>
+                                <div class="_menu_sub_items">
+                                    <a href="/orderFactory/clothFactoryInfo" links="/orderFactory/clothFactoryInfo"><span>工厂信息配置</span></a>
+                                    <a href="/orderFactory/clothFactoryOrderList" links="/orderFactory/clothFactoryOrderList"><span>衣服加工订单</span></a>
+                                </div>
+                            </li>
+                            }
+                            @*定制商家*@
+                            else if (Convert.ToInt32(Session["Type"]) == 1)
+                            {
+                            //普通账号
+                            if (Convert.ToInt32(Session["ParentShopId"]) != 0)
+                            {
+                            <li>
+                                <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                    <img src="/Content/imgs/icons/order.png" class="_x_icon" />
+                                    <div class="_item_imgs">
+                                        @*<img src="/Content/imgs/template/order_item_pre.png" class="_in_img" />
+                                        <img src="/Content/imgs/template/order_item.png" class="_out_img" />*@
+                                        <div class="_ver_mid"></div>
+                                    </div>
+                                    <span>订单管理</span>
+                                    @*<div class="_down">
+                                        <div class="_down_1"></div>
+                                        <div class="_down_2"></div>
+                                    </div>
+                                    <div class="_up">
+                                        <div class="_up_1"></div>
+                                        <div class="_up_2"></div>
+                                    </div>*@
+                                </a>
+                                <div class="_menu_sub_items">
+                                    <a href="/order/ShopOrder" links="/order/ShopOrder;/order/ShopOrderDetail;/Order/ConstructSuits;/clothFactory/NotZoomOrderShow;/clothFactory/ZoomedOrderShow;/FabricFactory/NotFabricOrderListForOrder"><span>客户订单</span></a>
+                                    <a href="/clothFactory/OrderedShow" links="/clothFactory/OrderedShow;/clothFactory/madeFactoryOrder"><span>生产订单</span></a>
+                                    <a href="/fabricFactory/FabricOrderListForOrder" links="/fabricFactory/FabricOrderListForOrder;/fabricFactory/SetFabricOrderBySuit"><span>面料订单</span></a>
+                                    <a href="/order/ReSizeOrderList" links="/order/ReSizeOrderList;/Order/ReSizeOrderDetail"><span>订单复尺</span></a>
+                                    <a href="/OrderTemp/OrderTempList" links="/OrderTemp/OrderTempList"><span>心愿单</span></a>
+                                    <a href="/OrderTemp/EditorSetOrder" links="/OrderTemp/EditorSetOrder"><span>3D下单</span></a>
+                                    <a href="/SaleStatistics/StoreStatistics" links="/SaleStatistics/StoreStatistics"><span>销售人员统计</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                   <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                       <img src="/Content/imgs/template/_x_3.png" class="_x_icon" />
+                                       <div class="_item_imgs">
+                                           @*<img src="/Content/imgs/template/custom_item_pre.png" class="_in_img" />
+                                           <img src="/Content/imgs/template/custom_item.png" class="_out_img" />*@
+                                           <div class="_ver_mid"></div>
+                                       </div>
+                                       <span>客户管理</span>
+                                       @*<div class="_down">
+                                           <div class="_down_1"></div>
+                                           <div class="_down_2"></div>
+                                       </div>
+                                       <div class="_up">
+                                           <div class="_up_1"></div>
+                                           <div class="_up_2"></div>
+                                       </div>*@
+                                   </a>
+                                   <div class="_menu_sub_items">
+                                       <a href="/shopMember/ShowDingZhiRen" links="/shopMember/ShowDingZhiRen;/ShopMember/AddDingZhiRen;/shopMember/CustomerInfo"><span>客户信息总览</span></a>
+                                       <a href="/shopMember/YiXiangCustomer" links="/shopMember/YiXiangCustomer;/ShopMember/AddYiXiangCustomer"><span>意向客户</span></a>
+                                       <a href="/shopMember/YuYueCustomer" links="/shopMember/YuYueCustomer"><span>预约客户</span></a>
+                                   </div>
+                               </li>
+                            }
+                            //管理员账号
+                            else
+                            {
+                             <li>
+                                 <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                     <img src="/Content/imgs/icons/gonghuoshang.png" class="_x_icon" />
+                                     <div class="_item_imgs">
+                                         @*<img src="/Content/imgs/template/fabric_item_pre.png" class="_in_img" />
+                                         <img src="/Content/imgs/template/fabric_item.png" class="_out_img" />*@
+                                         <div class="_ver_mid"></div>
+                                     </div>
+                                     <span>供货商管理</span>
+                                     @*<div class="_down">
+                                         <div class="_down_1"></div>
+                                         <div class="_down_2"></div>
+                                     </div>
+                                     <div class="_up">
+                                         <div class="_up_1"></div>
+                                         <div class="_up_2"></div>
+                                     </div>*@
+                                 </a>
+                                 <div class="_menu_sub_items">
+                                     <a href="/manage/FabricSupports" links="/manage/FabricSupports"><span>面料供应商</span></a>
+                                     <a href="/manage/ProductFactories" links="/manage/ProductFactories"><span>衣服加工厂</span></a>
+                                 </div>
+                             </li>
+                            <li>
+                                   <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                       <img src="/Content/imgs/icons/shagnjiaguanli.png" class="_x_icon" />
+                                       <div class="_item_imgs">
+                                           @*<img src="/Content/imgs/template/custom_item_pre.png" class="_in_img" />
+                                           <img src="/Content/imgs/template/custom_item.png" class="_out_img" />*@
+                                           <div class="_ver_mid"></div>
+                                       </div>
+                                       <span>商家信息管理</span>
+                                       @*<div class="_down">
+                                           <div class="_down_1"></div>
+                                           <div class="_down_2"></div>
+                                       </div>
+                                       <div class="_up">
+                                           <div class="_up_1"></div>
+                                           <div class="_up_2"></div>
+                                       </div>*@
+                                   </a>
+                                   <div class="_menu_sub_items">
+                                       <a href="/manage/shopInfoList" links="/manage/shopInfoList"><span>店铺信息</span></a>
+                                       <a href="/manage/shopUserInfoList" links="/manage/shopUserInfoList"><span>员工信息</span></a>
+                                       <a href="/manage/SetMeasureCell" links="/manage/SetMeasureCell"><span>量体数据配置</span></a>
+                                       <a href="/manage/SetStyleDetail" links="/manage/SetStyleDetail"><span>常用款式细节配置</span></a>
+                                       <a href="/manage/SetSampleSuits" links="/manage/SetSampleSuits"><span>样衣配置</span></a>
+                                   </div>
+                               </li>
+                               <li>
+                                    <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                        <img src="/Content/imgs/template/_x_4.png" class="_x_icon" />
+                                        <div class="_item_imgs">
+                                            <div class="_ver_mid"></div>
+                                        </div>
+                                        <span>回收站</span>
+                                    </a>
+                                    <div class="_menu_sub_items">
+                                        <a href="/Recycle/ShopOrder" links="/Recycle/ShopOrder"><span>客户订单</span></a>
+                                        <a href="/Recycle/FactoryOrder" links="/Recycle/FactoryOrder"><span>生产订单</span></a>
+                                        <a href="/Recycle/FabricOrder" links="/Recycle/FabricOrder"><span>面料订单</span></a>
+                                    </div>
+                               </li>
+                            }
+                             //公用功能
+                            <li>
+                                <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                    <img src="/Content/imgs/template/_x_4.png" class="_x_icon" />
+                                    <div class="_item_imgs">
+                                        <div class="_ver_mid"></div>
+                                    </div>
+                                    <span>商城管理</span>
+                                </a>
+                                <div class="_menu_sub_items">
+                                    @*管理员账号*@
+                                    @if (Convert.ToInt32(Session["ParentShopId"]) == 0)
+                                    {
+                                    <a href="/manage/SetStoreInfo" links="/manage/SetStoreInfo"><span>商城信息配置</span></a>
+                                    }
+                                    <a href="/shopCloth/SuitTypes" links="/shopCloth/SuitTypes;/shopCloth/SuitList;/shopCloth/SuitEditPage"><span>产品管理</span></a>
+                                    <a href="/maiJiaXiu/BuyersShow" links="/maiJiaXiu/BuyersShow;/maiJiaXiu/editBuyerShow"><span>买家秀管理</span></a>
+                                    <a href="/maiJiaXiu/buyerShowTemplate" links="/maiJiaXiu/buyerShowTemplate"><span>3D分享模版</span></a>
+                                </div>
+                            </li>
+                             //3D 
+                             <li>
+                                <a href="javascript:void(0);" class="_menu_item _menu_in">
+                                    <img src="/Content/imgs/Manage3D/_x_5_03.png" class="_x_icon" />
+                                    <div class="_item_imgs">
+                                        <div class="_ver_mid"></div>
+                                    </div>
+                                    <span>3D系统配置</span>
+                                </a>
+                                <div class="_menu_sub_items">
+                                    @if (Convert.ToInt32(Session["Role3D"]) == 1)
+                                    {
+                                        <a href="/type3D/typeIndex" links="/type3D/typeIndex"><span>部件管理</span></a>
+                                    }
+                                    <a href="/type3D/brandSetting" links="/type3D/brandSetting"><span>面料价格配置</span></a>
+                                    <a href="/type3D/typeIndexFabric" links="/type3D/typeIndexFabric"><span>面料数据管理</span></a>
+                                    <a href="/type3D/priceSetting" links="/type3D/priceSetting"><span>杂项价格配置</span></a>
+                                    
+                                </div>
+                             </li>
+                            }
+                        </ul>
+                    </div>
+            </div>
+            <div class="_body_content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- 加载覆盖层 -->
+    <div class="_loading">
+        <div class="_loading_opacity_bg"></div>
+        <div class="_loading_img">
+            <img src="/Content/imgs/template/ajax-loader.gif" />
+        </div>
+    </div>
+    <script>
+        //关闭弹窗
+        $("._pop_close").live("click", function () {
+            $(this).parentsUntil("._pop_window").parent("._pop_window").hide();
+        });
+    </script>
+    <script>
+        function _show_order_remark() {
+            $("._anchor_remarks").show();
+        }
+        $(document).ready(function () {
+            //左侧菜单跟踪
+            var _request_url = '@Html.ViewContext.RequestContext.HttpContext.Request.Url.AbsolutePath'.toLowerCase();
+            $("._side_bar_menu_width ._menu_sub_items a").each(function (i, o) {
+                var _link = $(o).attr("links").toLowerCase().split(";");
+                for (var i = 0; i < _link.length; i++) {
+                    if (_request_url == _link[i]) {
+                        //$(o).parent().prev().click();
+                        $(o).addClass("_crt_sub_item_page")
+                        return false;
+                    }
+                }
+            });
+            //是否显示订单备注
+            var _judge_customer_order_id = "@Html.ViewContext.RequestContext.HttpContext.Request.QueryString".split(/[=&;]/);
+            for (var i = 0; i < _judge_customer_order_id.length; i++) {
+                if (_judge_customer_order_id[i].toLowerCase() == "orderid") {
+                    _get_customer_order_id = _judge_customer_order_id[i + 1];
+                    _show_order_remark();
+                    break;
+                }
+            }
+            //下订单页面设置模块
+            typeof _set_module_enable == "function" ? _set_module_enable() : null;
+        });
+    </script>
+</body>
+</html>
